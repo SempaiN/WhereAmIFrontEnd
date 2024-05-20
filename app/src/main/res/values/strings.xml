@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Where Am I</string>
+    <string name="introduce_email">Enter your email address</string>
+    <string name="introduce_password">Enter your password</string>
+    <string name="register">Register</string>
+    <string name="dont_have">Don\'t have an account?</string>
+    <string name="register_here">Register here</string>
+    <string name="exit">Exit</string>
+    <string name="lower_letter">- Minimum one lower case letter</string>
+    <string name="upper_letter">- Minimum one upper case letter</string>
+    <string name="digit">- Minimum one digit</string>
+    <string name="minimum_length">- Minimum 8 characters in length</string>
+    <string name="password_requirements">Password requirements</string>
+    <string name="registration_failed">Registration failed, check registration information</string>
+    <string name="account_exists">Go Back and log in, your account exists</string>
+    <string name="registration_successful">Registration complete, you will return to the login screen.</string>
+    <string name="login">Log In</string>
+    <string name="enter">Start application</string>
+    <string name="enter_name">Enter your name</string>
+</resources>

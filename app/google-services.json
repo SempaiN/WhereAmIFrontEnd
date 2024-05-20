@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824192785565",
+    "project_id": "where-am-i-e2d0c",
+    "storage_bucket": "where-am-i-e2d0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824192785565:android:80d81829c2d775a6de0874",
+        "android_client_info": {
+          "package_name": "com.ignacioperez.whereami"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3C17X0lCFY4qopDEviqUuJEtHJbTe9Ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
