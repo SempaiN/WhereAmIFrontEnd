@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,14 +42,17 @@ class ItemViewModel : ViewModel() {
 
     fun getAllItems() {
         viewModelScope.launch(Dispatchers.IO) {
+//            Log.i("--", "Hola" )
             _isLoading.postValue(true)
             delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getAllItems()
-                _allItems.postValue(result.items)
+                Log.i("--", result.toString() )
+                _allItems.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
+                Log.i("--", e.message.toString() )
                 _responseError.postValue(true)
             }
             _isLoading.postValue(false)

@@ -17,4 +17,7 @@
     <string name="login">Log In</string>
     <string name="enter">Start application</string>
     <string name="enter_name">Enter your name</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="menu">Menu</string>
+    <string name="items">Items</string>
 </resources>

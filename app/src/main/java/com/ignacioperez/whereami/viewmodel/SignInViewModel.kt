@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SignInViewModel: ViewModel() {
+class SignInViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
@@ -24,16 +24,42 @@ class SignInViewModel: ViewModel() {
     private val _charactersCustom = MutableLiveData<List<Character>>()
     val charactersCustom: LiveData<List<Character>> = _charactersCustom
 
-    fun getCharactersCustom(){
+    fun getCharactersCustom() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            delay(2000)
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getCharactersByUser(_user.value?.id)
+                _charactersCustom.postValue(result.characters)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+                _charactersCustom.postValue(emptyList())
+            }
+            _isLoading.postValue(false)
+        }
+    }
+
+    fun getUserFromDB( email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
             delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
             try{
-                val result = service.g()
-            }catch (e:Exception){
-
+                val result = service.getUserByEmail(email)
+                setCurrentUser(User(result.result.id, result.result.name, email))
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
             }
+            _isLoading.postValue(false)
+        }
+    }
+
+    fun setCurrentUser(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _user.value = user
         }
     }
 }

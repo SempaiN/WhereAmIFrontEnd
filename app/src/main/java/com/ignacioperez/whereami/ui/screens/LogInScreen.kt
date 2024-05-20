@@ -36,15 +36,16 @@ import com.google.firebase.auth.auth
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.auth
 import com.ignacioperez.whereami.mycomposables.PasswordTextField
+import com.ignacioperez.whereami.viewmodel.SignInViewModel
 
 
 @Composable
-fun Login(navController: NavController) {
+fun Login(navController: NavController, signInViewModel: SignInViewModel) {
     var email by rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf("trollnacho.np@gmail.com")
     }
     var password by rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf("Pene3500")
     }
     var passwordVisible by rememberSaveable {
         mutableStateOf(false)
@@ -76,7 +77,12 @@ fun Login(navController: NavController) {
                 onPasswordVisibleChange = { passwordVisible = it })
             Button(
                 onClick = {
-                    auth.createUserWithEmailAndPassword(email, password)
+                    auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+                        if (it.user != null) {
+                            signInViewModel.getUserFromDB(email)
+                            navController.navigate("HomeScreen")
+                        }
+                    }
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)

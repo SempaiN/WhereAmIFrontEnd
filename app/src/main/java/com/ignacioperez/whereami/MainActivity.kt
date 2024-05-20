@@ -20,12 +20,16 @@ import com.ignacioperez.whereami.navigation.Navigation
 import com.ignacioperez.whereami.ui.screens.Login
 import com.ignacioperez.whereami.ui.screens.TestAPI
 import com.ignacioperez.whereami.ui.theme.WhereAmITheme
+import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val userViewModel by viewModels<UserViewModel>()
+        val itemViewModel by viewModels<ItemViewModel>()
+        val signInViewModel by viewModels<SignInViewModel>()
         enableEdgeToEdge()
         setContent {
             WhereAmITheme {
@@ -33,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation(userViewModel)
+                    Navigation(userViewModel, signInViewModel, itemViewModel)
                 }
             }
         }

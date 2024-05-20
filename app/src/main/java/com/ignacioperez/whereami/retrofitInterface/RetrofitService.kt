@@ -1,8 +1,10 @@
 package com.ignacioperez.whereami.retrofitInterface
 
 import com.ignacioperez.whereami.models.APIResponseAllItems
+import com.ignacioperez.whereami.models.APIResponseCharacters
 import com.ignacioperez.whereami.models.APIResponseItem
 import com.ignacioperez.whereami.models.APIResponseUser
+import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.User
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,10 +20,19 @@ interface RetrofitService {
     suspend fun createUser(@Body user: User): APIResponseUser
 
     @GET("users/last")
-    suspend fun getLastUser(): User
+    suspend fun getLastUser(): APIResponseUser
 
-    @GET("item/")
-    suspend fun getAllItems(): APIResponseAllItems
+    @GET("items/")
+    suspend fun getAllItems(): List<Item>
 
-    @GET("ch")
+    @GET("characters/")
+    suspend fun getAllDefaultCharacters(): APIResponseCharacters
+
+    @GET("users/get_characters_user/{id}")
+    suspend fun getCharactersByUser(@Path("id") id: Int?): APIResponseCharacters
+
+    @GET("users/get/{email}")
+    suspend fun getUserByEmail(
+        @Path("email") email: String,
+    ): APIResponseUser
 }

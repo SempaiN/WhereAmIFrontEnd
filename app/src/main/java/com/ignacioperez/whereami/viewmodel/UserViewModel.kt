@@ -30,10 +30,8 @@ class UserViewModel : ViewModel() {
             val user = service.getLastUser()
             _responseError.postValue(false)
             Log.i("UserViewModel", "Server response: $user")
-
-            // Continuar con el procesamiento de la respuesta
-            Log.i("UserViewModel", "User id: ${user.id}")
-            return user.id ?: -1
+            Log.i("UserViewModel", "User id: ${user.result.id}")
+            return user.result.id ?: -1
         } catch (e: Exception) {
             _responseError.postValue(true)
             return -1

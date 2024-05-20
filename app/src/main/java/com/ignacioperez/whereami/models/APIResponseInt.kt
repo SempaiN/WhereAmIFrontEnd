@@ -2,8 +2,7 @@ package com.ignacioperez.whereami.models
 
 import android.icu.text.IDNA.Info
 
-data class
-APIResponseAllItems(
+data class APIResponseInt(
     val info: Info,
-    val items: List<Item>
+    val result: Int
 )

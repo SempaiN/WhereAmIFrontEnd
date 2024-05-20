@@ -1,11 +1,11 @@
 package com.ignacioperez.whereami.models
 
 data class Item(
-    val charges: Int,
-    val description: String,
     val id: Int,
-    val name: String,
-    val quote: String,
+    val description: String,
+    val charges: Int,
     val unlockable: Boolean,
+    val quote: String,
+    val name: String,
     val wayToUnlock: String
 )
