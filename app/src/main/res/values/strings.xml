@@ -23,4 +23,13 @@
     <string name="characters">Characters</string>
     <string name="trinkets">Trinkets</string>
     <string name="pickups">Pickups</string>
+    <string name="about">About the game</string>
+    <string name="plot">When Isaac’s mother starts hearing the voice of God demanding a sacrifice be made to prove her faith, Isaac escapes into the basement facing droves of deranged enemies, lost brothers and sisters, his fears, and eventually his mother.</string>
+    <string name="gameplay">Gameplay</string>
+    <string name="gameplay_text">The Binding of Isaac: Rebirth is a randomly generated action RPG shooter with heavy roguelike elements. Players will accompany Isaac on a quest to escape his mother, facing off against droves of mysterious creatures, discovering secrets, and fighting fearsome bosses. Along the way, Isaac can find bizarre treasures that change his form and give him super-human abilities. But it won\'t be easy!</string>
+    <string name="important_information">Important information</string>
+    <string name="information_character">There are 34 playable characters in The Binding of Isaac: Rebirth, each character  starts with different stats and abilities that give them their own unique playstyle.</string>
+    <string name="information_item">Items are an integral part of the gameplay of The Binding of Isaac: Rebirth. They modify Isaac\'s attributes, grant or modify tear effects, and much more.</string>
+    <string name="information_trinket">Trinkets are a kind of collectible with their designated slot that provide passive bonuses. Only one trinket can be carried at a time and must be dropped if you wish to carry another.</string>
+    <string name="more_information">More information</string>
 </resources>

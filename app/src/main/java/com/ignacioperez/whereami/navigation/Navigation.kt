@@ -9,6 +9,7 @@ import com.ignacioperez.whereami.ui.screens.ListCharacters
 import com.ignacioperez.whereami.ui.screens.ListItems
 import com.ignacioperez.whereami.ui.screens.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.Login
+import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
@@ -43,6 +44,9 @@ fun Navigation(
         }
         composable(Routes.PickupScreen.route){
             Pickups()
+        }
+        composable(Routes.MoreInformationScreen.route){
+            MoreInformationScreen(navController = navController)
         }
     }
 }
