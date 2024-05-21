@@ -31,21 +31,21 @@ fun Navigation(
             Register(navController = navController, userViewModel)
         }
         composable(Routes.ItemsScreen.route) {
-            ListItems(itemViewModel = itemViewModel)
+            ListItems(itemViewModel = itemViewModel, navController = navController)
         }
         composable(Routes.HomeScreen.route) {
             HomeScreen(navController = navController)
         }
-        composable(Routes.CharactersScreen.route){
+        composable(Routes.CharactersScreen.route) {
             ListCharacters()
         }
-        composable(Routes.TrinketsScreen.route){
+        composable(Routes.TrinketsScreen.route) {
             ListTrinkets()
         }
-        composable(Routes.PickupScreen.route){
+        composable(Routes.PickupScreen.route) {
             Pickups()
         }
-        composable(Routes.MoreInformationScreen.route){
+        composable(Routes.MoreInformationScreen.route) {
             MoreInformationScreen(navController = navController)
         }
     }
