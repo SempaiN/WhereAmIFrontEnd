@@ -32,4 +32,18 @@
     <string name="information_item">Items are an integral part of the gameplay of The Binding of Isaac: Rebirth. They modify Isaac\'s attributes, grant or modify tear effects, and much more.</string>
     <string name="information_trinket">Trinkets are a kind of collectible with their designated slot that provide passive bonuses. Only one trinket can be carried at a time and must be dropped if you wish to carry another.</string>
     <string name="more_information">More information</string>
+    <string name="attributes">Attributes</string>
+    <string name="health_stat">Health: The amount of damage the character can take before dying.</string>
+    <string name="healt">Health:</string>
+    <string name="health">Health\n</string>
+    <string name="speed_stat">Speed: How quickly the character moves.</string>
+    <string name="tears_stat">Tears: The character\'s rate of fire. The higher the number, the faster tears are fired.</string>
+    <string name="damage_stat">Damage: The amount of damage that each of the character\'s tears deals to enemies.</string>
+    <string name="range_stat">Range: How long the character\'s tears will travel before landing.</string>
+    <string name="shot_speed_stat">Shot Speed: How quickly the character\'s tears travel</string>
+    <string name="luck_stat">Luck: Affects a variety of chance-based effects.</string>
+    <string name="pickups_info">Pickups are minor items that can be found throughout the game.</string>
+    <string name="chests_info">Chests are objects that contain other objects, items, trinkets, pickups, enemies, other chests, and more. There are eleven types of chests.</string>
+    <string name="pills_info">Pills are pickups that can provide useful or inhibiting effects.At the start of each run, an effect is randomly assigned to each color of pill. The pill effect for each color will remain constant throughout the run.</string>
+    <string name="cards_rune_info">Cards and runes are usable items with a wide variety of effects</string>
 </resources>

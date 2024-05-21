@@ -7,5 +7,6 @@ data class Item(
     val unlockable: Boolean,
     val quote: String,
     val name: String,
-    val wayToUnlock: String
+    val wayToUnlock: String,
+    val imageUrl: String
 )

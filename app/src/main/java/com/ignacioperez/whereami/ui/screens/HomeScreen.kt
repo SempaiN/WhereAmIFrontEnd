@@ -130,7 +130,7 @@ fun HomeScreen(navController: NavController) {
             ) {
                 Information(R.string.information_character)
                 Information(R.string.information_item)
-                Information(R.string.home_screen)
+                Information(R.string.information_trinket)
                 Spacer(modifier = Modifier.size(width = 0.dp, height = 10.dp))
                 Button(
                     onClick = { navController.navigate(Routes.MoreInformationScreen.route) },
