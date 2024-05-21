@@ -20,4 +20,7 @@
     <string name="home_screen">Home Screen</string>
     <string name="menu">Menu</string>
     <string name="items">Items</string>
+    <string name="characters">Characters</string>
+    <string name="trinkets">Trinkets</string>
+    <string name="pickups">Pickups</string>
 </resources>

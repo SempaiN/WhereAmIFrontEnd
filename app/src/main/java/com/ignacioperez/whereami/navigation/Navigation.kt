@@ -5,8 +5,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ignacioperez.whereami.ui.screens.HomeScreen
+import com.ignacioperez.whereami.ui.screens.ListCharacters
 import com.ignacioperez.whereami.ui.screens.ListItems
+import com.ignacioperez.whereami.ui.screens.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.Login
+import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
@@ -31,6 +34,15 @@ fun Navigation(
         }
         composable(Routes.HomeScreen.route) {
             HomeScreen(navController = navController)
+        }
+        composable(Routes.CharactersScreen.route){
+            ListCharacters()
+        }
+        composable(Routes.TrinketsScreen.route){
+            ListTrinkets()
+        }
+        composable(Routes.PickupScreen.route){
+            Pickups()
         }
     }
 }

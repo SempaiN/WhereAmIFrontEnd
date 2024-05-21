@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -37,6 +38,9 @@ fun HomeScreen(navController: NavController) {
                     var expanded by rememberSaveable {
                         mutableStateOf(false)
                     }
+                    var subExpanded by rememberSaveable {
+                        mutableStateOf(false)
+                    }
                     IconButton(onClick = { expanded = !expanded }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
@@ -54,6 +58,37 @@ fun HomeScreen(navController: NavController) {
                                     modifier = Modifier.size(30.dp)
                                 )
                             })
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.characters)) },
+                            onClick = { navController.navigate(Routes.CharactersScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.isaac_icon),
+                                    contentDescription = stringResource(id = R.string.characters),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.trinkets)) },
+                            onClick = { navController.navigate(Routes.TrinketsScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.trinket_curved_horn_icon),
+                                    contentDescription = stringResource(id = R.string.trinkets),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.pickups)) },
+                            onClick = { navController.navigate(Routes.PickupScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.rune_icon),
+                                    contentDescription = stringResource(id = R.string.pickups),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
+
                     }
                 }
             )
