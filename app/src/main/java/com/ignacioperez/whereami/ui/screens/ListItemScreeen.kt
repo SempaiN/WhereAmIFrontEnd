@@ -69,12 +69,12 @@ fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
                     }
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                         DropdownMenuItem(
-                            text = { Text(text = stringResource(id = R.string.items)) },
-                            onClick = { navController.navigate(Routes.ItemsScreen.route) },
+                            text = { Text(text = stringResource(id = R.string.home_screen)) },
+                            onClick = { navController.navigate(Routes.HomeScreen.route) },
                             leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.godhead_icon),
-                                    contentDescription = stringResource(id = R.string.items),
+                                    painter = painterResource(id = R.drawable.home_screen_icon),
+                                    contentDescription = stringResource(id = R.string.home_screen),
                                     modifier = Modifier.size(30.dp)
                                 )
                             })
