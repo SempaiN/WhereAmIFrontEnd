@@ -37,7 +37,6 @@ import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.checkAccountExists
 import com.ignacioperez.whereami.checkEmail
 import com.ignacioperez.whereami.checkPassword
-import com.ignacioperez.whereami.apiURLUsers
 import com.ignacioperez.whereami.auth
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.PasswordTextField

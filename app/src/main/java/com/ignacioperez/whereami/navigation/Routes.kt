@@ -9,4 +9,5 @@ sealed class Routes(val route: String) {
     object TrinketsScreen : Routes("TrinketsScreen")
     object PickupScreen : Routes("PickupScreen")
     object MoreInformationScreen: Routes("MoreInformationScreen")
+    object ItemDetailsScreen: Routes("ItemDetailsScreen")
 }

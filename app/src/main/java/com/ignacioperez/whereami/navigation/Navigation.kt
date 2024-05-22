@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ignacioperez.whereami.ui.screens.HomeScreen
+import com.ignacioperez.whereami.ui.screens.ItemDetailsScreen
 import com.ignacioperez.whereami.ui.screens.ListCharacters
 import com.ignacioperez.whereami.ui.screens.ListItems
 import com.ignacioperez.whereami.ui.screens.ListTrinkets
@@ -47,6 +48,9 @@ fun Navigation(
         }
         composable(Routes.MoreInformationScreen.route) {
             MoreInformationScreen(navController = navController)
+        }
+        composable(Routes.ItemDetailsScreen.route) {
+            ItemDetailsScreen(navController = navController, itemViewModel)
         }
     }
 }

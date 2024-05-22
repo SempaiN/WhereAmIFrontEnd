@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -123,7 +124,7 @@ fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
             items(
                 itemList
             ) { item ->
-                ItemCard(item = item)
+                ItemCard(item = item, itemViewModel = itemViewModel, navController = navController)
             }
 
         }
@@ -132,8 +133,13 @@ fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
 
 
 @Composable
-fun ItemCard(item: Item) {
-    OutlinedCard(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
+fun ItemCard(item: Item, itemViewModel: ItemViewModel, navController: NavController) {
+    OutlinedCard(modifier = Modifier
+        .padding(vertical = 4.dp, horizontal = 8.dp)
+        .clickable {
+            itemViewModel.onItemClicked(item = item)
+            navController.navigate(route = Routes.ItemDetailsScreen.route)
+        }) {
         ListItem(
             headlineContent = {
                 Text(text = item.name, style = MaterialTheme.typography.titleLarge)

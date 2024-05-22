@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami
 
+import androidx.compose.runtime.Composable
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -15,15 +16,15 @@ fun checkEmail(email: String): Boolean {
     return regex.matches(email)
 }
 
-fun checkAccountExists(email: String, password: String, auth: FirebaseAuth, callback: (Boolean) -> Unit) {
+fun checkAccountExists(email: String, password: String, auth: FirebaseAuth, result: (Boolean) -> Unit) {
     auth.signInWithEmailAndPassword(email, password)
         .addOnSuccessListener {
-            callback(true)
+            result(true)
         }
         .addOnFailureListener {
-            callback(false)
+            result(false)
         }
 }
 
-const val apiURLUsers = "http://192.168.183.189:8080/tboi/users"
+
 val auth = Firebase.auth

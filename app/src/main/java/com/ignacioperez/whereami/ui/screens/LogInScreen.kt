@@ -58,8 +58,8 @@ fun Login(navController: NavController, signInViewModel: SignInViewModel) {
                 .fillMaxSize()
                 .padding(it),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-
-            ) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = stringResource(id = R.string.login),
                 style = MaterialTheme.typography.titleLarge,

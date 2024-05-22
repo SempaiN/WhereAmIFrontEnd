@@ -30,7 +30,7 @@ class SignInViewModel : ViewModel() {
             delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
-                val result = service.getCharactersByUser(_user.value?.id)
+                val result = service.getCharactersByUser(_user.value!!.id)
                 _charactersCustom.postValue(result.characters)
                 _responseError.postValue(false)
             } catch (e: Exception) {
@@ -41,12 +41,12 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun getUserFromDB( email: String) {
+    fun getUserFromDB(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
             delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
-            try{
+            try {
                 val result = service.getUserByEmail(email)
                 setCurrentUser(User(result.result.id, result.result.name, email))
                 _responseError.postValue(false)
