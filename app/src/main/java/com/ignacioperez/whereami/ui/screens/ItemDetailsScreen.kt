@@ -11,10 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,7 +40,6 @@ import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ItemChangeStats
-import com.ignacioperez.whereami.mycomposables.TopAppBarExit
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +51,7 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
     val stats: ItemChangeStats by itemViewModel.statsChangedByItem.observeAsState(
         ItemChangeStats()
     )
+    var showSpoiler by rememberSaveable() { mutableStateOf(false) }
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
@@ -63,7 +60,10 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                 )
             )
         }, navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+                itemViewModel.clearStats()
+            }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.back)
@@ -71,7 +71,6 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
             }
         }, actions = {
             if (item.unlockable) {
-                var showSpoiler by rememberSaveable() { mutableStateOf(false) }
                 Switch(checked = showSpoiler, onCheckedChange = { showSpoiler = it })
             }
         })
@@ -111,9 +110,10 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
             Spacer(modifier = Modifier.height(16.dp))
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+
                     .border(1.dp, Color.Black)
                     .padding(16.dp)
+
             ) {
                 Text(
                     text = (stringResource(R.string.effect)) + item.description,
@@ -136,77 +136,17 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 ItemStatsChanged(stats)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = { /* TODO */ }) {
-                    Text(text = "Botón")
+                if (item.unlockable) {
+                    Row() {
+                        Text(text = stringResource(R.string.way_to_unlock))
+                        Text(if (showSpoiler) item.wayToUnlock else stringResource(R.string.secret))
+                    }
                 }
-                Button(onClick = { /* TODO */ }) {
-                    Text(text = "Spoiler: si o no")
-                }
+
             }
+
         }
     }
-//        Column(
-//            modifier = Modifier
-//                .padding(it)
-//                .padding(16.dp)
-//        ) {
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                ItemOnAltar(item)
-//                Spacer(modifier = Modifier.width(16.dp))
-//                Column(
-//                    verticalArrangement = Arrangement.Center,
-//                    modifier = Modifier.weight(1f),
-//                ) {
-//                    Text(
-//                        text = item.name,
-//                        style = MaterialTheme.typography.headlineMedium,
-//                        textAlign = TextAlign.Center
-//                    )
-//                    Text(
-//                        text = item.quote,
-//                        style = MaterialTheme.typography.headlineSmall,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(16.dp))
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .border(1.dp, Color.Black)
-//                    .padding(16.dp)
-//            ) {
-//                Text(text = "Efect: ${item.name}")
-//                Spacer(modifier = Modifier.height(8.dp))
-//                Text(text = "Type: ${item.unlockable}")
-//                Spacer(modifier = Modifier.height(8.dp))
-//                Text(text = "Stats:")
-//                Text(text = "- tear: ${item.wayToUnlock}")
-//                Text(text = "- damage: ${item.wayToUnlock}")
-//            }
-//            Spacer(modifier = Modifier.height(16.dp))
-//            Row(
-//                modifier = Modifier.fillMaxWidth(),
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ) {
-//                Button(onClick = { /* TODO */ }) {
-//                    Text(text = "Botón")
-//                }
-//                Button(onClick = { /* TODO */ }) {
-//                    Text(text = "Spoiler: si o no")
-//                }
-//            }
-//        }
-//    }
 
 
 }
@@ -221,8 +161,9 @@ fun ItemOnAltar(item: Item) {
             placeholder = painterResource(id = R.drawable.godhead_icon),
             error = painterResource(id = R.drawable.godhead_icon),
             contentDescription = "The delasign logo",
-            modifier = Modifier.size(80.dp)
-                .padding(start = 7.dp, top = 3.5.dp)
+            modifier = Modifier
+                .size(80.dp)
+                .padding(start = 9.dp, top = 3.5.dp)
         )
         Image(
             painter = painterResource(R.drawable.item_altar),
@@ -236,7 +177,30 @@ fun ItemOnAltar(item: Item) {
 
 @Composable
 fun ItemStatsChanged(itemChangeStats: ItemChangeStats) {
+    val statInfo = mapOf(
+        "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
+        "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
+        "Tears" to Pair(R.drawable.tears_stat_icon, R.string.tears_stat),
+        "Damage" to Pair(R.drawable.damage_stat_icon, R.string.damage_stat),
+        "Range" to Pair(R.drawable.range_stat_icon, R.string.range_stat),
+        "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
+        "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
+    )
     for (stat in itemChangeStats) {
-        Text(text = stat.name + " " + stat.value.toString())
+        val statInfo = statInfo[stat.name]
+        Row() {
+            Icon(
+                painter = painterResource(statInfo!!.first),
+                contentDescription = stringResource(statInfo.second),
+                modifier = Modifier.size(30.dp)
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(text = stat.name + ": ")
+            Text(
+                text = (if (stat.value > 0) "+" else "") + stat.value.toString(),
+                color = if (stat.value > 0) Color.Green else Color.Red
+            )
+        }
     }
 }
+

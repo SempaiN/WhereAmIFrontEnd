@@ -4,6 +4,7 @@ import com.ignacioperez.whereami.models.APIResponseAllItems
 import com.ignacioperez.whereami.models.APIResponseCharacters
 import com.ignacioperez.whereami.models.APIResponseItem
 import com.ignacioperez.whereami.models.APIResponseUser
+import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ItemChangeStats
 import com.ignacioperez.whereami.models.User
@@ -27,7 +28,7 @@ interface RetrofitService {
     suspend fun getAllItems(): List<Item>
 
     @GET("characters/")
-    suspend fun getAllDefaultCharacters(): APIResponseCharacters
+    suspend fun getAllDefaultCharacters(): List<CharacterResponse>
 
     @GET("users/get_characters_user/{id}")
     suspend fun getCharactersByUser(@Path("id") id: Int): APIResponseCharacters
@@ -38,5 +39,5 @@ interface RetrofitService {
     ): APIResponseUser
 
     @GET("items/get_stats_changes/{id}")
-    suspend fun getStatsChanges(@Path("id") id: Int):ItemChangeStats
+    suspend fun getStatsChanges(@Path("id") id: Int): ItemChangeStats
 }

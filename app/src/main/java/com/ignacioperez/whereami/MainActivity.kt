@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.ignacioperez.whereami.navigation.Navigation
 import com.ignacioperez.whereami.ui.theme.WhereAmITheme
+import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
         val userViewModel by viewModels<UserViewModel>()
         val itemViewModel by viewModels<ItemViewModel>()
         val signInViewModel by viewModels<SignInViewModel>()
+        val characterViewModel by viewModels<CharacterViewModel>()
         enableEdgeToEdge()
         setContent {
             WhereAmITheme {
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation(userViewModel, signInViewModel, itemViewModel)
+                    Navigation(userViewModel, signInViewModel, itemViewModel, characterViewModel)
                 }
             }
         }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ignacioperez.whereami.models.Character
+import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +21,8 @@ class SignInViewModel : ViewModel() {
     private var _responseError = MutableLiveData<Boolean>()
     val responseError: LiveData<Boolean> = _responseError
 
-    private val _charactersCustom = MutableLiveData<List<Character>>()
-    val charactersCustom: LiveData<List<Character>> = _charactersCustom
+    private val _charactersCustom = MutableLiveData<List<CharacterResponse>>()
+    val charactersCustom: LiveData<List<CharacterResponse>> = _charactersCustom
 
     fun getCharactersCustom() {
         viewModelScope.launch(Dispatchers.IO) {

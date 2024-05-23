@@ -34,10 +34,13 @@ class ItemViewModel : ViewModel() {
         loadStats(item.id)
     }
 
+    fun clearStats() {
+        _statsChangedByItem.postValue(ItemChangeStats())
+    }
+
     fun loadStats(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
-            delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getStatsChanges(id)
@@ -69,7 +72,6 @@ class ItemViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
 //            Log.i("--", "Hola" )
             _isLoading.postValue(true)
-            delay(2000)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getAllItems()

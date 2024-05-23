@@ -4,5 +4,5 @@ import android.icu.text.IDNA.Info
 
 data class APIResponseCharacters(
     val info: Info,
-    val characters: List<Character>
+    val characters: List<CharacterResponse>
 )

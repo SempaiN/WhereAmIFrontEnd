@@ -13,6 +13,7 @@ import com.ignacioperez.whereami.ui.screens.Login
 import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
+import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
@@ -21,7 +22,8 @@ import com.ignacioperez.whereami.viewmodel.UserViewModel
 fun Navigation(
     userViewModel: UserViewModel,
     signInViewModel: SignInViewModel,
-    itemViewModel: ItemViewModel
+    itemViewModel: ItemViewModel,
+    characterViewModel: CharacterViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
@@ -38,7 +40,7 @@ fun Navigation(
             HomeScreen(navController = navController)
         }
         composable(Routes.CharactersScreen.route) {
-            ListCharacters()
+            ListCharacters(characterViewModel = characterViewModel)
         }
         composable(Routes.TrinketsScreen.route) {
             ListTrinkets()
