@@ -1,6 +1,6 @@
 package com.ignacioperez.whereami.viewmodel
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +14,8 @@ class CharacterViewModel : ViewModel() {
     private val _defaultCharacters = MutableLiveData<List<CharacterResponse>>()
     val defaultCharacters: LiveData<List<CharacterResponse>> = _defaultCharacters
 
-    private val _customCharacters = MutableLiveData<List<CharacterResponse>>()
-    val customCharacters: LiveData<List<CharacterResponse>> = _customCharacters
+    private var _selectedCharacter = MutableLiveData<CharacterResponse>()
+    val selectedCharacter: LiveData<CharacterResponse> = _selectedCharacter
 
     private var _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -27,10 +27,8 @@ class CharacterViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
             val service = RetrofitServiceFactory.getRetrofit()
-            Log.i("Characters", service.getAllDefaultCharacters().toString())
             try {
                 val result = service.getAllDefaultCharacters()
-                Log.i("Characters", result.toString())
                 _defaultCharacters.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {

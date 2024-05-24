@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -35,6 +37,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.auth
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.auth
+import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.PasswordTextField
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 
@@ -50,9 +53,12 @@ fun Login(navController: NavController, signInViewModel: SignInViewModel) {
     var passwordVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    val user by signInViewModel.user.observeAsState(
+        initial = User()
+    )
     Scaffold(
         modifier = Modifier.padding(16.dp)
-    ) {
+    ) { it ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,8 +83,9 @@ fun Login(navController: NavController, signInViewModel: SignInViewModel) {
                 onPasswordVisibleChange = { passwordVisible = it })
             Button(
                 onClick = {
-                    auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                        if (it.user != null) {
+                    auth.signInWithEmailAndPassword(email, password).addOnSuccessListener { user ->
+                        if (user.user != null) {
+                            Log.i("User", user.user.toString() + "" + email)
                             signInViewModel.getUserFromDB(email)
                             navController.navigate("HomeScreen")
                         }

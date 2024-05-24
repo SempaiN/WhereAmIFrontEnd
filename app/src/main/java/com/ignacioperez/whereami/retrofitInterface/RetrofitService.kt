@@ -19,10 +19,10 @@ interface RetrofitService {
     suspend fun getItemById(@Path("id") id: Int): APIResponseItem
 
     @POST("users/create")
-    suspend fun createUser(@Body user: User): APIResponseUser
+    suspend fun createUser(@Body user: User): User
 
     @GET("users/last")
-    suspend fun getLastUser(): APIResponseUser
+    suspend fun getLastUser(): User
 
     @GET("items/")
     suspend fun getAllItems(): List<Item>
@@ -31,12 +31,12 @@ interface RetrofitService {
     suspend fun getAllDefaultCharacters(): List<CharacterResponse>
 
     @GET("users/get_characters_user/{id}")
-    suspend fun getCharactersByUser(@Path("id") id: Int): APIResponseCharacters
+    suspend fun getCharactersByUser(@Path("id") id: Int): List<CharacterResponse>
 
     @GET("users/get/{email}")
     suspend fun getUserByEmail(
         @Path("email") email: String,
-    ): APIResponseUser
+    ): User
 
     @GET("items/get_stats_changes/{id}")
     suspend fun getStatsChanges(@Path("id") id: Int): ItemChangeStats

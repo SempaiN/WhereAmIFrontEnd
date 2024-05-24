@@ -40,7 +40,7 @@ fun Navigation(
             HomeScreen(navController = navController)
         }
         composable(Routes.CharactersScreen.route) {
-            ListCharacters(characterViewModel = characterViewModel)
+            ListCharacters(characterViewModel = characterViewModel, navController, signInViewModel)
         }
         composable(Routes.TrinketsScreen.route) {
             ListTrinkets()
