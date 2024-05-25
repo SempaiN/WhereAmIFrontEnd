@@ -10,4 +10,6 @@ sealed class Routes(val route: String) {
     object PickupScreen : Routes("PickupScreen")
     object MoreInformationScreen: Routes("MoreInformationScreen")
     object ItemDetailsScreen: Routes("ItemDetailsScreen")
+
+    object CharacterDetailsScreen: Routes("CharacterDetailsScreen")
 }

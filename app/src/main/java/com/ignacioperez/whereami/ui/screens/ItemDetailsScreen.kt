@@ -160,7 +160,7 @@ fun ItemOnAltar(item: Item) {
             model = item.imageUrl,
             placeholder = painterResource(id = R.drawable.godhead_icon),
             error = painterResource(id = R.drawable.godhead_icon),
-            contentDescription = "The delasign logo",
+            contentDescription = item.name,
             modifier = Modifier
                 .size(80.dp)
                 .padding(start = 9.dp, top = 3.5.dp)

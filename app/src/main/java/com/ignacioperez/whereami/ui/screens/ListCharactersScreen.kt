@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -132,16 +133,25 @@ fun ListCharacters(
             items(
                 characterList + customCharacters
             ) { character ->
-                CharacterCard(character)
+                CharacterCard(character, characterViewModel, navController)
             }
         }
     }
 }
 
 @Composable
-fun CharacterCard(character: CharacterResponse) {
+fun CharacterCard(
+    character: CharacterResponse,
+    characterViewModel: CharacterViewModel,
+    navController: NavController
+) {
     OutlinedCard(
-        modifier = Modifier.padding(vertical = 7.dp, horizontal = 8.dp)
+        modifier = Modifier
+            .padding(vertical = 7.dp, horizontal = 8.dp)
+            .clickable {
+                characterViewModel.onCharacterClicked(character = character)
+                navController.navigate(route = Routes.CharacterDetailsScreen.route)
+            }
     ) {
         Column(
             modifier = Modifier.padding(start = 8.dp),
