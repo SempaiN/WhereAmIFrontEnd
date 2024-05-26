@@ -56,7 +56,7 @@ fun Navigation(
             ItemDetailsScreen(navController = navController, itemViewModel)
         }
         composable(Routes.CharacterDetailsScreen.route) {
-            CharacterDetails(navController,characterViewModel)
+            CharacterDetails(navController, characterViewModel, itemViewModel)
         }
     }
 }

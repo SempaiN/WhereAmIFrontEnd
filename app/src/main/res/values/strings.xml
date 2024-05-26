@@ -55,4 +55,10 @@
     <string name="unlimited">Unlimited</string>
     <string name="way_to_unlock">"Unlock method: "</string>
     <string name="secret">Play and you will find out</string>
+    <string name="name">"Name: "</string>
+    <string name="default_character">Starting character of the game</string>
+    <string name="starting_items">Starting Items</string>
+    <string name="stats_base">Stats Base:\n</string>
+    <string name="stats_modified">Modified Stats</string>
+    <string name="arrow">Arrow Forward</string>
 </resources>

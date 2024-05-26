@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.viewmodel
 
 
+import android.util.Log
 import androidx.core.os.trace
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
