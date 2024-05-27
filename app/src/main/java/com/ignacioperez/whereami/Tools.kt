@@ -14,8 +14,18 @@ fun checkPassword(password: String): Boolean {
 }
 
 fun checkEmail(email: String): Boolean {
+
+
+
+
+
     val regex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     return regex.matches(email)
+
+
+
+
+
 }
 
 fun checkAccountExists(

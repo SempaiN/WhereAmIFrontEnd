@@ -12,6 +12,7 @@ import com.ignacioperez.whereami.ui.screens.ListItems
 import com.ignacioperez.whereami.ui.screens.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.Login
 import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
+import com.ignacioperez.whereami.ui.screens.PickupScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
@@ -63,6 +64,9 @@ fun Navigation(
         }
         composable(Routes.TrinketDetailsScreen.route) {
             TrinketDetailsScreen(navController, trinketViewModel)
+        }
+        composable(Routes.PickupScreen.route) {
+            PickupScreen(navController)
         }
     }
 }

@@ -69,7 +69,6 @@ class ItemViewModel : ViewModel() {
 
     fun getAllItems() {
         viewModelScope.launch(Dispatchers.IO) {
-//            Log.i("--", "Hola" )
             _isLoading.postValue(true)
             val service = RetrofitServiceFactory.getRetrofit()
             try {

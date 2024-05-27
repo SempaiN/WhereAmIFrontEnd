@@ -3,6 +3,9 @@ package com.ignacioperez.whereami.retrofitInterface
 import com.ignacioperez.whereami.models.APIResponseItem
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
+import com.ignacioperez.whereami.models.ListCardRunes
+import com.ignacioperez.whereami.models.ListPickups
+import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.models.ObjectChangeStats
 import com.ignacioperez.whereami.models.ListTrinkets
 import com.ignacioperez.whereami.models.StatResponse
@@ -62,4 +65,14 @@ interface RetrofitService {
 
     @GET("trinkets/trinket_modifies/{id}")
     suspend fun getStatsChangedByTrinket(@Path("id") id: Int): ObjectChangeStats
+
+    @GET("pickups/")
+    suspend fun getAllPickups(): ListPickups
+
+    @GET("cards_runes/")
+    suspend fun getAllCardRunes(): ListCardRunes
+
+    @GET("pills/")
+    suspend fun getAllPills(): ListPills
+
 }
