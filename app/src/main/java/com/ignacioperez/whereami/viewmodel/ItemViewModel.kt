@@ -1,13 +1,12 @@
 package com.ignacioperez.whereami.viewmodel
 
 import android.util.Log
-import androidx.compose.runtime.traceEventEnd
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.Item
-import com.ignacioperez.whereami.models.ItemChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStats
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -17,8 +16,8 @@ class ItemViewModel : ViewModel() {
     private val _selectedItem = MutableLiveData<Item>()
     val selectedItem: LiveData<Item> = _selectedItem
 
-    private val _statsChangedByItem = MutableLiveData<ItemChangeStats>()
-    val statsChangedByItem: LiveData<ItemChangeStats> = _statsChangedByItem
+    private val _statsChangedByItem = MutableLiveData<ObjectChangeStats>()
+    val statsChangedByItem: LiveData<ObjectChangeStats> = _statsChangedByItem
 
     private val _allItems = MutableLiveData<List<Item>>()
     val allItems: LiveData<List<Item>> = _allItems
@@ -35,7 +34,7 @@ class ItemViewModel : ViewModel() {
     }
 
     fun clearStats() {
-        _statsChangedByItem.postValue(ItemChangeStats())
+        _statsChangedByItem.postValue(ObjectChangeStats())
     }
 
     fun loadStats(id: Int) {

@@ -14,6 +14,7 @@ import com.ignacioperez.whereami.ui.theme.WhereAmITheme
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
+import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 class MainActivity : ComponentActivity() {
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
         val itemViewModel by viewModels<ItemViewModel>()
         val signInViewModel by viewModels<SignInViewModel>()
         val characterViewModel by viewModels<CharacterViewModel>()
+        val trinketViewModel by viewModels<TrinketViewModel>()
         enableEdgeToEdge()
         setContent {
             WhereAmITheme {
@@ -30,7 +32,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation(userViewModel, signInViewModel, itemViewModel, characterViewModel)
+                    Navigation(
+                        userViewModel,
+                        signInViewModel,
+                        itemViewModel,
+                        characterViewModel,
+                        trinketViewModel
+                    )
                 }
             }
         }

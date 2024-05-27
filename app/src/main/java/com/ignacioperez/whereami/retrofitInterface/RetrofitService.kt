@@ -1,14 +1,13 @@
 package com.ignacioperez.whereami.retrofitInterface
 
-import com.ignacioperez.whereami.models.APIResponseAllItems
-import com.ignacioperez.whereami.models.APIResponseCharacters
 import com.ignacioperez.whereami.models.APIResponseItem
-import com.ignacioperez.whereami.models.APIResponseUser
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
-import com.ignacioperez.whereami.models.ItemChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ListTrinkets
 import com.ignacioperez.whereami.models.StatResponse
 import com.ignacioperez.whereami.models.StatsModifiedCharacter
+import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.models.User
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -41,7 +40,7 @@ interface RetrofitService {
     ): User
 
     @GET("items/get_stats_changes/{id}")
-    suspend fun getStatsChanges(@Path("id") id: Int): ItemChangeStats
+    suspend fun getStatsChanges(@Path("id") id: Int): ObjectChangeStats
 
     @GET("characters/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): CharacterResponse
@@ -55,4 +54,12 @@ interface RetrofitService {
     @GET("characters/stats_modified/{id}")
     suspend fun getStatsModified(@Path("id") id: Int): StatsModifiedCharacter
 
+    @GET("trinkets/")
+    suspend fun getAllTrinkets(): ListTrinkets
+
+    @GET("trinkets/{id}")
+    suspend fun getTrinket(@Path("id") id: Int): Trinket
+
+    @GET("trinkets/trinket_modifies/{id}")
+    suspend fun getStatsChangedByTrinket(@Path("id") id: Int): ObjectChangeStats
 }

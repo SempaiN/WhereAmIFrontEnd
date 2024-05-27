@@ -1,10 +1,8 @@
 package com.ignacioperez.whereami.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -38,21 +37,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
-import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
-import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel) {
-    val item: Item by itemViewModel.selectedItem.observeAsState(
-        Item()
+fun TrinketDetailsScreen(navController: NavController, trinketViewModel: TrinketViewModel) {
+    val trinket: Trinket by trinketViewModel.selectedTrinket.observeAsState(
+        initial = Trinket()
     )
-    val stats: ObjectChangeStats by itemViewModel.statsChangedByItem.observeAsState(
+    val stats: ObjectChangeStats by trinketViewModel.statsChangedByTrinket.observeAsState(
         ObjectChangeStats()
     )
-    var showSpoiler by rememberSaveable() { mutableStateOf(false) }
+    var showSpoiler by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
@@ -63,7 +63,6 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
         }, navigationIcon = {
             IconButton(onClick = {
                 navController.popBackStack()
-                itemViewModel.clearStats()
             }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
@@ -71,7 +70,7 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                 )
             }
         }, actions = {
-            if (item.unlockable) {
+            if (trinket.unlockable) {
                 Switch(checked = showSpoiler, onCheckedChange = { showSpoiler = it })
             }
         })
@@ -81,7 +80,15 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ItemOnAltar(item)
+                AsyncImage(
+                    model = trinket.imageUrl,
+                    placeholder = painterResource(R.drawable.trinket_curved_horn_icon),
+                    error = painterResource(R.drawable.trinket_curved_horn_icon),
+                    contentDescription = trinket.name,
+                    modifier = Modifier
+                        .size(90.dp)
+                        .align(Alignment.CenterVertically)
+                )
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,7 +97,7 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                         .fillMaxWidth(),
                 ) {
                     Text(
-                        text = item.name,
+                        text = trinket.name,
                         style = MaterialTheme.typography.headlineLarge,
                         textAlign = TextAlign.Center,
 
@@ -99,7 +106,7 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = item.quote,
+                            text = trinket.quote,
                             style = MaterialTheme.typography.headlineMedium,
                             fontStyle = FontStyle.Italic,
                             textAlign = TextAlign.Center,
@@ -114,33 +121,28 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
 
                     .border(1.dp, Color.Black)
                     .padding(16.dp)
+                    .fillMaxWidth()
 
             ) {
                 Text(
-                    text = (stringResource(R.string.effect)) + item.description,
-                    style = MaterialTheme.typography.bodyLarge
+                    text = (stringResource(R.string.effect)) + trinket.description,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                if ((item.charges == -1) or (item.charges > 0)) {
-                    Text(text = stringResource(R.string.type) + stringResource(R.string.active))
-                    if (item.charges == -1) {
-                        Text(
-                            text = stringResource(R.string.charges) + stringResource(
-                                R.string.unlimited
-                            )
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(R.string.charges) + item.charges.toString()
-                        )
-                    }
-                }
+
                 Spacer(modifier = Modifier.height(8.dp))
                 ObjectStatsChanged(stats)
-                if (item.unlockable) {
-                    Row() {
-                        Text(text = stringResource(R.string.way_to_unlock))
-                        Text(if (showSpoiler) item.wayToUnlock else stringResource(R.string.secret))
+                if (trinket.unlockable) {
+                    Spacer(Modifier.size(20.dp))
+                    Column() {
+                        Text(
+                            text = stringResource(R.string.way_to_unlock),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Text(
+                            if (showSpoiler) trinket.wayToUnlock else stringResource(R.string.secret),
+                            style = MaterialTheme.typography.titleLarge
+                        )
                     }
                 }
 
@@ -148,33 +150,4 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
 
         }
     }
-
-
 }
-
-@Composable
-fun ItemOnAltar(item: Item) {
-    Column(
-        modifier = Modifier.padding(start = 5.dp)
-    ) {
-        AsyncImage(
-            model = item.imageUrl,
-            placeholder = painterResource(id = R.drawable.godhead_icon),
-            error = painterResource(id = R.drawable.godhead_icon),
-            contentDescription = item.name,
-            modifier = Modifier
-                .size(80.dp)
-                .padding(start = 9.dp, top = 3.5.dp)
-        )
-        Image(
-            painter = painterResource(R.drawable.item_altar),
-            contentDescription = "",
-            modifier = Modifier
-                .size(80.dp)
-                .padding(start = 7.dp)
-        )
-    }
-}
-
-
-

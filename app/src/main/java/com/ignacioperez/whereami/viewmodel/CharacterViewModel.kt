@@ -1,16 +1,12 @@
 package com.ignacioperez.whereami.viewmodel
 
 
-import android.util.Log
-import androidx.core.os.trace
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
-import com.ignacioperez.whereami.models.ItemChangeStats
 import com.ignacioperez.whereami.models.StatResponse
 import com.ignacioperez.whereami.models.StatsModifiedCharacter
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory

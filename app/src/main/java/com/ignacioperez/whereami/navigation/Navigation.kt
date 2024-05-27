@@ -14,9 +14,11 @@ import com.ignacioperez.whereami.ui.screens.Login
 import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
+import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
+import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @Composable
@@ -24,7 +26,8 @@ fun Navigation(
     userViewModel: UserViewModel,
     signInViewModel: SignInViewModel,
     itemViewModel: ItemViewModel,
-    characterViewModel: CharacterViewModel
+    characterViewModel: CharacterViewModel,
+    trinketViewModel: TrinketViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
@@ -44,7 +47,7 @@ fun Navigation(
             ListCharacters(characterViewModel = characterViewModel, navController, signInViewModel)
         }
         composable(Routes.TrinketsScreen.route) {
-            ListTrinkets()
+            ListTrinkets(trinketViewModel, navController)
         }
         composable(Routes.PickupScreen.route) {
             Pickups()
@@ -57,6 +60,9 @@ fun Navigation(
         }
         composable(Routes.CharacterDetailsScreen.route) {
             CharacterDetails(navController, characterViewModel, itemViewModel)
+        }
+        composable(Routes.TrinketDetailsScreen.route) {
+            TrinketDetailsScreen(navController, trinketViewModel)
         }
     }
 }
