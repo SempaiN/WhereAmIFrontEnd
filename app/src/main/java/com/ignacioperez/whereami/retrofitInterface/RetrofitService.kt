@@ -75,4 +75,6 @@ interface RetrofitService {
     @GET("pills/")
     suspend fun getAllPills(): ListPills
 
+    @GET("/pickup_modifies/{id}")
+    suspend fun getStatsModifiedByPickup(@Path("id") id: Int): ObjectChangeStats
 }

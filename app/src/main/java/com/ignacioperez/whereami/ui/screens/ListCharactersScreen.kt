@@ -152,11 +152,13 @@ fun CharacterCard(
                 characterViewModel.onCharacterClicked(character = character)
                 navController.navigate(route = Routes.CharacterDetailsScreen.route)
             }
+            .size(width = 40.dp, height = 150.dp),
+
     ) {
         Column(
             modifier = Modifier.padding(start = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 character.imageUrl,

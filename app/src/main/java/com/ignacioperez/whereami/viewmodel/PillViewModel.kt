@@ -4,37 +4,32 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ignacioperez.whereami.models.CardRune
-import com.ignacioperez.whereami.models.ListCardRunes
+import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.Pill
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CardRuneViewModel : ViewModel() {
-    private val _selectedCardRune = MutableLiveData<CardRune>()
-    val selectedCardRune: LiveData<CardRune> = _selectedCardRune
+class PillViewModel : ViewModel() {
+    private val _selectedPill = MutableLiveData<Pill>()
+    val selectedPill: LiveData<Pill> = _selectedPill
 
-    private val _statsChangedByCardRune = MutableLiveData<ObjectChangeStats>()
-    val statsChangedByCardRune: LiveData<ObjectChangeStats> = _statsChangedByCardRune
+    private val _statsChangedByPill = MutableLiveData<ObjectChangeStats>()
+    val statsChangedByPill: LiveData<ObjectChangeStats> = _statsChangedByPill
 
-    private val _allCardsRunes = MutableLiveData<ListCardRunes>()
-    val allCardsRunes: LiveData<ListCardRunes> = _allCardsRunes
+    private val _allPills = MutableLiveData<ListPills>()
+    val allPills: LiveData<ListPills> = _allPills
 
     private var _responseError = MutableLiveData<Boolean>()
     val responseError: LiveData<Boolean> = _responseError
-
-    fun onCardRuneClicked(cardRune: CardRune) {
-        _selectedCardRune.value = cardRune
-        loadStats(cardRune.id)
-    }
 
     fun loadStats(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getStatsModifiedByPickup(id)
-                _statsChangedByCardRune.postValue(result)
+                _statsChangedByPill.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)
@@ -42,17 +37,21 @@ class CardRuneViewModel : ViewModel() {
         }
     }
 
-    fun getAllCardsRunes() {
+    fun onPillClicked(pill: Pill) {
+        _selectedPill.value = pill
+        loadStats(pill.id)
+    }
+
+    fun getAllPills() {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
-                val result = service.getAllCardRunes()
-                _allCardsRunes.postValue(result)
+                val result = service.getAllPills()
+                _allPills.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)
             }
         }
     }
-
 }

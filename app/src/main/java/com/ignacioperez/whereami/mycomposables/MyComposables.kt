@@ -1,8 +1,11 @@
 package com.ignacioperez.whereami.mycomposables
 
+import android.app.LauncherActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -12,7 +15,9 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,8 +31,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
+import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.Pill
+import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
+import com.ignacioperez.whereami.viewmodel.PillViewModel
 
 @Composable
 fun PasswordTextField(
@@ -107,5 +117,66 @@ fun ObjectStatsChanged(objectChangeStats: ObjectChangeStats) {
                 style = MaterialTheme.typography.titleLarge
             )
         }
+    }
+}
+
+@Composable
+fun CardRuneCard(
+    cardRune: CardRune,
+    cardRuneViewModel: CardRuneViewModel,
+    navController: NavController
+) {
+    OutlinedCard(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable {
+                cardRuneViewModel.onCardRuneClicked(cardRune)
+
+            }
+    ) {
+        ListItem(
+            headlineContent = {
+                Text(cardRune.name, style = MaterialTheme.typography.titleLarge)
+            },
+            leadingContent = {
+                AsyncImage(
+                    model = cardRune.imageUrl,
+                    placeholder = painterResource(R.drawable.facecard),
+                    error = painterResource(R.drawable.facecard),
+                    contentDescription = cardRune.name,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
+        )
+    }
+}
+@Composable
+fun PillCard(
+    pill: Pill,
+    pillViewModel: PillViewModel,
+    navController: NavController
+) {
+    OutlinedCard(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable {
+                pillViewModel.onPillClicked(pill)
+
+            }
+    ) {
+        ListItem(
+            headlineContent = {
+                Text(pill.name, style = MaterialTheme.typography.titleLarge)
+            },
+            leadingContent = {
+                AsyncImage(
+                    model = pill.imageUrl,
+                    placeholder = painterResource(R.drawable.facecard),
+                    error = painterResource(R.drawable.facecard),
+                    contentDescription = pill.name,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
+        )
     }
 }

@@ -1,8 +1,6 @@
 package com.ignacioperez.whereami.ui.screens
 
-import FavTab
-import HomeTab
-import ProfileTab
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -37,9 +35,12 @@ import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.navigation.Routes
+import com.ignacioperez.whereami.ui.screens.tabs.pickuptabas.CardRuneTab
+import com.ignacioperez.whereami.ui.screens.tabs.pickuptabas.HomeTab
+import com.ignacioperez.whereami.ui.screens.tabs.pickuptabas.PillTab
 
 
-@OptIn(ExperimentalVoyagerApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickupScreen(navController: NavController) {
     TabNavigator(
@@ -47,7 +48,7 @@ fun PickupScreen(navController: NavController) {
         tabDisposable = {
             TabDisposable(
                 it,
-                listOf(HomeTab, FavTab, ProfileTab)
+                listOf(HomeTab, CardRuneTab, PillTab)
             )
         }
     ) {
@@ -127,26 +128,26 @@ fun PickupScreen(navController: NavController) {
                         onClick = { tabNavigator.current = HomeTab }
                     )
                     BottomNavigationItem(
-                        selected = tabNavigator.current.key == FavTab.key,
-                        label = { Text(FavTab.options.title) },
+                        selected = tabNavigator.current.key == CardRuneTab.key,
+                        label = { Text(CardRuneTab.options.title) },
                         icon = {
                             Icon(
-                                painter = FavTab.options.icon!!,
+                                painter = CardRuneTab.options.icon!!,
                                 contentDescription = null
                             )
                         },
-                        onClick = { tabNavigator.current = FavTab }
+                        onClick = { tabNavigator.current = CardRuneTab }
                     )
                     BottomNavigationItem(
-                        selected = tabNavigator.current.key == ProfileTab.key,
-                        label = { Text(ProfileTab.options.title) },
+                        selected = tabNavigator.current.key == PillTab.key,
+                        label = { Text(PillTab.options.title) },
                         icon = {
                             Icon(
-                                painter = ProfileTab.options.icon!!,
+                                painter = PillTab.options.icon!!,
                                 contentDescription = null
                             )
                         },
-                        onClick = { tabNavigator.current = ProfileTab }
+                        onClick = { tabNavigator.current = PillTab }
                     )
                 }
             },
