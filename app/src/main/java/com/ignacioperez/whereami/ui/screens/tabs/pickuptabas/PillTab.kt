@@ -27,6 +27,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.mycomposables.PillCard
+import com.ignacioperez.whereami.ui.screens.PillDetails
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 import retrofit2.http.GET
 
@@ -51,12 +52,18 @@ object PillTab : Tab {
         val pillList: ListPills by pillViewModel.allPills.observeAsState(
             ListPills()
         )
+        val showDialog: Boolean by pillViewModel.showPillDetails.observeAsState(
+            false
+        )
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(
                 pillList
             ) { pill ->
                 PillCard(pill, pillViewModel)
             }
+        }
+        if (showDialog) {
+            PillDetails(pillViewModel)
         }
     }
 }

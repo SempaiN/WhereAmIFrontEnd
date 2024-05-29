@@ -1,6 +1,5 @@
 package com.ignacioperez.whereami.mycomposables
 
-import CardRuneDetails
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +35,6 @@ import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
-import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 
@@ -155,7 +153,7 @@ fun PillCard(
     pill: Pill,
     pillViewModel: PillViewModel,
 
-) {
+    ) {
     OutlinedCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)

@@ -24,6 +24,9 @@ class PillViewModel : ViewModel() {
     private var _responseError = MutableLiveData<Boolean>()
     val responseError: LiveData<Boolean> = _responseError
 
+    private val _showPillDetails = MutableLiveData<Boolean>()
+    val showPillDetails: LiveData<Boolean> = _showPillDetails
+
     fun loadStats(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
@@ -37,9 +40,22 @@ class PillViewModel : ViewModel() {
         }
     }
 
+    fun clearSelectedPill() {
+        _selectedPill.value = Pill()
+    }
+
+    fun showPillAlertDialog() {
+        _showPillDetails.value = true
+    }
+
+    fun hidePillAlertDialog() {
+        _showPillDetails.value = false
+    }
+
     fun onPillClicked(pill: Pill) {
         _selectedPill.value = pill
         loadStats(pill.id)
+        showPillAlertDialog()
     }
 
     fun getAllPills() {
