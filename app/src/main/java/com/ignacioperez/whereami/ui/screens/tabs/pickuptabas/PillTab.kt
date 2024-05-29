@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.ui.screens.tabs.pickuptabas
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -26,6 +28,7 @@ import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.mycomposables.PillCard
 import com.ignacioperez.whereami.viewmodel.PillViewModel
+import retrofit2.http.GET
 
 object PillTab : Tab {
     override val options: TabOptions
@@ -44,7 +47,6 @@ object PillTab : Tab {
     @Composable
     override fun Content() {
         val pillViewModel = remember { PillViewModel() }
-        val navController = rememberNavController()
         pillViewModel.getAllPills()
         val pillList: ListPills by pillViewModel.allPills.observeAsState(
             ListPills()
@@ -53,7 +55,7 @@ object PillTab : Tab {
             items(
                 pillList
             ) { pill ->
-                PillCard(pill, pillViewModel, navController)
+                PillCard(pill, pillViewModel)
             }
         }
     }

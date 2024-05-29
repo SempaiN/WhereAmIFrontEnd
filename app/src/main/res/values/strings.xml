@@ -64,4 +64,5 @@
     <string name="rune_lookLike">This is what an in-game rune looks like</string>
     <string name="card_lookLike">This is what an in-game card looks like</string>
     <string name="inverseCardlookLike">This is what an in-game reversed card looks like</string>
+    <string name="show_spoiler">Show Spoiler</string>
 </resources>

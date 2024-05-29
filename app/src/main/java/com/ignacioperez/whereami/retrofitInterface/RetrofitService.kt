@@ -6,7 +6,7 @@ import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ListCardRunes
 import com.ignacioperez.whereami.models.ListPickups
 import com.ignacioperez.whereami.models.ListPills
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.ListTrinkets
 import com.ignacioperez.whereami.models.StatResponse
 import com.ignacioperez.whereami.models.StatsModifiedCharacter
@@ -43,7 +43,7 @@ interface RetrofitService {
     ): User
 
     @GET("items/get_stats_changes/{id}")
-    suspend fun getStatsChanges(@Path("id") id: Int): ObjectChangeStats
+    suspend fun getStatsChanges(@Path("id") id: Int): ObjectChangeStatsList
 
     @GET("characters/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): CharacterResponse
@@ -64,7 +64,7 @@ interface RetrofitService {
     suspend fun getTrinket(@Path("id") id: Int): Trinket
 
     @GET("trinkets/trinket_modifies/{id}")
-    suspend fun getStatsChangedByTrinket(@Path("id") id: Int): ObjectChangeStats
+    suspend fun getStatsChangedByTrinket(@Path("id") id: Int): ObjectChangeStatsList
 
     @GET("pickups/")
     suspend fun getAllPickups(): ListPickups
@@ -75,6 +75,6 @@ interface RetrofitService {
     @GET("pills/")
     suspend fun getAllPills(): ListPills
 
-    @GET("/pickup_modifies/{id}")
-    suspend fun getStatsModifiedByPickup(@Path("id") id: Int): ObjectChangeStats
+    @GET("pickups/pickup_modifies/{id}")
+    suspend fun getStatsModifiedByPickup(@Path("id") id: Int): ObjectChangeStatsList
 }

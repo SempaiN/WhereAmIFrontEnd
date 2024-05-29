@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
@@ -48,8 +48,8 @@ fun TrinketDetailsScreen(navController: NavController, trinketViewModel: Trinket
     val trinket: Trinket by trinketViewModel.selectedTrinket.observeAsState(
         initial = Trinket()
     )
-    val stats: ObjectChangeStats by trinketViewModel.statsChangedByTrinket.observeAsState(
-        ObjectChangeStats()
+    val stats: ObjectChangeStatsList by trinketViewModel.statsChangedByTrinket.observeAsState(
+        ObjectChangeStatsList()
     )
     var showSpoiler by rememberSaveable { mutableStateOf(false) }
 

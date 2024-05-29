@@ -1,3 +1,6 @@
 package com.ignacioperez.whereami.models
 
-class ObjectChangeStats : ArrayList<ItemChangeStatsItem>()
+data class ObjectChangeStats(
+    val name: String,
+    val value: Double
+)

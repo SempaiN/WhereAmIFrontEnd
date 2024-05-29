@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.ui.screens.tabs.pickuptabas
 
+import CardRuneDetails
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.ListCardRunes
 import com.ignacioperez.whereami.mycomposables.CardRuneCard
+import com.ignacioperez.whereami.navigation.getNavController
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 
 
@@ -35,11 +37,11 @@ object CardRuneTab : Tab {
     @Composable
     override fun Content() {
         val cardRuneViewModel = remember { CardRuneViewModel() }
-        val navController = rememberNavController()
         cardRuneViewModel.getAllCardsRunes()
         val cardRuneList: ListCardRunes by cardRuneViewModel.allCardsRunes.observeAsState(
             initial = ListCardRunes()
         )
+        val showDialog: Boolean by cardRuneViewModel.showCardRuneDetails.observeAsState(false)
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(
@@ -47,10 +49,13 @@ object CardRuneTab : Tab {
             ) { cardRune ->
                 CardRuneCard(
                     cardRune,
-                    cardRuneViewModel,
-                    navController = navController
+                    cardRuneViewModel
                 )
+
             }
+        }
+        if (showDialog) {
+            CardRuneDetails(cardRuneViewModel = cardRuneViewModel)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.ui.screens
 
 
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -48,7 +49,7 @@ fun PickupScreen(navController: NavController) {
         tabDisposable = {
             TabDisposable(
                 it,
-                listOf(HomeTab, CardRuneTab, PillTab)
+                listOf(HomeTab, CardRuneTab,  PillTab)
             )
         }
     ) {

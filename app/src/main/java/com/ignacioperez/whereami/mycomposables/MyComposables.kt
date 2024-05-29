@@ -1,6 +1,6 @@
 package com.ignacioperez.whereami.mycomposables
 
-import android.app.LauncherActivity
+import CardRuneDetails
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,8 +34,9 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.CardRune
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
+import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 
@@ -91,7 +92,7 @@ fun TopAppBarExit(title: Int, navController: NavController) {
 }
 
 @Composable
-fun ObjectStatsChanged(objectChangeStats: ObjectChangeStats) {
+fun ObjectStatsChanged(objectChangeStatsList: ObjectChangeStatsList) {
     val statInfo = mapOf(
         "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
         "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
@@ -101,7 +102,7 @@ fun ObjectStatsChanged(objectChangeStats: ObjectChangeStats) {
         "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
         "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
     )
-    for (stat in objectChangeStats) {
+    for (stat in objectChangeStatsList) {
         val statInfo = statInfo[stat.name]
         Row() {
             Icon(
@@ -124,14 +125,12 @@ fun ObjectStatsChanged(objectChangeStats: ObjectChangeStats) {
 fun CardRuneCard(
     cardRune: CardRune,
     cardRuneViewModel: CardRuneViewModel,
-    navController: NavController
 ) {
     OutlinedCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable {
                 cardRuneViewModel.onCardRuneClicked(cardRune)
-
             }
     ) {
         ListItem(
@@ -150,11 +149,12 @@ fun CardRuneCard(
         )
     }
 }
+
 @Composable
 fun PillCard(
     pill: Pill,
     pillViewModel: PillViewModel,
-    navController: NavController
+
 ) {
     OutlinedCard(
         modifier = Modifier

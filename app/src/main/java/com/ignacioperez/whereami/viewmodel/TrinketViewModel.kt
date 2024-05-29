@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.ListTrinkets
 import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
@@ -25,8 +25,8 @@ class TrinketViewModel : ViewModel() {
     private var _responseError = MutableLiveData<Boolean>()
     val responseError: LiveData<Boolean> = _responseError
 
-    private val _statsChangedByTrinket = MutableLiveData<ObjectChangeStats>()
-    val statsChangedByTrinket: LiveData<ObjectChangeStats> = _statsChangedByTrinket
+    private val _statsChangedByTrinket = MutableLiveData<ObjectChangeStatsList>()
+    val statsChangedByTrinket: LiveData<ObjectChangeStatsList> = _statsChangedByTrinket
     fun onTrinketClicked(trinket: Trinket) {
         _selectedTrinket.value = trinket
         loadStats(trinket.id)

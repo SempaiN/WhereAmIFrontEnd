@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.ignacioperez.whereami.navigation.Navigation
 import com.ignacioperez.whereami.ui.theme.WhereAmITheme
+import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
@@ -19,12 +20,14 @@ import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         val userViewModel by viewModels<UserViewModel>()
         val itemViewModel by viewModels<ItemViewModel>()
         val signInViewModel by viewModels<SignInViewModel>()
         val characterViewModel by viewModels<CharacterViewModel>()
         val trinketViewModel by viewModels<TrinketViewModel>()
+        val cardRuneViewModel by viewModels<CardRuneViewModel>()
         enableEdgeToEdge()
         setContent {
             WhereAmITheme {
@@ -37,7 +40,8 @@ class MainActivity : ComponentActivity() {
                         signInViewModel,
                         itemViewModel,
                         characterViewModel,
-                        trinketViewModel
+                        trinketViewModel,
+                        cardRuneViewModel
                     )
                 }
             }

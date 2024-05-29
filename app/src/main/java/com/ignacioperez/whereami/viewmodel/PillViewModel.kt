@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.ListPills
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +15,8 @@ class PillViewModel : ViewModel() {
     private val _selectedPill = MutableLiveData<Pill>()
     val selectedPill: LiveData<Pill> = _selectedPill
 
-    private val _statsChangedByPill = MutableLiveData<ObjectChangeStats>()
-    val statsChangedByPill: LiveData<ObjectChangeStats> = _statsChangedByPill
+    private val _statsChangedByPill = MutableLiveData<ObjectChangeStatsList>()
+    val statsChangedByPill: LiveData<ObjectChangeStatsList> = _statsChangedByPill
 
     private val _allPills = MutableLiveData<ListPills>()
     val allPills: LiveData<ListPills> = _allPills

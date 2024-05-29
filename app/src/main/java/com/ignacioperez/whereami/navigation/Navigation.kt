@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,6 +17,7 @@ import com.ignacioperez.whereami.ui.screens.PickupScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
+import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
@@ -23,12 +25,19 @@ import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @Composable
+fun getNavController(): NavHostController {
+    var navController = rememberNavController()
+    return navController
+}
+
+@Composable
 fun Navigation(
     userViewModel: UserViewModel,
     signInViewModel: SignInViewModel,
     itemViewModel: ItemViewModel,
     characterViewModel: CharacterViewModel,
-    trinketViewModel: TrinketViewModel
+    trinketViewModel: TrinketViewModel,
+    cardRuneViewModel: CardRuneViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
@@ -68,5 +77,6 @@ fun Navigation(
         composable(Routes.PickupScreen.route) {
             PickupScreen(navController)
         }
+
     }
 }

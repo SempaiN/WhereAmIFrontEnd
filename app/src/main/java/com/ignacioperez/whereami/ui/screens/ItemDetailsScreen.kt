@@ -39,7 +39,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.Item
-import com.ignacioperez.whereami.models.ObjectChangeStats
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 
@@ -49,8 +49,8 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
     val item: Item by itemViewModel.selectedItem.observeAsState(
         Item()
     )
-    val stats: ObjectChangeStats by itemViewModel.statsChangedByItem.observeAsState(
-        ObjectChangeStats()
+    val stats: ObjectChangeStatsList by itemViewModel.statsChangedByItem.observeAsState(
+        ObjectChangeStatsList()
     )
     var showSpoiler by rememberSaveable() { mutableStateOf(false) }
     Scaffold(topBar = {
