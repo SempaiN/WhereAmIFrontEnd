@@ -10,10 +10,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,7 @@ import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.User
+import com.ignacioperez.whereami.mycomposables.CharacterCard
 import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
@@ -120,7 +123,16 @@ fun ListCharacters(
 
                     }
                 }
+
             )
+
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                navController.navigate(Routes.CreateCharacterScreen.route)
+            }) {
+                Icon(Icons.Filled.Add, stringResource(R.string.create))
+            }
         }
     ) {
         LazyVerticalGrid(
@@ -139,37 +151,3 @@ fun ListCharacters(
     }
 }
 
-@Composable
-fun CharacterCard(
-    character: CharacterResponse,
-    characterViewModel: CharacterViewModel,
-    navController: NavController
-) {
-    OutlinedCard(
-        modifier = Modifier
-            .padding(vertical = 7.dp, horizontal = 8.dp)
-            .clickable {
-                characterViewModel.onCharacterClicked(character = character)
-                navController.navigate(route = Routes.CharacterDetailsScreen.route)
-            }
-            .size(width = 40.dp, height = 150.dp),
-
-    ) {
-        Column(
-            modifier = Modifier.padding(start = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            AsyncImage(
-                character.imageUrl,
-                contentDescription = character.name,
-                modifier = if (character.custom) Modifier.size(120.dp) else Modifier.size(100.dp)
-            )
-            Text(
-                text = character.name,
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}

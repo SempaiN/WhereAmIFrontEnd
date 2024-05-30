@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ignacioperez.whereami.ui.screens.CharacterDetails
+import com.ignacioperez.whereami.ui.screens.CreateCharacterScreen
 import com.ignacioperez.whereami.ui.screens.HomeScreen
 import com.ignacioperez.whereami.ui.screens.ItemDetailsScreen
 import com.ignacioperez.whereami.ui.screens.ListCharacters
@@ -16,10 +17,12 @@ import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
 import com.ignacioperez.whereami.ui.screens.PickupScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
+import com.ignacioperez.whereami.ui.screens.SelectItemScreen
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
@@ -37,7 +40,8 @@ fun Navigation(
     itemViewModel: ItemViewModel,
     characterViewModel: CharacterViewModel,
     trinketViewModel: TrinketViewModel,
-    cardRuneViewModel: CardRuneViewModel
+    cardRuneViewModel: CardRuneViewModel,
+    newCharacterViewModel: NewCharacterViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
@@ -76,6 +80,12 @@ fun Navigation(
         }
         composable(Routes.PickupScreen.route) {
             PickupScreen(navController)
+        }
+        composable(Routes.CreateCharacterScreen.route) {
+            CreateCharacterScreen(navController, newCharacterViewModel)
+        }
+        composable(Routes.SelectItemScreen.route) {
+            SelectItemScreen()
         }
 
     }

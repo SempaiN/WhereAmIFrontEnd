@@ -1,6 +1,8 @@
 package com.ignacioperez.whereami.mycomposables
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -28,14 +31,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.CardRune
+import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
+import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
+import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 
 @Composable
@@ -176,5 +183,40 @@ fun PillCard(
                 )
             }
         )
+    }
+}
+
+@Composable
+fun CharacterCard(
+    character: CharacterResponse,
+    characterViewModel: CharacterViewModel,
+    navController: NavController
+) {
+    OutlinedCard(
+        modifier = Modifier
+            .padding(vertical = 7.dp, horizontal = 8.dp)
+            .clickable {
+                characterViewModel.onCharacterClicked(character = character)
+                navController.navigate(route = Routes.CharacterDetailsScreen.route)
+            }
+            .size(width = 40.dp, height = 150.dp),
+
+        ) {
+        Column(
+            modifier = Modifier.padding(start = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            AsyncImage(
+                character.imageUrl,
+                contentDescription = character.name,
+                modifier = if (character.custom) Modifier.size(120.dp) else Modifier.size(100.dp)
+            )
+            Text(
+                text = character.name,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

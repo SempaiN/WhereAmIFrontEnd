@@ -14,6 +14,7 @@ import com.ignacioperez.whereami.ui.theme.WhereAmITheme
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         val characterViewModel by viewModels<CharacterViewModel>()
         val trinketViewModel by viewModels<TrinketViewModel>()
         val cardRuneViewModel by viewModels<CardRuneViewModel>()
+        val newCardRuneViewModel by viewModels<NewCharacterViewModel>()
         enableEdgeToEdge()
         setContent {
             WhereAmITheme {
@@ -41,7 +43,8 @@ class MainActivity : ComponentActivity() {
                         itemViewModel,
                         characterViewModel,
                         trinketViewModel,
-                        cardRuneViewModel
+                        cardRuneViewModel,
+                        newCardRuneViewModel
                     )
                 }
             }

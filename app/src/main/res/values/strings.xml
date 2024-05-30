@@ -65,4 +65,8 @@
     <string name="card_lookLike">This is what an in-game card looks like</string>
     <string name="inverseCardlookLike">This is what an in-game reversed card looks like</string>
     <string name="show_spoiler">Show Spoiler</string>
+    <string name="create">Create character</string>
+    <string name="introduce_name_character">Enter the name of the new character</string>
+    <string name="save">Save</string>
+    <string name="how_many_items">How many items will the character start with?</string>
 </resources>

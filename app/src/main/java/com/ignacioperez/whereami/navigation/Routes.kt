@@ -12,5 +12,6 @@ sealed class Routes(val route: String) {
     object ItemDetailsScreen: Routes("ItemDetailsScreen")
     object CharacterDetailsScreen: Routes("CharacterDetailsScreen")
     object TrinketDetailsScreen: Routes("TrinketDetailsScreen")
-    object CardRuneDetailsScreen: Routes("CardRuneDetailsScreen")
+    object CreateCharacterScreen: Routes("CreateCharacterScreen")
+    object SelectItemScreen: Routes("SelectItemScreen")
 }
