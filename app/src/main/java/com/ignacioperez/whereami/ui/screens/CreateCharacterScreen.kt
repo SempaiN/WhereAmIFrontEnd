@@ -84,25 +84,4 @@ fun CreateCharacterScreen(
 }
 
 
-//    Row(
-//        horizontalArrangement = Arrangement.Center,
-//        verticalAlignment = Alignment.CenterVertically,
-//        modifier = Modifier.padding(it)
-//    ) {
-//        TextField(
-//            value = search,
-//            onValueChange = { search = it },
-//            label = { Text("Vuca") }
-//        )
-//    }
-//    LazyColumn(
-//        Modifier.padding(it)
-//    ) {
-//        val filteredItems = itemList.filter { it.name.contains(search, ignoreCase = true) }
-//        items(filteredItems) { item ->
-//            // Aquí puedes definir cómo se mostrarán los items en la lista
-//            Text(text = item.name)
-//        }
-//    }
-//}
 

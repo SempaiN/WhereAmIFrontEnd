@@ -85,7 +85,7 @@ fun Navigation(
             CreateCharacterScreen(navController, newCharacterViewModel)
         }
         composable(Routes.SelectItemScreen.route) {
-            SelectItemScreen()
+            SelectItemScreen(newCharacterViewModel, itemViewModel, navController)
         }
 
     }

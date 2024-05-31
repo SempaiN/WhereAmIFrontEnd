@@ -69,4 +69,7 @@
     <string name="introduce_name_character">Enter the name of the new character</string>
     <string name="save">Save</string>
     <string name="how_many_items">How many items will the character start with?</string>
+    <string name="select_item">Select item</string>
+    <string name="no_starting_items">Your character has no starter items</string>
+    <string name="item_already_added">Item is already in the list</string>
 </resources>
