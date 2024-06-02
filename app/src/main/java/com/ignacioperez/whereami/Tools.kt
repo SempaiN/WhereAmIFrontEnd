@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.StatResponse
 import com.ignacioperez.whereami.models.StatsModifiedCharacter
 
@@ -42,7 +43,14 @@ fun checkAccountExists(
             result(false)
         }
 }
-
+fun checkDoubleActivatedItem(newItem: Item, listItems: List<Item>): Boolean {
+    for (item in listItems) {
+        if ((newItem.charges == -1 || newItem.charges >=1 ) and (item.charges == -1 || item.charges >= 1)) {
+            return true
+        }
+    }
+    return false
+}
 
 val auth = Firebase.auth
 

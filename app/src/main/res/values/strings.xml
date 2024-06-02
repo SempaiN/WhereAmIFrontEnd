@@ -72,4 +72,8 @@
     <string name="select_item">Select item</string>
     <string name="no_starting_items">Your character has no starter items</string>
     <string name="item_already_added">Item is already in the list</string>
+    <string name="activatable_already_added">You already have an activatable object selected</string>
+    <string name="activatable_already_added_explain">You cannot have two activatable objects at the same time.</string>
+    <string name="stats_changed_by_item">With this item, you will gain the following statistics</string>
+    <string name="next">Next page</string>
 </resources>

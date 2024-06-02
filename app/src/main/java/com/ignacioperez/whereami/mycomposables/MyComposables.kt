@@ -44,6 +44,7 @@ import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
+import java.time.format.TextStyle
 
 @Composable
 fun PasswordTextField(
@@ -116,11 +117,11 @@ fun ObjectStatsChanged(objectChangeStatsList: ObjectChangeStatsList) {
                 modifier = Modifier.size(30.dp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = stat.name + ": ", style = MaterialTheme.typography.headlineSmall)
+            Text(text = stat.name + ": ", style = MaterialTheme.typography.bodyLarge)
             Text(
                 text = (if (stat.value > 0) "+" else "") + stat.value.toString(),
                 color = if (stat.value > 0) Color.Green else Color.Red,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.displaySmall
             )
         }
     }
