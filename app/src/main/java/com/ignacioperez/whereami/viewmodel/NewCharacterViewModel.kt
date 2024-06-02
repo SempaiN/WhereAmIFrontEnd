@@ -39,6 +39,14 @@ class NewCharacterViewModel : ViewModel() {
         _newCharacterName.value = name
     }
 
+    fun setCardRuneCharacter(cardRune: CardRune) {
+        _cardRuneNewCharacter.value = cardRune
+    }
+
+    fun setCardRuneCharacterNull() {
+        _cardRuneNewCharacter.value = null
+    }
+
     //Referenced project code ListIgnacio
     fun addNewItemToList(item: Item) {
         val currentList = _listItemsNewCharacter.value ?: emptyList()
@@ -56,11 +64,5 @@ class NewCharacterViewModel : ViewModel() {
         _listItemsNewCharacter.value = updatedList
     }
 
-    fun loadStats(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val service = RetrofitServiceFactory.getRetrofit()
-            val result = service.getStatsChanges(id)
-            _statsChangedByItems.postValue(result)
-        }
-    }
+
 }

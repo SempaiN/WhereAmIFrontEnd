@@ -24,6 +24,7 @@ import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
+import com.ignacioperez.whereami.viewmodel.PillViewModel
 import com.ignacioperez.whereami.viewmodel.SignInViewModel
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
@@ -42,7 +43,8 @@ fun Navigation(
     characterViewModel: CharacterViewModel,
     trinketViewModel: TrinketViewModel,
     cardRuneViewModel: CardRuneViewModel,
-    newCharacterViewModel: NewCharacterViewModel
+    newCharacterViewModel: NewCharacterViewModel,
+    pillViewModel: PillViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
@@ -89,7 +91,7 @@ fun Navigation(
             SelectItemScreen(newCharacterViewModel, itemViewModel, navController)
         }
         composable(Routes.SelectTrinketCardRunePillScreen.route) {
-            SelectTrinketCardRunePillScreen()
+            SelectTrinketCardRunePillScreen(cardRuneViewModel, pillViewModel, newCharacterViewModel,navController)
         }
 
     }

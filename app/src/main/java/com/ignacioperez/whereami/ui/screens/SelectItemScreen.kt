@@ -139,9 +139,7 @@ fun SelectItemScreen(
                 onDismissRequest = {
                     showAlertDialogSelectItem = !showAlertDialogSelectItem
                 },
-                {
-
-                },
+                {},
                 dismissButton = {
                     TextButton(onClick = {
                         showAlertDialogSelectItem = !showAlertDialogSelectItem
@@ -153,20 +151,17 @@ fun SelectItemScreen(
                     Column(modifier = Modifier.fillMaxHeight()) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-
-                            ) {
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             OutlinedTextField(
                                 value = search,
                                 onValueChange = { search = it },
-                                label = { Text("Vuca") },
+                                label = { Text(stringResource(R.string.search)) },
                                 singleLine = true
                             )
                         }
                         Spacer(modifier = Modifier.size(height = 12.dp, width = 0.dp))
-                        LazyColumn(
-
-                        ) {
+                        LazyColumn{
                             val filteredItems =
                                 listAllItems.filter { it.name.contains(search, ignoreCase = true) }
                             items(filteredItems) { item ->
@@ -179,11 +174,7 @@ fun SelectItemScreen(
                                             if (listItemsNewCharacter.contains(item)) {
                                                 showAlertDialogSelectItem = false
                                                 showAlertDialogDuplicateItem = true
-                                            } else if (checkDoubleActivatedItem(
-                                                    item,
-                                                    listItemsNewCharacter
-                                                )
-                                            ) {
+                                            } else if (checkDoubleActivatedItem(item, listItemsNewCharacter)) {
                                                 showAlertDialogDoubleActivated = true
                                                 showAlertDialogSelectItem = false
                                             } else {

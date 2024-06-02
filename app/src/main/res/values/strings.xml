@@ -76,4 +76,13 @@
     <string name="activatable_already_added_explain">You cannot have two activatable objects at the same time.</string>
     <string name="stats_changed_by_item">With this item, you will gain the following statistics</string>
     <string name="next">Next page</string>
+    <string name="pill_or_cardRune">What do you want to start with, a card/rune or a pill?</string>
+    <string name="click_cardRune">Click here if you want to start with a Card/Rune</string>
+    <string name="click_pill">Click here if you want to start with a Pill</string>
+    <string name="consumible_empty">Click here if you want to start with nothing</string>
+    <string name="select_CardRune">Choose your Card or Rune</string>
+    <string name="select_CardRune_list">Select now</string>
+    <string name="search">Search</string>
+    <string name="start_card_rune">"Yo will start with: "</string>
+    <string name="delete_cardRune">Delete Card/Rune</string>
 </resources>
