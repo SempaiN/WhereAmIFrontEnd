@@ -81,8 +81,10 @@
     <string name="click_pill">Click here if you want to start with a Pill</string>
     <string name="consumible_empty">Click here if you want to start with nothing</string>
     <string name="select_CardRune">Choose your Card or Rune</string>
-    <string name="select_CardRune_list">Select now</string>
+    <string name="select_Object_list">Select now</string>
     <string name="search">Search</string>
-    <string name="start_card_rune">"Yo will start with: "</string>
+    <string name="start_object">"You will start with: "</string>
     <string name="delete_cardRune">Delete Card/Rune</string>
+    <string name="select_Pill">Choose your Pill</string>
+    <string name="select_trinket_Screen">Select trinket screen</string>
 </resources>

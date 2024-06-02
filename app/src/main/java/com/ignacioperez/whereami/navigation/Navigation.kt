@@ -18,7 +18,8 @@ import com.ignacioperez.whereami.ui.screens.PickupScreen
 import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.SelectItemScreen
-import com.ignacioperez.whereami.ui.screens.SelectTrinketCardRunePillScreen
+import com.ignacioperez.whereami.ui.screens.SelectCardRunePillScreen
+import com.ignacioperez.whereami.ui.screens.SelectTrinketScreen
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
@@ -90,9 +91,16 @@ fun Navigation(
         composable(Routes.SelectItemScreen.route) {
             SelectItemScreen(newCharacterViewModel, itemViewModel, navController)
         }
-        composable(Routes.SelectTrinketCardRunePillScreen.route) {
-            SelectTrinketCardRunePillScreen(cardRuneViewModel, pillViewModel, newCharacterViewModel,navController)
+        composable(Routes.SelectCardRunePillScreen.route) {
+            SelectCardRunePillScreen(
+                cardRuneViewModel,
+                pillViewModel,
+                newCharacterViewModel,
+                navController
+            )
         }
-
+        composable(Routes.SelectTrinketScreen.route) {
+            SelectTrinketScreen()
+        }
     }
 }

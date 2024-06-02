@@ -1,20 +1,13 @@
 package com.ignacioperez.whereami.viewmodel
 
-import android.util.Log
-import androidx.compose.animation.core.updateTransition
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
 import com.ignacioperez.whereami.models.Trinket
-import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.internal.cookieToString
 
 class NewCharacterViewModel : ViewModel() {
     private val _newCharacterName = MutableLiveData<String>()
@@ -42,9 +35,15 @@ class NewCharacterViewModel : ViewModel() {
     fun setCardRuneCharacter(cardRune: CardRune) {
         _cardRuneNewCharacter.value = cardRune
     }
+    fun setPillCharacter(pill: Pill) {
+        _pillNewCharacter.value = pill
+    }
 
     fun setCardRuneCharacterNull() {
         _cardRuneNewCharacter.value = null
+    }
+    fun setPillCharacterNull() {
+        _pillNewCharacter.value = null
     }
 
     //Referenced project code ListIgnacio
