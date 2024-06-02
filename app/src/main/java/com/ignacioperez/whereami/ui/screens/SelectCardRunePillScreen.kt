@@ -1,7 +1,6 @@
 package com.ignacioperez.whereami.ui.screens
 
 import CardRuneDetails
-import androidx.collection.intFloatMapOf
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.AlertDialog
 
@@ -122,7 +120,9 @@ fun SelectCardRunePillScreen(
                     Text(text = stringResource(R.string.click_pill))
                 }
                 Button(
-                    onClick = { },
+                    onClick = {
+                        navController.navigate(Routes.SelectTrinketScreen.route)
+                    },
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
                     Text(text = stringResource(R.string.consumible_empty))
@@ -196,14 +196,14 @@ fun SelectCardRunePillScreen(
                                 }
                                 Spacer(modifier = Modifier.size(height = 12.dp, width = 0.dp))
                                 LazyColumn {
-                                    val filtredCardRunes =
+                                    val filtredPills =
                                         listAllPills.filter {
                                             it.name.contains(
                                                 search,
                                                 ignoreCase = true
                                             )
                                         }
-                                    items(filtredCardRunes) { pill ->
+                                    items(filtredPills) { pill ->
                                         Row(
                                             modifier = Modifier
                                                 .border(0.4.dp, color = Color.Black)

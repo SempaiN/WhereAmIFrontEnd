@@ -100,7 +100,7 @@ fun Navigation(
             )
         }
         composable(Routes.SelectTrinketScreen.route) {
-            SelectTrinketScreen()
+            SelectTrinketScreen(newCharacterViewModel, trinketViewModel)
         }
     }
 }

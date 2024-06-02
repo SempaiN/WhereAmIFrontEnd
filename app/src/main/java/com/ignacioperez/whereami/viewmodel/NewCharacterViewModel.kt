@@ -32,9 +32,18 @@ class NewCharacterViewModel : ViewModel() {
         _newCharacterName.value = name
     }
 
+    fun setTrinketNewCharacter(trinket: Trinket) {
+        _trinketNewCharacter.value = trinket
+    }
+
+    fun setTrinketNull() {
+        _trinketNewCharacter.value = null
+    }
+
     fun setCardRuneCharacter(cardRune: CardRune) {
         _cardRuneNewCharacter.value = cardRune
     }
+
     fun setPillCharacter(pill: Pill) {
         _pillNewCharacter.value = pill
     }
@@ -42,6 +51,7 @@ class NewCharacterViewModel : ViewModel() {
     fun setCardRuneCharacterNull() {
         _cardRuneNewCharacter.value = null
     }
+
     fun setPillCharacterNull() {
         _pillNewCharacter.value = null
     }

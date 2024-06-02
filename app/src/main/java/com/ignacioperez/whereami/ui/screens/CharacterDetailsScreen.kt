@@ -242,13 +242,7 @@ fun StatsDefaultCharacter(
                         }
                     }
                 }
-//                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                    Icon(
-//                        imageVector = Icons.Filled.ArrowForward,
-//                        contentDescription = stringResource(R.string.arrow),
-//                        modifier = Modifier.size(30.dp)
-//                    )
-//                }
+
                 Column(
                     modifier = Modifier
                         .weight(1f)

@@ -87,4 +87,8 @@
     <string name="delete_cardRune">Delete Card/Rune</string>
     <string name="select_Pill">Choose your Pill</string>
     <string name="select_trinket_Screen">Select trinket screen</string>
+    <string name="trinket_select">Want to start with a trinket?</string>
+    <string name="start_trinket">Start with a Trinket</string>
+    <string name="no_trinket">Continue without starting Trinket</string>
+    <string name="select_trinket">Choose your Trinket</string>
 </resources>
