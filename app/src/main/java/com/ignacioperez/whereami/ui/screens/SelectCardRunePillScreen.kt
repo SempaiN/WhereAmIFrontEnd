@@ -58,6 +58,7 @@ fun SelectCardRunePillScreen(
     newCharacterViewModel: NewCharacterViewModel,
     navController: NavHostController
 ) {
+
     var selectPill by rememberSaveable { mutableStateOf(false) }
     var selectCardRune by rememberSaveable { mutableStateOf(false) }
     val listAllCardRune by cardRuneViewModel.allCardsRunes.observeAsState(emptyList())
@@ -69,6 +70,7 @@ fun SelectCardRunePillScreen(
     var showDetails by rememberSaveable {
         mutableStateOf(false)
     }
+
     Scaffold(
         topBar = {
             TopAppBar(

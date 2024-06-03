@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cafe.adriel.voyager.navigator.compositionUniqueId
 import com.ignacioperez.whereami.ui.screens.CharacterDetails
 import com.ignacioperez.whereami.ui.screens.CreateCharacterScreen
 import com.ignacioperez.whereami.ui.screens.HomeScreen
@@ -19,6 +20,7 @@ import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.SelectItemScreen
 import com.ignacioperez.whereami.ui.screens.SelectCardRunePillScreen
+import com.ignacioperez.whereami.ui.screens.SelectStatsScreen
 import com.ignacioperez.whereami.ui.screens.SelectTrinketScreen
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
@@ -100,7 +102,16 @@ fun Navigation(
             )
         }
         composable(Routes.SelectTrinketScreen.route) {
-            SelectTrinketScreen(newCharacterViewModel, trinketViewModel)
+            SelectTrinketScreen(newCharacterViewModel, trinketViewModel, navController)
+        }
+        composable(Routes.SelectStatsScreen.route) {
+            SelectStatsScreen(
+                newCharacterViewModel,
+                itemViewModel,
+                cardRuneViewModel,
+                pillViewModel,
+                trinketViewModel
+            )
         }
     }
 }

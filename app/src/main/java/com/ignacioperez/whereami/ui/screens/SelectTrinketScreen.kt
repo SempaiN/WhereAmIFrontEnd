@@ -14,9 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,9 +39,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.ListTrinkets
+import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 
@@ -45,7 +51,8 @@ import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 @Composable
 fun SelectTrinketScreen(
     newCharacterViewModel: NewCharacterViewModel,
-    trinketViewModel: TrinketViewModel
+    trinketViewModel: TrinketViewModel,
+    navController: NavController
 ) {
     var selectTrinket by rememberSaveable { mutableStateOf(false) }
     val trinketNewCharacter by newCharacterViewModel.trinketNewCharacter.observeAsState(initial = null)
@@ -59,6 +66,15 @@ fun SelectTrinketScreen(
                 title = { Text(text = stringResource(id = R.string.item_details)) }
             )
         },
+        floatingActionButton = {
+            if (selectTrinket && trinketNewCharacter != null) {
+                FloatingActionButton(onClick = {
+                    navController.navigate(Routes.SelectStatsScreen.route)
+                }) {
+                    Icon(Icons.Filled.SkipNext, stringResource(R.string.select_trinket_Screen))
+                }
+            }
+        }
     ) {
         Column(
             modifier = Modifier
@@ -81,7 +97,7 @@ fun SelectTrinketScreen(
                     Text(stringResource(R.string.start_trinket))
                 }
                 Button(onClick = {
-
+                    navController.navigate(Routes.SelectStatsScreen.route)
                 }) {
                     Text(stringResource(R.string.no_trinket))
                 }
@@ -96,6 +112,33 @@ fun SelectTrinketScreen(
                         showAlertDialogSelectTrinket = !showAlertDialogSelectTrinket
                     }) {
                         Text(stringResource(R.string.select_Object_list))
+                    }
+                } else {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            stringResource(R.string.start_object),
+                            style = MaterialTheme.typography.h6
+                        )
+                        TextButton(onClick = {
+                            trinketViewModel.onTrinketClicked(trinketNewCharacter!!)
+                            navController.navigate(Routes.TrinketDetailsScreen.route)
+                        }) {
+                            Text(trinketNewCharacter!!.name, style = MaterialTheme.typography.h6)
+                        }
+                    }
+                    Column(
+                        Modifier.padding(top = 50.dp)
+                    ) {
+                        Button(onClick = {
+                            selectTrinket = !selectTrinket
+                            newCharacterViewModel.setTrinketNull()
+                        }) {
+                            Text(stringResource(R.string.delete_selection))
+                        }
                     }
                 }
             }
@@ -166,6 +209,7 @@ fun SelectTrinketScreen(
                         .padding(16.dp)
                         .size(width = 400.dp, height = 600.dp),
                 )
+
             }
         }
     }

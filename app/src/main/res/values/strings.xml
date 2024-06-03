@@ -91,4 +91,5 @@
     <string name="start_trinket">Start with a Trinket</string>
     <string name="no_trinket">Continue without starting Trinket</string>
     <string name="select_trinket">Choose your Trinket</string>
+    <string name="delete_selection">Delete trinket</string>
 </resources>
