@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.navigation
 
+import SelectStatsScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,7 +21,6 @@ import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.SelectItemScreen
 import com.ignacioperez.whereami.ui.screens.SelectCardRunePillScreen
-import com.ignacioperez.whereami.ui.screens.SelectStatsScreen
 import com.ignacioperez.whereami.ui.screens.SelectTrinketScreen
 import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel

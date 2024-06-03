@@ -92,4 +92,5 @@
     <string name="no_trinket">Continue without starting Trinket</string>
     <string name="select_trinket">Choose your Trinket</string>
     <string name="delete_selection">Delete trinket</string>
+    <string name="character_will_start">"With the items, trinket, card/rune or pill you have chosen, your character will start with these stats "</string>
 </resources>

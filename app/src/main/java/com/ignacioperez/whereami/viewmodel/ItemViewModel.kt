@@ -45,26 +45,28 @@ class ItemViewModel : ViewModel() {
                 val result = service.getStatsChanges(id)
                 _statsChangedByItem.postValue(result)
                 _responseError.postValue(false)
+                Log.i("Stat", result.toString())
             } catch (e: Exception) {
                 _responseError.postValue(true)
             }
         }
     }
 
-    fun loadStatsResponseObject(id: Int): ObjectChangeStatsList {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
-            val service = RetrofitServiceFactory.getRetrofit()
-            try {
-                val result = service.getStatsChanges(id)
-                _statsChangedByItem.postValue(result)
-                _responseError.postValue(false)
-            } catch (e: Exception) {
-                _responseError.postValue(true)
-                Log.i("Error", e.toString())
-            }
+    suspend fun loadStatsResponseObject(id: Int): ObjectChangeStatsList {
+        _isLoading.postValue(true)
+        val service = RetrofitServiceFactory.getRetrofit()
+        return try {
+            val result = service.getStatsChanges(id)
+            _statsChangedByItem.postValue(result)
+            _responseError.postValue(false)
+            result
+        } catch (e: Exception) {
+            _responseError.postValue(true)
+            Log.i("Error", e.toString())
+            ObjectChangeStatsList()
+        } finally {
+            _isLoading.postValue(false)
         }
-        return _statsChangedByItem.value!!
     }
 
     fun loadItem(id: Int) {
