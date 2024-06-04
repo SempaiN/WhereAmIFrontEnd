@@ -112,7 +112,7 @@ fun ItemDetailsScreen(
                             if (isFavoriteItem) {
                                 itemViewModel.deleteItemFavorite(item, user)
 
-                            }else{
+                            } else {
                                 itemViewModel.insertItemFavorite(item, user)
 
                             }
@@ -140,10 +140,9 @@ fun ItemDetailsScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Column(
                 modifier = Modifier
-
                     .border(1.dp, Color.Black)
                     .padding(16.dp)
-
+                    .fillMaxWidth()
             ) {
                 Text(
                     text = (stringResource(R.string.effect)) + item.description,

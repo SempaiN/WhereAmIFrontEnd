@@ -80,11 +80,38 @@ interface RetrofitService {
     @GET("users/itemIsFavorite/{idItem}/{idUser}")
     suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
 
+    @GET("users/pickupIsFavorite/{idPickup}/{idUser}")
+    suspend fun isPickupFavorite(@Path("idPickup") idPickup: Int, @Path("idUser") idUser: Int): Boolean
+
     @POST("users/addItemToFavorite/{idItem}/{idUser}")
     suspend fun insertItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int)
 
     @DELETE("users/deleteItemFavorite/{idUser}/{idItem}")
     suspend fun deleteItemFavorite(@Path("idUser") idUser: Int, @Path("idItem") idItem: Int)
+    @GET("users/getFavoriteCardRunes/{id}")
+    suspend fun getFavoriteCardRunesByUser(@Path("id") id: Int): ListCardRunes
+
+//
+//    @DELETE("users/deleteItemFavorite/{idUser}/{idTrinket}")
+//    suspend fun deleteTrinketFavorite(@Path("idUser") idTrinket: Int, @Path("idTrinket") idItem: Int)
+//    @GET("users/getFavoriteItems/{id}")
+//    suspend fun getFavoriteItemsByUser(@Path("id") id: Int): List<Item>
+//
+//    @GET("users/itemIsFavorite/{idItem}/{idUser}")
+//    suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
+//
+//    @POST("users/addItemToFavorite/{idItem}/{idUser}")
+//    suspend fun insertItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int)
+//
+//    @DELETE("users/deleteItemFavorite/{idUser}/{idItem}")
+//    suspend fun deleteItemFavorite(@Path("idUser") idUser: Int, @Path("idItem") idItem: Int)
 
 
 }
+
+//
+//    @GET("users/trinketIsFavorite/{idTrinket}/{idUser}")
+//    suspend fun isTrinketFavorite(@Path("idTrinket") idTrinket: Int, @Path("idUser") idUser: Int): Boolean
+//
+//    @POST("users/addTrinketToFavorite/{idTrinket}/{idUser}")
+//    suspend fun insertTrinketFavorite(@Path("idTrinket") idTrinket: Int, @Path("idUser") idUser: Int)
