@@ -134,14 +134,14 @@ fun ListItems(
                     ItemCard(
                         item = item,
                         itemViewModel = itemViewModel,
-                        navController = navController,true
+                        navController = navController, true
                     )
                 } else {
 
                     ItemCard(
                         item = item,
                         itemViewModel = itemViewModel,
-                        navController = navController,false
+                        navController = navController, false
                     )
                 }
             }
@@ -185,7 +185,7 @@ fun ItemCard(
                     BorderStroke(borderWidth, rainbowColorsBrush)
                 } else {
                     BorderStroke(1.5.dp, Color.Black)
-                }, shape =  CardDefaults.outlinedShape //
+                }, shape = CardDefaults.outlinedShape //
             )
 
     ) {
@@ -198,7 +198,7 @@ fun ItemCard(
                     model = item.imageUrl,
                     placeholder = painterResource(id = R.drawable.godhead_icon),
                     error = painterResource(id = R.drawable.godhead_icon),
-                    contentDescription = "The delasign logo",
+                    contentDescription = item.name,
                     modifier = Modifier.size(70.dp)
                 )
 

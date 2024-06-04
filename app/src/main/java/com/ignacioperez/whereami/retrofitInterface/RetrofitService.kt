@@ -13,6 +13,7 @@ import com.ignacioperez.whereami.models.StatsModifiedCharacter
 import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.models.User
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -78,6 +79,12 @@ interface RetrofitService {
 
     @GET("users/itemIsFavorite/{idItem}/{idUser}")
     suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
+
+    @POST("users/addItemToFavorite/{idItem}/{idUser}")
+    suspend fun insertItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int)
+
+    @DELETE("users/deleteItemFavorite/{idUser}/{idItem}")
+    suspend fun deleteItemFavorite(@Path("idUser") idUser: Int, @Path("idItem") idItem: Int)
 
 
 }

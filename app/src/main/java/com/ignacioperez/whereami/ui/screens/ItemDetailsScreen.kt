@@ -102,17 +102,27 @@ fun ItemDetailsScreen(
                         .padding(top = 18.dp)
                         .fillMaxWidth(),
                 ) {
-                    Text(
-                        text = item.name,
-                        style = MaterialTheme.typography.headlineLarge,
-                        textAlign = TextAlign.Center,
-                    )
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = if (isFavoriteItem) Icons.Default.Favorite else Icons.Outlined.Favorite,
-                            contentDescription = "Seleccionar como favorito",
-                            tint = if (isFavoriteItem) Color.Red else Color.Black
+                    Row {
+                        Text(
+                            text = item.name,
+                            style = MaterialTheme.typography.headlineLarge,
+                            textAlign = TextAlign.Center,
                         )
+                        IconButton(onClick = {
+                            if (isFavoriteItem) {
+                                itemViewModel.deleteItemFavorite(item, user)
+
+                            }else{
+                                itemViewModel.insertItemFavorite(item, user)
+
+                            }
+                        }) {
+                            Icon(
+                                imageVector = if (isFavoriteItem) Icons.Default.Favorite else Icons.Outlined.Favorite,
+                                contentDescription = "Seleccionar como favorito",
+                                tint = if (isFavoriteItem) Color.Red else Color.Black
+                            )
+                        }
                     }
                     Row(
                         horizontalArrangement = Arrangement.Center,

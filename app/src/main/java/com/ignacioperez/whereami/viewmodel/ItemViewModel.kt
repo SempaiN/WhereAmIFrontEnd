@@ -75,6 +75,29 @@ class ItemViewModel : ViewModel() {
         }
     }
 
+    fun insertItemFavorite(item: Item, user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                service.insertItemFavorite(item.id, user.id)
+                checkFavoriteItem(item, user)
+            } catch (e: Exception) {
+                Log.i("--", e.message.toString())
+            }
+        }
+    }
+    fun deleteItemFavorite(item: Item, user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                service.deleteItemFavorite(user.id, item.id)
+                checkFavoriteItem(item, user)
+            } catch (e: Exception) {
+                Log.i("--", e.message.toString())
+            }
+        }
+    }
+
     fun getAllItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
