@@ -58,7 +58,7 @@ fun Navigation(
             Register(navController = navController, userViewModel)
         }
         composable(Routes.ItemsScreen.route) {
-            ListItems(itemViewModel = itemViewModel, navController = navController)
+            ListItems(itemViewModel = itemViewModel, navController = navController, signInViewModel)
         }
         composable(Routes.HomeScreen.route) {
             HomeScreen(navController = navController)
@@ -76,7 +76,7 @@ fun Navigation(
             MoreInformationScreen(navController = navController)
         }
         composable(Routes.ItemDetailsScreen.route) {
-            ItemDetailsScreen(navController = navController, itemViewModel)
+            ItemDetailsScreen(navController = navController, itemViewModel, signInViewModel)
         }
         composable(Routes.CharacterDetailsScreen.route) {
             CharacterDetails(navController, characterViewModel, itemViewModel)

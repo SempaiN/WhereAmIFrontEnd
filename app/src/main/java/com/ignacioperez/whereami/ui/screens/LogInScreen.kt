@@ -53,9 +53,7 @@ fun Login(navController: NavController, signInViewModel: SignInViewModel) {
     var passwordVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    val user by signInViewModel.user.observeAsState(
-        initial = User()
-    )
+
     Scaffold(
         modifier = Modifier.padding(16.dp)
     ) { it ->

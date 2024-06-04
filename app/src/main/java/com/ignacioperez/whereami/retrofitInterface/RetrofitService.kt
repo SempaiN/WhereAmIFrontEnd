@@ -60,14 +60,9 @@ interface RetrofitService {
     @GET("trinkets/")
     suspend fun getAllTrinkets(): ListTrinkets
 
-    @GET("trinkets/{id}")
-    suspend fun getTrinket(@Path("id") id: Int): Trinket
-
     @GET("trinkets/trinket_modifies/{id}")
     suspend fun getStatsChangedByTrinket(@Path("id") id: Int): ObjectChangeStatsList
 
-    @GET("pickups/")
-    suspend fun getAllPickups(): ListPickups
 
     @GET("cards_runes/")
     suspend fun getAllCardRunes(): ListCardRunes
@@ -77,4 +72,12 @@ interface RetrofitService {
 
     @GET("pickups/pickup_modifies/{id}")
     suspend fun getStatsModifiedByPickup(@Path("id") id: Int): ObjectChangeStatsList
+
+    @GET("users/getFavoriteItems/{id}")
+    suspend fun getFavoriteItemsByUser(@Path("id") id: Int): List<Item>
+
+    @GET("users/itemIsFavorite/{idItem}/{idUser}")
+    suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
+
+
 }

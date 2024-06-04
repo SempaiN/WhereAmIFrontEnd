@@ -1,21 +1,16 @@
 package com.ignacioperez.whereami.ui.screens
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Divider
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,28 +26,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.Item
+import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.SignInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
+fun ListItems(
+    itemViewModel: ItemViewModel,
+    navController: NavController,
+    signInViewModel: SignInViewModel
+) {
+    val user: User by signInViewModel.user.observeAsState(
+        initial = User()
+    )
     itemViewModel.getAllItems()
-    val itemList: List<Item> by itemViewModel.allItems.observeAsState(initial = emptyList())
-    val isLoading: Boolean by itemViewModel.isLoading.observeAsState(initial = false)
 
+    signInViewModel.getFavoriteItems(user)
+    val itemList: List<Item> by itemViewModel.allItems.observeAsState(initial = emptyList())
+    val favoriteItems: List<Item> by signInViewModel.favoriteItemsList.observeAsState(emptyList())
     Scaffold(
         topBar = {
             TopAppBar(
@@ -124,7 +130,20 @@ fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
             items(
                 itemList
             ) { item ->
-                ItemCard(item = item, itemViewModel = itemViewModel, navController = navController)
+                if (favoriteItems.contains(item)) {
+                    ItemCard(
+                        item = item,
+                        itemViewModel = itemViewModel,
+                        navController = navController,true
+                    )
+                } else {
+
+                    ItemCard(
+                        item = item,
+                        itemViewModel = itemViewModel,
+                        navController = navController,false
+                    )
+                }
             }
 
         }
@@ -133,13 +152,43 @@ fun ListItems(itemViewModel: ItemViewModel, navController: NavController) {
 
 
 @Composable
-fun ItemCard(item: Item, itemViewModel: ItemViewModel, navController: NavController) {
-    OutlinedCard(modifier = Modifier
-        .padding(vertical = 4.dp, horizontal = 8.dp)
-        .clickable {
-            itemViewModel.onItemClicked(item = item)
-            navController.navigate(route = Routes.ItemDetailsScreen.route)
-        }) {
+fun ItemCard(
+    item: Item,
+    itemViewModel: ItemViewModel,
+    navController: NavController,
+    favorite: Boolean
+) {
+    val rainbowColorsBrush = remember {
+        Brush.sweepGradient(
+            listOf(
+                Color(0xFF9575CD),
+                Color(0xFFBA68C8),
+                Color(0xFFE57373),
+                Color(0xFFFFB74D),
+                Color(0xFFFFF176),
+                Color(0xFFAED581),
+                Color(0xFF4DD0E1),
+                Color(0xFF9575CD)
+            )
+        )
+    }
+    val borderWidth = 1.5.dp
+    OutlinedCard(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable {
+                itemViewModel.onItemClicked(item = item)
+                navController.navigate(route = Routes.ItemDetailsScreen.route)
+            }
+            .border(
+                if (favorite) {
+                    BorderStroke(borderWidth, rainbowColorsBrush)
+                } else {
+                    BorderStroke(1.5.dp, Color.Black)
+                }, shape =  CardDefaults.outlinedShape //
+            )
+
+    ) {
         ListItem(
             headlineContent = {
                 Text(text = item.name, style = MaterialTheme.typography.titleLarge)

@@ -117,11 +117,11 @@ fun ObjectStatsChanged(objectChangeStatsList: ObjectChangeStatsList) {
                 modifier = Modifier.size(30.dp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = stat.name + ": ", style = MaterialTheme.typography.bodyLarge)
+            Text(text = stat.name + ": ", style = MaterialTheme.typography.titleSmall)
             Text(
                 text = (if (stat.value > 0) "+" else "") + stat.value.toString(),
                 color = if (stat.value > 0) Color.Green else Color.Red,
-                style = MaterialTheme.typography.displaySmall
+                style = MaterialTheme.typography.titleSmall
             )
         }
     }
@@ -193,6 +193,7 @@ fun CharacterCard(
     characterViewModel: CharacterViewModel,
     navController: NavController
 ) {
+
     OutlinedCard(
         modifier = Modifier
             .padding(vertical = 7.dp, horizontal = 8.dp)

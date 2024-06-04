@@ -130,7 +130,7 @@ fun SelectStatsScreen(
                 title = { Text(text = stringResource(id = R.string.item_details)) }
             )
         },
-        ) {
+    ) {
         val statInfo = mapOf(
             "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
             "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),

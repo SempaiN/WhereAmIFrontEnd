@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
+import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -22,11 +23,21 @@ class ItemViewModel : ViewModel() {
     private val _allItems = MutableLiveData<List<Item>>()
     val allItems: LiveData<List<Item>> = _allItems
 
-    private var _isLoading = MutableLiveData<Boolean>(false)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isSelectedItemFavorite = MutableLiveData<Boolean>()
+    val isSelectedItemFavorite: LiveData<Boolean> = _isSelectedItemFavorite
 
-    private var _responseError = MutableLiveData<Boolean>()
-    val responseError: LiveData<Boolean> = _responseError
+    fun checkFavoriteItem(item: Item, user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.isItemFavorite(item.id, user.id)
+                _isSelectedItemFavorite.postValue(result)
+            } catch (e: Exception) {
+                Log.i("Error", e.toString())
+                _isSelectedItemFavorite.postValue(false)
+            }
+        }
+    }
 
     fun onItemClicked(item: Item) {
         _selectedItem.value = item
@@ -39,66 +50,42 @@ class ItemViewModel : ViewModel() {
 
     fun loadStats(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getStatsChanges(id)
                 _statsChangedByItem.postValue(result)
-                _responseError.postValue(false)
                 Log.i("Stat", result.toString())
             } catch (e: Exception) {
-                _responseError.postValue(true)
+                Log.i("Error", e.message.toString())
             }
         }
     }
 
     suspend fun loadStatsResponseObject(id: Int): ObjectChangeStatsList {
-        _isLoading.postValue(true)
         val service = RetrofitServiceFactory.getRetrofit()
         return try {
             val result = service.getStatsChanges(id)
             _statsChangedByItem.postValue(result)
-            _responseError.postValue(false)
             result
         } catch (e: Exception) {
-            _responseError.postValue(true)
             Log.i("Error", e.toString())
             ObjectChangeStatsList()
         } finally {
-            _isLoading.postValue(false)
-        }
-    }
 
-    fun loadItem(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
-            delay(2000)
-            val service = RetrofitServiceFactory.getRetrofit()
-            try {
-                val result = service.getItemById(id)
-                _selectedItem.postValue(result.result)
-                _responseError.postValue(false)
-            } catch (e: Exception) {
-                _responseError.postValue(true)
-            }
-            _isLoading.postValue(false)
         }
     }
 
     fun getAllItems() {
         viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.postValue(true)
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getAllItems()
                 Log.i("--", result.toString())
                 _allItems.postValue(result)
-                _responseError.postValue(false)
             } catch (e: Exception) {
                 Log.i("--", e.message.toString())
-                _responseError.postValue(true)
             }
-            _isLoading.postValue(false)
+
         }
     }
 

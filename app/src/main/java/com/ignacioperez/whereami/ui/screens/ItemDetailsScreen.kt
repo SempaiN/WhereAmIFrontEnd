@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,15 +42,26 @@ import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
+import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.SignInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel) {
+fun ItemDetailsScreen(
+    navController: NavController,
+    itemViewModel: ItemViewModel,
+    signInViewModel: SignInViewModel
+) {
     val item: Item by itemViewModel.selectedItem.observeAsState(
         Item()
     )
+    val isFavoriteItem: Boolean by itemViewModel.isSelectedItemFavorite.observeAsState(false)
+    val user: User by signInViewModel.user.observeAsState(
+        initial = User()
+    )
+    itemViewModel.checkFavoriteItem(item, user)
     val stats: ObjectChangeStatsList by itemViewModel.statsChangedByItem.observeAsState(
         ObjectChangeStatsList()
     )
@@ -93,8 +106,14 @@ fun ItemDetailsScreen(navController: NavController, itemViewModel: ItemViewModel
                         text = item.name,
                         style = MaterialTheme.typography.headlineLarge,
                         textAlign = TextAlign.Center,
-
+                    )
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = if (isFavoriteItem) Icons.Default.Favorite else Icons.Outlined.Favorite,
+                            contentDescription = "Seleccionar como favorito",
+                            tint = if (isFavoriteItem) Color.Red else Color.Black
                         )
+                    }
                     Row(
                         horizontalArrangement = Arrangement.Center,
                     ) {

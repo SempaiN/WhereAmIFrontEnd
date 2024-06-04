@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.CharacterResponse
+import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,22 @@ class SignInViewModel : ViewModel() {
 
     private val _charactersCustom = MutableLiveData<List<CharacterResponse>>()
     val charactersCustom: LiveData<List<CharacterResponse>> = _charactersCustom
+
+    private val _favoriteItemsList = MutableLiveData<List<Item>>()
+    val favoriteItemsList: LiveData<List<Item>> = _favoriteItemsList
+
+    fun getFavoriteItems(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                var result = service.getFavoriteItemsByUser(user.id)
+                _favoriteItemsList.postValue(result)
+            } catch (e: Exception) {
+                Log.i("Error", e.toString())
+                _favoriteItemsList.postValue(emptyList())
+            }
+        }
+    }
 
     fun getCharactersCustom(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
