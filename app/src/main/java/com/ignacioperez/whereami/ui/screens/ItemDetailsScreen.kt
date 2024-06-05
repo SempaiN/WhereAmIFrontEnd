@@ -45,20 +45,20 @@ import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
-import com.ignacioperez.whereami.viewmodel.SignInViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemDetailsScreen(
     navController: NavController,
     itemViewModel: ItemViewModel,
-    signInViewModel: SignInViewModel
+    userViewModel: UserViewModel
 ) {
     val item: Item by itemViewModel.selectedItem.observeAsState(
         Item()
     )
     val isFavoriteItem: Boolean by itemViewModel.isSelectedItemFavorite.observeAsState(false)
-    val user: User by signInViewModel.user.observeAsState(
+    val user: User by userViewModel.user.observeAsState(
         initial = User()
     )
     itemViewModel.checkFavoriteItem(item, user)

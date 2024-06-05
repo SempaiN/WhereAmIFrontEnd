@@ -1,64 +1,68 @@
 package com.ignacioperez.whereami.ui.screens
 
-
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import CardRuneDetails
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.BottomNavigationItem
-
-
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-
 import com.ignacioperez.whereami.R
+import com.ignacioperez.whereami.models.CardRune
+import com.ignacioperez.whereami.models.ListCardRunes
+import com.ignacioperez.whereami.models.User
+import com.ignacioperez.whereami.mycomposables.CardRuneCard
 import com.ignacioperez.whereami.navigation.Routes
-
+import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PickupScreen(navController: NavController) {
-    var navigationSelectedItem by remember {
-        mutableStateOf(0)
-    }
+fun ListCardRunes(
+    cardRuneViewModel: CardRuneViewModel,
+    userViewModel: UserViewModel,
+    navController: NavController
+) {
+    val user: User by userViewModel.user.observeAsState(initial = User())
+    val cardRuneList: ListCardRunes by cardRuneViewModel.allCardsRunes.observeAsState(initial = ListCardRunes())
+    val showDialog: Boolean by cardRuneViewModel.showCardRuneDetails.observeAsState(false)
+    val favoriteCardsRunes: List<CardRune> by userViewModel.favoriteCardRuneList.observeAsState(emptyList())
+
+    cardRuneViewModel.getAllCardsRunes()
+    userViewModel.getFavoriteCardRunes(user)
 
     Scaffold(
-
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.home_screen)) },
                 navigationIcon = {
-                    var expanded by rememberSaveable {
-                        mutableStateOf(false)
-                    }
+                    var expanded by rememberSaveable { mutableStateOf(false) }
 
                     IconButton(onClick = { expanded = !expanded }) {
                         Icon(
@@ -76,7 +80,8 @@ fun PickupScreen(navController: NavController) {
                                     contentDescription = stringResource(id = R.string.home_screen),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.characters)) },
                             onClick = { navController.navigate(Routes.CharactersScreen.route) },
@@ -86,7 +91,8 @@ fun PickupScreen(navController: NavController) {
                                     contentDescription = stringResource(id = R.string.characters),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.trinkets)) },
                             onClick = { navController.navigate(Routes.TrinketsScreen.route) },
@@ -96,7 +102,8 @@ fun PickupScreen(navController: NavController) {
                                     contentDescription = stringResource(id = R.string.trinkets),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.pickups)) },
                             onClick = { navController.navigate(Routes.PickupScreen.route) },
@@ -106,8 +113,8 @@ fun PickupScreen(navController: NavController) {
                                     contentDescription = stringResource(id = R.string.pickups),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
-
+                            }
+                        )
                     }
                 }
             )
@@ -116,18 +123,15 @@ fun PickupScreen(navController: NavController) {
             NavigationBar {
                 BottomNavigationItem(
                     selected = false,
-                    onClick = { navController.navigate(Routes.ListCardRunes.route) },
+                    onClick = { navController.navigate(Routes.PickupScreen.route) },
                     icon = {
                         Icon(
-                            painterResource(R.drawable.facecard),
-                            contentDescription = stringResource(R.string.card_lookLike)
+                            Icons.Default.Home,
+                            contentDescription = stringResource(R.string.home_pickups)
                         )
                     },
                     label = {
-
-                        Text(
-                            stringResource(R.string.ListCards)
-                        )
+                        Text(stringResource(R.string.home_pickups))
                     }
                 )
                 BottomNavigationItem(
@@ -140,54 +144,25 @@ fun PickupScreen(navController: NavController) {
                         )
                     },
                     label = { Text(stringResource(R.string.listPills)) }
-
                 )
-
-
             }
         }
-
     ) {
-        Column(
-            Modifier
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(it)
-                .padding(6.dp)
         ) {
-            Information(R.string.pickups_info)
-            Information(R.string.chests_info)
-            Information(R.string.pills_info)
-            Information(R.string.cards_rune_info)
-
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.rune_lookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-
-                Image(
-                    painter = painterResource(R.drawable.rune2),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
+            items(cardRuneList) { cardRune ->
+                CardRuneCard(
+                    cardRune,
+                    cardRuneViewModel,
+                    favoriteCardsRunes.contains(cardRune)
                 )
             }
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.inverseCardlookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-
-                Image(
-                    painter = painterResource(R.drawable.reversetarotcard),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.card_lookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-                Image(
-                    painter = painterResource(R.drawable.tarotcard),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-
+        }
+        if (showDialog) {
+            CardRuneDetails(cardRuneViewModel = cardRuneViewModel, userViewModel = userViewModel)
         }
     }
 }

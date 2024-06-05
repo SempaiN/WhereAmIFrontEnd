@@ -93,4 +93,9 @@
     <string name="select_trinket">Choose your Trinket</string>
     <string name="delete_selection">Delete trinket</string>
     <string name="character_will_start">"With the items, trinket, card/rune or pill you have chosen, your character will start with these stats "</string>
+    <string name="ListCards">List Cards/Runes</string>
+    <string name="listPills">List pills</string>
+    <string name="home_pickups">Home pickups</string>
+    <string name="delete_favorite">Remove from favorite list</string>
+    <string name="add_favorite">Add to favorite list</string>
 </resources>

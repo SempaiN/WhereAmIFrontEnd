@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.CardRune
+import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ListCardRunes
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.User
@@ -74,6 +75,33 @@ class CardRuneViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.i("Error", e.toString())
                 _responseError.postValue(true)
+            }
+        }
+    }
+
+    fun insertCardRuneFavorite(cardRune: CardRune, user: User,userViewModel: UserViewModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                service.insertPickupFavorite(cardRune.id, user.id)
+                checkCardRuneFavorite(cardRune, user)
+                userViewModel.getFavoriteCardRunes(user)
+            } catch (e: Exception) {
+                Log.i("--", e.message.toString())
+            }
+        }
+    }
+
+    fun deleteCardRuneFavorite(cardRune: CardRune, user: User,userViewModel: UserViewModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                service.deletePickupFavorite(user.id, cardRune.id)
+                checkCardRuneFavorite(cardRune, user)
+                userViewModel.getFavoriteCardRunes(user)
+
+            } catch (e: Exception) {
+                Log.i("--", e.message.toString())
             }
         }
     }

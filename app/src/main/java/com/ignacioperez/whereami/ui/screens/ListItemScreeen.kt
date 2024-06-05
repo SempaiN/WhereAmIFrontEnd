@@ -42,23 +42,23 @@ import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
-import com.ignacioperez.whereami.viewmodel.SignInViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListItems(
     itemViewModel: ItemViewModel,
     navController: NavController,
-    signInViewModel: SignInViewModel
+    userViewModel: UserViewModel
 ) {
-    val user: User by signInViewModel.user.observeAsState(
+    val user: User by userViewModel.user.observeAsState(
         initial = User()
     )
     itemViewModel.getAllItems()
 
-    signInViewModel.getFavoriteItems(user)
+    userViewModel.getFavoriteItems(user)
     val itemList: List<Item> by itemViewModel.allItems.observeAsState(initial = emptyList())
-    val favoriteItems: List<Item> by signInViewModel.favoriteItemsList.observeAsState(emptyList())
+    val favoriteItems: List<Item> by userViewModel.favoriteItemsList.observeAsState(emptyList())
     Scaffold(
         topBar = {
             TopAppBar(
@@ -114,7 +114,8 @@ fun ListItems(
                                     contentDescription = stringResource(id = R.string.pickups),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            },
+                        )
 
                     }
                 }

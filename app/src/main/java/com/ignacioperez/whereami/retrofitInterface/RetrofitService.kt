@@ -1,6 +1,7 @@
 package com.ignacioperez.whereami.retrofitInterface
 
 import com.ignacioperez.whereami.models.APIResponseItem
+import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ListCardRunes
@@ -19,9 +20,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface RetrofitService {
-
-    @GET("item/{id}")
-    suspend fun getItemById(@Path("id") id: Int): APIResponseItem
 
     @POST("users/create")
     suspend fun createUser(@Body user: User): User
@@ -81,37 +79,28 @@ interface RetrofitService {
     suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
 
     @GET("users/pickupIsFavorite/{idPickup}/{idUser}")
-    suspend fun isPickupFavorite(@Path("idPickup") idPickup: Int, @Path("idUser") idUser: Int): Boolean
+    suspend fun isPickupFavorite(
+        @Path("idPickup") idPickup: Int,
+        @Path("idUser") idUser: Int
+    ): Boolean
 
     @POST("users/addItemToFavorite/{idItem}/{idUser}")
     suspend fun insertItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int)
 
     @DELETE("users/deleteItemFavorite/{idUser}/{idItem}")
     suspend fun deleteItemFavorite(@Path("idUser") idUser: Int, @Path("idItem") idItem: Int)
-    @GET("users/getFavoriteCardRunes/{id}")
-    suspend fun getFavoriteCardRunesByUser(@Path("id") id: Int): ListCardRunes
 
-//
-//    @DELETE("users/deleteItemFavorite/{idUser}/{idTrinket}")
-//    suspend fun deleteTrinketFavorite(@Path("idUser") idTrinket: Int, @Path("idTrinket") idItem: Int)
-//    @GET("users/getFavoriteItems/{id}")
-//    suspend fun getFavoriteItemsByUser(@Path("id") id: Int): List<Item>
-//
-//    @GET("users/itemIsFavorite/{idItem}/{idUser}")
-//    suspend fun isItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int): Boolean
-//
-//    @POST("users/addItemToFavorite/{idItem}/{idUser}")
-//    suspend fun insertItemFavorite(@Path("idItem") idItem: Int, @Path("idUser") idUser: Int)
-//
-//    @DELETE("users/deleteItemFavorite/{idUser}/{idItem}")
-//    suspend fun deleteItemFavorite(@Path("idUser") idUser: Int, @Path("idItem") idItem: Int)
+    @POST("users/addPickupToFavorite/{idPickup}/{idUser}")
+    suspend fun insertPickupFavorite(@Path("idPickup") idPickup: Int, @Path("idUser") idUser: Int)
 
+    @DELETE("users/deletePickupFavorite/{idUser}/{idPickup}")
+    suspend fun deletePickupFavorite(@Path("idUser") idUser: Int, @Path("idPickup") idPickup: Int)
+
+
+    @GET("users/getFavoriteCardRune/{id}")
+    suspend fun getFavoriteCardRunesByUser(@Path("id") id: Int): List<CardRune>
+
+    @GET("users/getFavoritePill/{id}")
+    suspend fun getFavoritePillsByUser(@Path("id") id: Int): ListPills
 
 }
-
-//
-//    @GET("users/trinketIsFavorite/{idTrinket}/{idUser}")
-//    suspend fun isTrinketFavorite(@Path("idTrinket") idTrinket: Int, @Path("idUser") idUser: Int): Boolean
-//
-//    @POST("users/addTrinketToFavorite/{idTrinket}/{idUser}")
-//    suspend fun insertTrinketFavorite(@Path("idTrinket") idTrinket: Int, @Path("idUser") idUser: Int)

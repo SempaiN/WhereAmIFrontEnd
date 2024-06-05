@@ -6,18 +6,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import cafe.adriel.voyager.navigator.compositionUniqueId
 import com.ignacioperez.whereami.ui.screens.CharacterDetails
 import com.ignacioperez.whereami.ui.screens.CreateCharacterScreen
 import com.ignacioperez.whereami.ui.screens.HomeScreen
 import com.ignacioperez.whereami.ui.screens.ItemDetailsScreen
+import com.ignacioperez.whereami.ui.screens.ListCardRunes
 import com.ignacioperez.whereami.ui.screens.ListCharacters
 import com.ignacioperez.whereami.ui.screens.ListItems
+import com.ignacioperez.whereami.ui.screens.ListPills
 import com.ignacioperez.whereami.ui.screens.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.Login
 import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
 import com.ignacioperez.whereami.ui.screens.PickupScreen
-import com.ignacioperez.whereami.ui.screens.Pickups
 import com.ignacioperez.whereami.ui.screens.Register
 import com.ignacioperez.whereami.ui.screens.SelectItemScreen
 import com.ignacioperez.whereami.ui.screens.SelectCardRunePillScreen
@@ -28,9 +28,9 @@ import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
-import com.ignacioperez.whereami.viewmodel.SignInViewModel
-import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
+import com.ignacioperez.whereami.viewmodel.TrinketViewModel
+import com.ignacioperez.whereami.viewmodel.RegisterViewModel
 
 @Composable
 fun getNavController(): NavHostController {
@@ -40,8 +40,8 @@ fun getNavController(): NavHostController {
 
 @Composable
 fun Navigation(
+    registerViewModel: RegisterViewModel,
     userViewModel: UserViewModel,
-    signInViewModel: SignInViewModel,
     itemViewModel: ItemViewModel,
     characterViewModel: CharacterViewModel,
     trinketViewModel: TrinketViewModel,
@@ -52,31 +52,28 @@ fun Navigation(
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LogInScreen.route) {
         composable(Routes.LogInScreen.route) {
-            Login(navController, signInViewModel)
+            Login(navController, userViewModel)
         }
         composable(Routes.RegisterScreen.route) {
-            Register(navController = navController, userViewModel)
+            Register(navController = navController, registerViewModel)
         }
         composable(Routes.ItemsScreen.route) {
-            ListItems(itemViewModel = itemViewModel, navController = navController, signInViewModel)
+            ListItems(itemViewModel = itemViewModel, navController = navController, userViewModel)
         }
         composable(Routes.HomeScreen.route) {
             HomeScreen(navController = navController)
         }
         composable(Routes.CharactersScreen.route) {
-            ListCharacters(characterViewModel = characterViewModel, navController, signInViewModel)
+            ListCharacters(characterViewModel = characterViewModel, navController, userViewModel)
         }
         composable(Routes.TrinketsScreen.route) {
             ListTrinkets(trinketViewModel, navController)
-        }
-        composable(Routes.PickupScreen.route) {
-            Pickups()
         }
         composable(Routes.MoreInformationScreen.route) {
             MoreInformationScreen(navController = navController)
         }
         composable(Routes.ItemDetailsScreen.route) {
-            ItemDetailsScreen(navController = navController, itemViewModel, signInViewModel)
+            ItemDetailsScreen(navController = navController, itemViewModel, userViewModel)
         }
         composable(Routes.CharacterDetailsScreen.route) {
             CharacterDetails(navController, characterViewModel, itemViewModel)
@@ -98,7 +95,8 @@ fun Navigation(
                 cardRuneViewModel,
                 pillViewModel,
                 newCharacterViewModel,
-                navController
+                navController,
+                userViewModel
             )
         }
         composable(Routes.SelectTrinketScreen.route) {
@@ -112,6 +110,12 @@ fun Navigation(
                 pillViewModel,
                 trinketViewModel
             )
+        }
+        composable(Routes.ListCardRunes.route) {
+            ListCardRunes(cardRuneViewModel, userViewModel, navController)
+        }
+        composable(Routes.ListPills.route) {
+            ListPills(pillViewModel)
         }
     }
 }

@@ -48,6 +48,7 @@ import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +57,8 @@ fun SelectCardRunePillScreen(
     cardRuneViewModel: CardRuneViewModel,
     pillViewModel: PillViewModel,
     newCharacterViewModel: NewCharacterViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    userViewModel: UserViewModel
 ) {
 
     var selectPill by rememberSaveable { mutableStateOf(false) }
@@ -288,7 +290,7 @@ fun SelectCardRunePillScreen(
 
                 }
                 if (showDetails) {
-                    CardRuneDetails(cardRuneViewModel)
+                    CardRuneDetails(cardRuneViewModel, userViewModel = userViewModel)
                 }
                 if (showAlertDialogSelectObject) {
                     AlertDialog(

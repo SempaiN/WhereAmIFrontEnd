@@ -11,13 +11,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,8 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.checkAccountExists
 import com.ignacioperez.whereami.checkEmail
@@ -40,18 +36,12 @@ import com.ignacioperez.whereami.checkPassword
 import com.ignacioperez.whereami.auth
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.PasswordTextField
-import com.ignacioperez.whereami.viewmodel.UserViewModel
-import kotlinx.coroutines.Dispatchers
+import com.ignacioperez.whereami.viewmodel.RegisterViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.URLEncoder
 
 @Composable
-fun Register(navController: NavController, userViewModel: UserViewModel) {
+fun Register(navController: NavController, registerViewModel: RegisterViewModel) {
 
     var email by rememberSaveable {
         mutableStateOf("")
@@ -127,7 +117,7 @@ fun Register(navController: NavController, userViewModel: UserViewModel) {
                                         ).show()
                                     } else {
                                         coroutineScope.launch {
-                                            var last = userViewModel.getLastUser()
+                                            var last = registerViewModel.getLastUser()
                                             var newUser = User(
                                                 id = last + 1,
                                                 name = name,
@@ -135,7 +125,7 @@ fun Register(navController: NavController, userViewModel: UserViewModel) {
                                             )
                                             Log.d("newUser", newUser.toString())
                                             Log.i("last", last.toString())
-                                            userViewModel.createUser(newUser)
+                                            registerViewModel.createUser(newUser)
                                             Toast.makeText(
                                                 context,
                                                 context.getString(R.string.registration_successful),

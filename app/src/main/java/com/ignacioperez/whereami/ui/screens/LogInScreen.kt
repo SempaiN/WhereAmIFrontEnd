@@ -16,34 +16,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.auth
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.auth
-import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.PasswordTextField
-import com.ignacioperez.whereami.viewmodel.SignInViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 
 @Composable
-fun Login(navController: NavController, signInViewModel: SignInViewModel) {
+fun Login(navController: NavController, userViewModel: UserViewModel) {
     var email by rememberSaveable {
         mutableStateOf("trollnacho.np@gmail.com")
     }
@@ -84,7 +75,7 @@ fun Login(navController: NavController, signInViewModel: SignInViewModel) {
                     auth.signInWithEmailAndPassword(email, password).addOnSuccessListener { user ->
                         if (user.user != null) {
                             Log.i("User", user.user.toString() + "" + email)
-                            signInViewModel.getUserFromDB(email)
+                            userViewModel.getUserFromDB(email)
                             navController.navigate("HomeScreen")
                         }
                     }

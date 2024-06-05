@@ -16,17 +16,17 @@ import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
-import com.ignacioperez.whereami.viewmodel.SignInViewModel
-import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
+import com.ignacioperez.whereami.viewmodel.TrinketViewModel
+import com.ignacioperez.whereami.viewmodel.RegisterViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        val userViewModel by viewModels<UserViewModel>()
+        val registerViewModel by viewModels<RegisterViewModel>()
         val itemViewModel by viewModels<ItemViewModel>()
-        val signInViewModel by viewModels<SignInViewModel>()
+        val userViewModel by viewModels<UserViewModel>()
         val characterViewModel by viewModels<CharacterViewModel>()
         val trinketViewModel by viewModels<TrinketViewModel>()
         val cardRuneViewModel by viewModels<CardRuneViewModel>()
@@ -40,8 +40,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Navigation(
+                        registerViewModel,
                         userViewModel,
-                        signInViewModel,
                         itemViewModel,
                         characterViewModel,
                         trinketViewModel,
