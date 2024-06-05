@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.ListTrinkets
+import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
 import kotlinx.coroutines.Dispatchers

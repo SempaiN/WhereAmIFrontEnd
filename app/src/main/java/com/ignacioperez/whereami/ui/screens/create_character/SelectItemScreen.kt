@@ -94,8 +94,7 @@ fun SelectItemScreen(
                 .padding(it)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-
-            ) {
+        ) {
             Text(
                 stringResource(R.string.how_many_items),
                 style = MaterialTheme.typography.h5,

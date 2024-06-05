@@ -7,6 +7,7 @@ import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
+import com.ignacioperez.whereami.models.Stat
 import com.ignacioperez.whereami.models.Trinket
 
 class NewCharacterViewModel : ViewModel() {
@@ -27,6 +28,58 @@ class NewCharacterViewModel : ViewModel() {
 
     private val _statsChangedByItems = MutableLiveData<ObjectChangeStatsList>()
     val statsChangedByItems: LiveData<ObjectChangeStatsList> = _statsChangedByItems
+
+    private val _healthStat = MutableLiveData<Double>()
+    val healthStat: LiveData<Double> = _healthStat
+
+    private val _damageStat = MutableLiveData<Double>()
+    val damageStat: LiveData<Double> = _damageStat
+
+    private val _tearsStat = MutableLiveData<Double>()
+    val tearsStat: LiveData<Double> = _tearsStat
+
+    private val _shotSpeedStat = MutableLiveData<Double>()
+    val shotSpeedStat: LiveData<Double> = _shotSpeedStat
+
+    private val _rangeStat = MutableLiveData<Double>()
+    val rangeStat: LiveData<Double> = _rangeStat
+
+    private val _luckStat = MutableLiveData<Double>()
+    val luckStat: LiveData<Double> = _luckStat
+
+    private val _speedStat = MutableLiveData<Double>()
+    val speedStat: LiveData<Double> = _speedStat
+
+
+
+    fun setHealthStat(value: Double) {
+        _healthStat.value = value
+    }
+
+
+    fun setDamageStat(value: Double) {
+        _damageStat.value = value
+    }
+
+    fun setTearsStat(value: Double) {
+        _tearsStat.value = value
+    }
+
+    fun setShotSpeedStat(value: Double) {
+        _shotSpeedStat.value = value
+    }
+
+    fun setRangeStat(value: Double) {
+        _rangeStat.value = value
+    }
+
+    fun setLuckStat(value: Double) {
+        _luckStat.value = value
+    }
+
+    fun setSpeedStat(value: Double) {
+        _speedStat.value = value
+    }
 
     fun setNameNewCharacter(name: String) {
         _newCharacterName.value = name
@@ -76,7 +129,8 @@ class NewCharacterViewModel : ViewModel() {
     fun removeTrinketFromList() {
         _trinketNewCharacter.value = null
     }
-    fun removeCardRuneFromList(){
+
+    fun removeCardRuneFromList() {
         _cardRuneNewCharacter.value = null
     }
 

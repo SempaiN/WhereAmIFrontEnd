@@ -98,4 +98,8 @@
     <string name="home_pickups">Home pickups</string>
     <string name="delete_favorite">Remove from favorite list</string>
     <string name="add_favorite">Add to favorite list</string>
+    <string name="select_stats">"Enter the stats you want to start with "</string>
+    <string name="example">Ex: 3.3</string>
+    <string name="save_health">Save health</string>
+    <string name="random_health">Set random health</string>
 </resources>
