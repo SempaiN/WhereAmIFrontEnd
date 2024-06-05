@@ -1,4 +1,4 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.loginsignin
 
 import android.util.Log
 import androidx.compose.foundation.clickable

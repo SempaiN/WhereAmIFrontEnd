@@ -188,8 +188,23 @@ fun CardRuneCard(
 fun PillCard(
     pill: Pill,
     pillViewModel: PillViewModel,
-
-    ) {
+    favorite: Boolean
+) {
+    val rainbowColorsBrush = remember {
+        Brush.sweepGradient(
+            listOf(
+                Color(0xFF9575CD),
+                Color(0xFFBA68C8),
+                Color(0xFFE57373),
+                Color(0xFFFFB74D),
+                Color(0xFFFFF176),
+                Color(0xFFAED581),
+                Color(0xFF4DD0E1),
+                Color(0xFF9575CD)
+            )
+        )
+    }
+    val borderWidth = 1.5.dp
     OutlinedCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -197,6 +212,14 @@ fun PillCard(
                 pillViewModel.onPillClicked(pill)
 
             }
+            .border(
+                if (favorite) {
+                    BorderStroke(borderWidth, rainbowColorsBrush)
+                } else {
+                    BorderStroke(1.5.dp, Color.Black)
+                }, shape = CardDefaults.outlinedShape
+            )
+
     ) {
         ListItem(
             headlineContent = {

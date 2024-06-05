@@ -1,57 +1,65 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.Items
 
-
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.BottomNavigationItem
-
-
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-
+import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
+import com.ignacioperez.whereami.models.Item
+import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.navigation.Routes
-
+import com.ignacioperez.whereami.viewmodel.ItemViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PickupScreen(navController: NavController) {
-    var navigationSelectedItem by remember {
-        mutableStateOf(0)
-    }
+fun ListItems(
+    itemViewModel: ItemViewModel,
+    navController: NavController,
+    userViewModel: UserViewModel
+) {
+    val user: User by userViewModel.user.observeAsState(
+        initial = User()
+    )
+    itemViewModel.getAllItems()
 
+    userViewModel.getFavoriteItems(user)
+    val itemList: List<Item> by itemViewModel.allItems.observeAsState(initial = emptyList())
+    val favoriteItems: List<Item> by userViewModel.favoriteItemsList.observeAsState(emptyList())
     Scaffold(
-
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.home_screen)) },
@@ -106,86 +114,37 @@ fun PickupScreen(navController: NavController) {
                                     contentDescription = stringResource(id = R.string.pickups),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            },
+                        )
 
                     }
                 }
             )
-        },
-        bottomBar = {
-            NavigationBar {
-                BottomNavigationItem(
-                    selected = false,
-                    onClick = { navController.navigate(Routes.ListCardRunes.route) },
-                    icon = {
-                        Icon(
-                            painterResource(R.drawable.facecard),
-                            contentDescription = stringResource(R.string.card_lookLike)
-                        )
-                    },
-                    label = {
-
-                        Text(
-                            stringResource(R.string.ListCards)
-                        )
-                    }
-                )
-                BottomNavigationItem(
-                    selected = false,
-                    onClick = { navController.navigate(Routes.ListCardRunes.route) },
-                    icon = {
-                        Icon(
-                            painterResource(R.drawable.pill_black_white),
-                            contentDescription = stringResource(R.string.listPills)
-                        )
-                    },
-                    label = { Text(stringResource(R.string.listPills)) }
-
-                )
-
-
-            }
         }
-
     ) {
-        Column(
-            Modifier
+        LazyColumn(
+            modifier = Modifier
                 .padding(it)
-                .padding(6.dp)
+                .fillMaxWidth()
+
         ) {
-            Information(R.string.pickups_info)
-            Information(R.string.chests_info)
-            Information(R.string.pills_info)
-            Information(R.string.cards_rune_info)
+            items(
+                itemList
+            ) { item ->
+                if (favoriteItems.contains(item)) {
+                    ItemCard(
+                        item = item,
+                        itemViewModel = itemViewModel,
+                        navController = navController, true
+                    )
+                } else {
 
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.rune_lookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-
-                Image(
-                    painter = painterResource(R.drawable.rune2),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.inverseCardlookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-
-                Image(
-                    painter = painterResource(R.drawable.reversetarotcard),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-            Column(verticalArrangement = Arrangement.Center) {
-                Information(R.string.card_lookLike)
-                Spacer(Modifier.size(width = 15.dp, height = 0.dp))
-                Image(
-                    painter = painterResource(R.drawable.tarotcard),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
+                    ItemCard(
+                        item = item,
+                        itemViewModel = itemViewModel,
+                        navController = navController, false
+                    )
+                }
             }
 
         }
@@ -193,3 +152,59 @@ fun PickupScreen(navController: NavController) {
 }
 
 
+@Composable
+fun ItemCard(
+    item: Item,
+    itemViewModel: ItemViewModel,
+    navController: NavController,
+    favorite: Boolean
+) {
+    val rainbowColorsBrush = remember {
+        Brush.sweepGradient(
+            listOf(
+                Color(0xFF9575CD),
+                Color(0xFFBA68C8),
+                Color(0xFFE57373),
+                Color(0xFFFFB74D),
+                Color(0xFFFFF176),
+                Color(0xFFAED581),
+                Color(0xFF4DD0E1),
+                Color(0xFF9575CD)
+            )
+        )
+    }
+    val borderWidth = 1.5.dp
+    OutlinedCard(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable {
+                itemViewModel.onItemClicked(item = item)
+                navController.navigate(route = Routes.ItemDetailsScreen.route)
+            }
+            .border(
+                if (favorite) {
+                    BorderStroke(borderWidth, rainbowColorsBrush)
+                } else {
+                    BorderStroke(1.5.dp, Color.Black)
+                }, shape = CardDefaults.outlinedShape //
+            )
+
+    ) {
+        ListItem(
+            headlineContent = {
+                Text(text = item.name, style = MaterialTheme.typography.titleLarge)
+            },
+            leadingContent = {
+                AsyncImage(
+                    model = item.imageUrl,
+                    placeholder = painterResource(id = R.drawable.godhead_icon),
+                    error = painterResource(id = R.drawable.godhead_icon),
+                    contentDescription = item.name,
+                    modifier = Modifier.size(70.dp)
+                )
+
+            }
+        )
+
+    }
+}

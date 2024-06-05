@@ -1,6 +1,6 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.create_character
 
-import CardRuneDetails
+import com.ignacioperez.whereami.ui.screens.pickups.CardRuneDetails
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.AlertDialog
 
@@ -24,6 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,6 +47,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.navigation.Routes
+import com.ignacioperez.whereami.ui.screens.pickups.PillDetails
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
@@ -76,7 +79,19 @@ fun SelectCardRunePillScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.item_details)) }
+                title = { Text(text = stringResource(id = R.string.item_details)) },
+
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                        newCharacterViewModel.removeCardRuneFromList()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -84,7 +99,10 @@ fun SelectCardRunePillScreen(
                 FloatingActionButton(onClick = {
                     navController.navigate(Routes.SelectTrinketScreen.route)
                 }) {
-                    Icon(Icons.Filled.SkipNext, stringResource(R.string.select_trinket_Screen))
+                    Icon(
+                        Icons.Filled.SkipNext,
+                        stringResource(R.string.select_trinket_Screen)
+                    )
                 }
             }
         }
@@ -170,7 +188,7 @@ fun SelectCardRunePillScreen(
 
                 }
                 if (showDetails) {
-                    PillDetails(pillViewModel)
+                    PillDetails(pillViewModel, userViewModel)
                 }
                 if (showAlertDialogSelectObject) {
                     AlertDialog(
@@ -198,7 +216,12 @@ fun SelectCardRunePillScreen(
                                         singleLine = true
                                     )
                                 }
-                                Spacer(modifier = Modifier.size(height = 12.dp, width = 0.dp))
+                                Spacer(
+                                    modifier = Modifier.size(
+                                        height = 12.dp,
+                                        width = 0.dp
+                                    )
+                                )
                                 LazyColumn {
                                     val filtredPills =
                                         listAllPills.filter {
@@ -318,7 +341,12 @@ fun SelectCardRunePillScreen(
                                         singleLine = true
                                     )
                                 }
-                                Spacer(modifier = Modifier.size(height = 12.dp, width = 0.dp))
+                                Spacer(
+                                    modifier = Modifier.size(
+                                        height = 12.dp,
+                                        width = 0.dp
+                                    )
+                                )
                                 LazyColumn {
                                     val filtredCardRunes =
                                         listAllCardRune.filter {

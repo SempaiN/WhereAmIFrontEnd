@@ -1,4 +1,4 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.characters
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -48,7 +48,6 @@ import com.ignacioperez.whereami.models.StatsModifiedCharacter
 import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
-import okhttp3.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

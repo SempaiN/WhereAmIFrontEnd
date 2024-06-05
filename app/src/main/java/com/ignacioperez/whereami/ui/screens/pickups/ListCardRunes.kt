@@ -1,20 +1,20 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.pickups
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,40 +30,37 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ignacioperez.whereami.R
-import com.ignacioperez.whereami.models.CharacterResponse
+import com.ignacioperez.whereami.models.CardRune
+import com.ignacioperez.whereami.models.ListCardRunes
 import com.ignacioperez.whereami.models.User
-import com.ignacioperez.whereami.mycomposables.CharacterCard
+import com.ignacioperez.whereami.mycomposables.CardRuneCard
 import com.ignacioperez.whereami.navigation.Routes
-import com.ignacioperez.whereami.viewmodel.CharacterViewModel
+import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListCharacters(
-    characterViewModel: CharacterViewModel,
-    navController: NavController,
-    userViewModel: UserViewModel
+fun ListCardRunes(
+    cardRuneViewModel: CardRuneViewModel,
+    userViewModel: UserViewModel,
+    navController: NavController
 ) {
-    val user: User by userViewModel.user.observeAsState(
-        initial = User()
+    val user: User by userViewModel.user.observeAsState(initial = User())
+    val cardRuneList: ListCardRunes by cardRuneViewModel.allCardsRunes.observeAsState(initial = ListCardRunes())
+    val showDialog: Boolean by cardRuneViewModel.showCardRuneDetails.observeAsState(false)
+    val favoriteCardsRunes: List<CardRune> by userViewModel.favoriteCardRuneList.observeAsState(
+        emptyList()
     )
-    val customCharacters: List<CharacterResponse> by userViewModel.charactersCustom.observeAsState(
-        initial = emptyList()
-    )
-    characterViewModel.loadCharacters()
-    userViewModel.getCharactersCustom(user)
-    val characterList: List<CharacterResponse> by characterViewModel.defaultCharacters.observeAsState(
-        initial = emptyList()
-    )
+
+    cardRuneViewModel.getAllCardsRunes()
+    userViewModel.getFavoriteCardRunes(user)
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.home_screen)) },
                 navigationIcon = {
-                    var expanded by rememberSaveable {
-                        mutableStateOf(false)
-                    }
+                    var expanded by rememberSaveable { mutableStateOf(false) }
 
                     IconButton(onClick = { expanded = !expanded }) {
                         Icon(
@@ -81,6 +78,18 @@ fun ListCharacters(
                                     contentDescription = stringResource(id = R.string.home_screen),
                                     modifier = Modifier.size(30.dp)
                                 )
+                            }
+                        )
+
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.items)) },
+                            onClick = { navController.navigate(Routes.ItemsScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.godhead_icon),
+                                    contentDescription = stringResource(id = R.string.items),
+                                    modifier = Modifier.size(30.dp)
+                                )
                             })
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.characters)) },
@@ -91,7 +100,8 @@ fun ListCharacters(
                                     contentDescription = stringResource(id = R.string.characters),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.trinkets)) },
                             onClick = { navController.navigate(Routes.TrinketsScreen.route) },
@@ -101,7 +111,8 @@ fun ListCharacters(
                                     contentDescription = stringResource(id = R.string.trinkets),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.pickups)) },
                             onClick = { navController.navigate(Routes.PickupScreen.route) },
@@ -111,35 +122,58 @@ fun ListCharacters(
                                     contentDescription = stringResource(id = R.string.pickups),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
-
+                            }, enabled = false
+                        )
                     }
                 }
-
             )
-
         },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(Routes.CreateCharacterScreen.route)
-            }) {
-                Icon(Icons.Filled.Add, stringResource(R.string.create))
+        bottomBar = {
+            NavigationBar {
+                BottomNavigationItem(
+                    selected = false,
+                    onClick = { navController.navigate(Routes.PickupScreen.route) },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = stringResource(R.string.home_pickups)
+                        )
+                    },
+                    label = {
+                        Text(stringResource(R.string.home_pickups))
+                    }
+                )
+                BottomNavigationItem(
+                    selected = false,
+                    onClick = { navController.navigate(Routes.ListPills.route) },
+                    icon = {
+                        Icon(
+                            painterResource(R.drawable.pill_black_white),
+                            contentDescription = stringResource(R.string.listPills)
+                        )
+                    },
+                    label = { Text(stringResource(R.string.listPills)) }
+                )
             }
         }
     ) {
-        LazyVerticalGrid(
-            modifier = Modifier.padding(it),
-            columns = GridCells.Adaptive(100.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalArrangement = Arrangement.Center
-
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(it)
         ) {
-            items(
-                characterList + customCharacters
-            ) { character ->
-                CharacterCard(character, characterViewModel, navController)
+            items(cardRuneList) { cardRune ->
+                CardRuneCard(
+                    cardRune,
+                    cardRuneViewModel,
+                    favoriteCardsRunes.contains(cardRune)
+                )
             }
+        }
+        if (showDialog) {
+            CardRuneDetails(cardRuneViewModel = cardRuneViewModel, userViewModel = userViewModel)
         }
     }
 }
+
 

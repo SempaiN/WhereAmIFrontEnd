@@ -1,21 +1,20 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.characters
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,22 +29,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.ignacioperez.whereami.R
-import com.ignacioperez.whereami.models.Item
-import com.ignacioperez.whereami.models.ListTrinkets
-import com.ignacioperez.whereami.models.Trinket
+import com.ignacioperez.whereami.models.CharacterResponse
+import com.ignacioperez.whereami.models.User
+import com.ignacioperez.whereami.mycomposables.CharacterCard
 import com.ignacioperez.whereami.navigation.Routes
-import com.ignacioperez.whereami.viewmodel.ItemViewModel
-import com.ignacioperez.whereami.viewmodel.TrinketViewModel
+import com.ignacioperez.whereami.viewmodel.CharacterViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavController) {
-    trinketViewModel.getAllTrinkets()
-    val trinketList: ListTrinkets by trinketViewModel.allTrinkets.observeAsState(
-        ListTrinkets()
+fun ListCharacters(
+    characterViewModel: CharacterViewModel,
+    navController: NavController,
+    userViewModel: UserViewModel
+) {
+    val user: User by userViewModel.user.observeAsState(
+        initial = User()
     )
+    val customCharacters: List<CharacterResponse> by userViewModel.charactersCustom.observeAsState(
+        initial = emptyList()
+    )
+    characterViewModel.loadCharacters()
+    userViewModel.getCharactersCustom(user)
+    val characterList: List<CharacterResponse> by characterViewModel.defaultCharacters.observeAsState(
+        initial = emptyList()
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -105,52 +115,31 @@ fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavControlle
 
                     }
                 }
+
             )
+
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                navController.navigate(Routes.CreateCharacterScreen.route)
+            }) {
+                Icon(Icons.Filled.Add, stringResource(R.string.create))
+            }
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxWidth()
+        LazyVerticalGrid(
+            modifier = Modifier.padding(it),
+            columns = GridCells.Adaptive(100.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.Center
 
         ) {
             items(
-                trinketList
-            ) { trinket ->
-                TrinketCard(trinket, trinketViewModel, navController)
+                characterList + customCharacters
+            ) { character ->
+                CharacterCard(character, characterViewModel, navController)
             }
-
         }
     }
 }
 
-@Composable
-fun TrinketCard(
-    trinket: Trinket,
-    trinketViewModel: TrinketViewModel,
-    navController: NavController
-) {
-    OutlinedCard(modifier = Modifier
-        .padding(vertical = 4.dp, horizontal = 8.dp)
-        .clickable {
-            trinketViewModel.onTrinketClicked(trinket)
-            navController.navigate(route = Routes.TrinketDetailsScreen.route)
-        }) {
-        ListItem(
-            headlineContent = {
-                Text(text = trinket.name, style = MaterialTheme.typography.titleLarge)
-            },
-            leadingContent = {
-                AsyncImage(
-                    model = trinket.imageUrl,
-                    placeholder = painterResource(id = R.drawable.trinket_curved_horn_icon),
-                    error = painterResource(id = R.drawable.trinket_curved_horn_icon),
-                    contentDescription = "The delasign logo",
-                    modifier = Modifier.size(70.dp)
-                )
-
-            }
-        )
-
-    }
-}

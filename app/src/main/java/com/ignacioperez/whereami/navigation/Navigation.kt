@@ -1,28 +1,28 @@
 package com.ignacioperez.whereami.navigation
 
-import SelectStatsScreen
+import com.ignacioperez.whereami.ui.screens.create_character.SelectStatsScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ignacioperez.whereami.ui.screens.CharacterDetails
-import com.ignacioperez.whereami.ui.screens.CreateCharacterScreen
-import com.ignacioperez.whereami.ui.screens.HomeScreen
-import com.ignacioperez.whereami.ui.screens.ItemDetailsScreen
-import com.ignacioperez.whereami.ui.screens.ListCardRunes
-import com.ignacioperez.whereami.ui.screens.ListCharacters
-import com.ignacioperez.whereami.ui.screens.ListItems
-import com.ignacioperez.whereami.ui.screens.ListPills
-import com.ignacioperez.whereami.ui.screens.ListTrinkets
-import com.ignacioperez.whereami.ui.screens.Login
-import com.ignacioperez.whereami.ui.screens.MoreInformationScreen
-import com.ignacioperez.whereami.ui.screens.PickupScreen
-import com.ignacioperez.whereami.ui.screens.Register
-import com.ignacioperez.whereami.ui.screens.SelectItemScreen
-import com.ignacioperez.whereami.ui.screens.SelectCardRunePillScreen
-import com.ignacioperez.whereami.ui.screens.SelectTrinketScreen
-import com.ignacioperez.whereami.ui.screens.TrinketDetailsScreen
+import com.ignacioperez.whereami.ui.screens.characters.CharacterDetails
+import com.ignacioperez.whereami.ui.screens.create_character.CreateCharacterScreen
+import com.ignacioperez.whereami.ui.screens.home.HomeScreen
+import com.ignacioperez.whereami.ui.screens.Items.ItemDetailsScreen
+import com.ignacioperez.whereami.ui.screens.pickups.ListCardRunes
+import com.ignacioperez.whereami.ui.screens.characters.ListCharacters
+import com.ignacioperez.whereami.ui.screens.Items.ListItems
+import com.ignacioperez.whereami.ui.screens.pickups.ListPills
+import com.ignacioperez.whereami.ui.screens.trinkets.ListTrinkets
+import com.ignacioperez.whereami.ui.screens.loginsignin.Login
+import com.ignacioperez.whereami.ui.screens.home.MoreInformationScreen
+import com.ignacioperez.whereami.ui.screens.pickups.PickupScreen
+import com.ignacioperez.whereami.ui.screens.loginsignin.Register
+import com.ignacioperez.whereami.ui.screens.create_character.SelectItemScreen
+import com.ignacioperez.whereami.ui.screens.create_character.SelectCardRunePillScreen
+import com.ignacioperez.whereami.ui.screens.create_character.SelectTrinketScreen
+import com.ignacioperez.whereami.ui.screens.trinkets.TrinketDetailsScreen
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
@@ -115,7 +115,7 @@ fun Navigation(
             ListCardRunes(cardRuneViewModel, userViewModel, navController)
         }
         composable(Routes.ListPills.route) {
-            ListPills(pillViewModel)
+            ListPills(pillViewModel, userViewModel, navController)
         }
     }
 }

@@ -1,3 +1,5 @@
+package com.ignacioperez.whereami.ui.screens.create_character
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -87,7 +89,7 @@ fun SelectStatsScreen(
         listItemsNewCharacter,
         statsChangedByPill
     ) {
-        val newStats = initialStats.map { it.copy() }.toMutableList()
+        val newStats = initialStats.toMutableList()
 
         for (statCard in statsChangedByCardRune) {
             val stat = newStats.find { it.name == statCard.name }
@@ -111,7 +113,6 @@ fun SelectStatsScreen(
         }
 
         for (item in listStatsList) {
-
             for (statChange in item) {
                 val stat = newStats.find { it.name == statChange.name }
                 if (stat != null) {
@@ -130,7 +131,8 @@ fun SelectStatsScreen(
                 title = { Text(text = stringResource(id = R.string.item_details)) }
             )
         },
-    ) {
+
+        ) {
         val statInfo = mapOf(
             "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
             "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
@@ -141,25 +143,32 @@ fun SelectStatsScreen(
             "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
         )
         Column(
+            modifier = Modifier.padding(it),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(it),
         ) {
-            Text(
-                stringResource(R.string.character_will_start),
-                style = MaterialTheme.typography.body1
-            )
-            for (stat in updatedStats) {
-                val statInfo = statInfo[stat.name]
-                Row {
-                    Icon(
-                        painter = painterResource(statInfo!!.first),
-                        contentDescription = stringResource(statInfo.second),
-                        modifier = Modifier.size(30.dp)
-                    )
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text(text = stat.name + ": ", style = MaterialTheme.typography.body1)
-                    Text(stat.value.toString())
+            if (listItemsNewCharacter.isEmpty() && trinketNewCharacter == null && cardRuneNewCharacter == null && pillNewCharacter == null) {
+
+            } else {
+                Text(
+                    stringResource(R.string.character_will_start),
+                    style = MaterialTheme.typography.body1
+                )
+                for (stat in updatedStats) {
+                    val statInfo = statInfo[stat.name]
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(statInfo!!.first),
+                            contentDescription = stringResource(statInfo.second),
+                            modifier = Modifier.size(30.dp)
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(text = stat.name + ": ", style = MaterialTheme.typography.body1)
+                        Text(stat.value.toString())
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.create_character
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

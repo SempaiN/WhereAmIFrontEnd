@@ -1,4 +1,4 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.trinkets
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

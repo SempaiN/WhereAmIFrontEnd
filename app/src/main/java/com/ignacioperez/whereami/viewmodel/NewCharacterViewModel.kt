@@ -73,5 +73,12 @@ class NewCharacterViewModel : ViewModel() {
         _listItemsNewCharacter.value = updatedList
     }
 
+    fun removeTrinketFromList() {
+        _trinketNewCharacter.value = null
+    }
+    fun removeCardRuneFromList(){
+        _cardRuneNewCharacter.value = null
+    }
+
 
 }

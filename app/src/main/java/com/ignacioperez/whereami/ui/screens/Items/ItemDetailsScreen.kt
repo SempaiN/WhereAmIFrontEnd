@@ -1,4 +1,4 @@
-package com.ignacioperez.whereami.ui.screens
+package com.ignacioperez.whereami.ui.screens.Items
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

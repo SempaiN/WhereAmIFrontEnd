@@ -57,24 +57,26 @@ class PillViewModel : ViewModel() {
         }
     }
 
-    fun insertPillFavorite(pill: Pill, user: User) {
+    fun insertPillFavorite(pill: Pill, user: User, userViewModel: UserViewModel) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 service.insertPickupFavorite(pill.id, user.id)
                 checkPillFavorite(pill, user)
+                userViewModel.getFavoritePills(user)
             } catch (e: Exception) {
                 Log.i("--", e.message.toString())
             }
         }
     }
 
-    fun deletePillFavorite(pill: Pill, user: User) {
+    fun deletePillFavorite(pill: Pill, user: User, userViewModel: UserViewModel) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 service.deletePickupFavorite(user.id, pill.id)
                 checkPillFavorite(pill, user)
+                userViewModel.getFavoritePills(user)
             } catch (e: Exception) {
                 Log.i("--", e.message.toString())
             }
