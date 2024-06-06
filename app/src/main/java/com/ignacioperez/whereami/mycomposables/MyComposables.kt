@@ -51,6 +51,37 @@ import com.ignacioperez.whereami.viewmodel.CharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 import java.time.format.TextStyle
 
+
+@Composable
+fun StatTextField(
+    statString: String,
+    onStatChange: (String) -> Unit,
+    pattern: Regex,
+    example: Int
+) {
+    OutlinedTextField(
+        value = statString,
+        onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
+                onStatChange(it)
+            }
+        },
+        label = {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(stringResource(example))
+            }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier
+            .size(width = 90.dp, height = 65.dp)
+
+
+    )
+}
+
 @Composable
 fun PasswordTextField(
     password: String,

@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.models.Stat
+import com.ignacioperez.whereami.mycomposables.StatTextField
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
@@ -64,13 +67,13 @@ fun SelectStatsScreen(
         mutableStateOf<List<Stat>>(emptyList())
     }
 
-    val healthStat by newCharacterViewModel.healthStat.observeAsState(initial = 0.0)
-    val damageStat by newCharacterViewModel.damageStat.observeAsState(initial = 0.0)
-    val tearsStat by newCharacterViewModel.tearsStat.observeAsState(initial = 0.0)
-    val shotSpeedStat by newCharacterViewModel.shotSpeedStat.observeAsState(initial = 0.0)
-    val rangeStat by newCharacterViewModel.rangeStat.observeAsState(initial = 0.0)
-    val luckStat by newCharacterViewModel.luckStat.observeAsState(initial = 0.0)
-    val speedStat by newCharacterViewModel.speedStat.observeAsState(initial = 0.0)
+    val healthStat by newCharacterViewModel.healthStat.observeAsState(initial = -1.0)
+    val damageStat by newCharacterViewModel.damageStat.observeAsState(initial = -1.0)
+    val tearsStat by newCharacterViewModel.tearsStat.observeAsState(initial = -1.0)
+    val shotSpeedStat by newCharacterViewModel.shotSpeedStat.observeAsState(initial = -1.0)
+    val rangeStat by newCharacterViewModel.rangeStat.observeAsState(initial = -1.0)
+    val luckStat by newCharacterViewModel.luckStat.observeAsState(initial = -1.0)
+    val speedStat by newCharacterViewModel.speedStat.observeAsState(initial = -1.0)
 
 
     val initialStats = mutableListOf(
@@ -91,7 +94,25 @@ fun SelectStatsScreen(
     var luckComplete by rememberSaveable { mutableStateOf(false) }
     var speedComplete by rememberSaveable { mutableStateOf(false) }
 
-    val statInfo = mapOf(
+    val statIcon = listOf(
+        Pair(R.drawable.health_stat_icon, R.string.health_stat),
+        Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
+        Pair(R.drawable.tears_stat_icon, R.string.tears_stat),
+        Pair(R.drawable.damage_stat_icon, R.string.damage_stat),
+        Pair(R.drawable.range_stat_icon, R.string.range_stat),
+        Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
+        Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
+    )
+    var indexIcon by rememberSaveable { mutableStateOf(0) }
+    val pattern = remember { Regex("^\\d{0,2}(\\.\\d{0,2})?\$") }
+    var healthInput by rememberSaveable { mutableStateOf("") }
+    var speedInput by rememberSaveable { mutableStateOf("") }
+    var tearsInput by rememberSaveable { mutableStateOf("") }
+    var damageInput by rememberSaveable { mutableStateOf("") }
+    var rangeInput by rememberSaveable { mutableStateOf("") }
+    var luckInput by rememberSaveable { mutableStateOf("") }
+    var shotSpeedInput by rememberSaveable { mutableStateOf("") }
+    val statInfo = listOf(
         "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
         "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
         "Tears" to Pair(R.drawable.tears_stat_icon, R.string.tears_stat),
@@ -100,7 +121,7 @@ fun SelectStatsScreen(
         "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
         "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
     )
-
+    var showStat by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -120,10 +141,7 @@ fun SelectStatsScreen(
                 style = MaterialTheme.typography.h6,
                 textAlign = TextAlign.Center
             )
-            val pattern = remember { Regex("^\\d{0,2}(\\.\\d{0,2})?\$") }
-            var input by rememberSaveable {
-                mutableStateOf("")
-            }
+
             Column() {
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -131,8 +149,8 @@ fun SelectStatsScreen(
                         .fillMaxWidth()
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.health_stat_icon),
-                        contentDescription = stringResource(R.string.health),
+                        painter = painterResource(statIcon[indexIcon].first),
+                        contentDescription = stringResource(statIcon[indexIcon].second),
                         Modifier
                             .size(55.dp)
                             .padding(top = 20.dp)
@@ -142,56 +160,229 @@ fun SelectStatsScreen(
                             .width(20.dp)
                             .height(20.dp)
                     )
-                    OutlinedTextField(
-                        value = input,
-                        onValueChange = {
-                            if (it.isEmpty() || it.matches(pattern)) {
-                                input = it
-                                newCharacterViewModel.setHealthStat(it.toDoubleOrNull() ?: 0.0)
 
-                            }
-                        },
-                        label = {
-                            Row(
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(stringResource(R.string.example))
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier
-                            .size(width = 90.dp, height = 65.dp)
+                    if (!healthComplete) {
+                        StatTextField(
+                            statString = healthInput,
+                            onStatChange = {
+                                healthInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!speedComplete) {
+                        StatTextField(
+                            statString = speedInput,
+                            onStatChange = {
+                                speedInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!tearsComplete) {
+                        StatTextField(
+                            statString = tearsInput,
+                            onStatChange = {
+                                tearsInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!damageComplete) {
+                        StatTextField(
+                            statString = damageInput,
+                            onStatChange = {
+                                damageInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!rangeComplete) {
+                        StatTextField(
+                            statString = rangeInput,
+                            onStatChange = {
+                                rangeInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!shotSpeedComplete) {
+                        StatTextField(
+                            statString = shotSpeedInput,
+                            onStatChange = {
+                                shotSpeedInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    } else if (!luckComplete) {
+                        StatTextField(
+                            statString = luckInput,
+                            onStatChange = {
+                                luckInput = it
+                            },
+                            pattern = pattern,
+                            example = R.string.example
+                        )
+                    }
+                }
 
 
+            }
+            var test by rememberSaveable { mutableStateOf(false) }
+            Spacer(Modifier.height(20.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(onClick = {
+                    if (!healthComplete) {
+                        healthComplete = true
+                        newCharacterViewModel.setHealthStat(healthInput.toDoubleOrNull() ?: 0.0)
+                        indexIcon += 1
+
+                    } else if (!speedComplete) {
+                        speedComplete = true
+                        newCharacterViewModel.setSpeedStat(speedInput.toDoubleOrNull() ?: 0.0)
+                        indexIcon += 1
+                    } else if (!tearsComplete) {
+                        tearsComplete = true
+                        newCharacterViewModel.setTearsStat(tearsInput.toDoubleOrNull() ?: 0.0)
+                        indexIcon += 1
+                    } else if (!damageComplete) {
+                        damageComplete = true
+                        newCharacterViewModel.setDamageStat(damageInput.toDoubleOrNull() ?: 0.0)
+                        indexIcon += 1
+                    } else if (!rangeComplete) {
+                        rangeComplete = true
+                        newCharacterViewModel.setRangeStat(rangeInput.toDoubleOrNull() ?: 0.0)
+                        indexIcon += 1
+                    } else if (!shotSpeedComplete) {
+                        shotSpeedComplete = true
+                        newCharacterViewModel.setShotSpeedStat(
+                            shotSpeedInput.toDoubleOrNull() ?: 0.0
+                        )
+                        indexIcon += 1
+                    } else if (!luckComplete) {
+                        luckComplete = true
+                        newCharacterViewModel.setLuckStat(luckInput.toDoubleOrNull() ?: 0.0)
+
+                    }
+                    if (healthComplete && speedComplete && tearsComplete && damageComplete && rangeComplete && shotSpeedComplete && luckComplete) {
+                        test = !test
+                    }
+
+                }) {
+                    Text(stringResource(R.string.save_stat))
+                }
+                Button(onClick = {
+
+                }) {
+                    Text(stringResource(R.string.random_stat))
+                }
+            }
+            if (test) {
+                AlertDialog(
+                    onDismissRequest = { test = false },
+                    confirmButton = {
+                        TextButton(onClick = { test = false }) {
+                            Text(
+                                text = stringResource(R.string.exit),
+                                color = MaterialTheme.colors.error
+                            )
+                        }
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(R.string.item_already_added),
+                            color = MaterialTheme.colors.error
+                        )
+                    },
+                    text = {
+                        Text(
+                            text = stringResource(R.string.item_already_added),
+                            color = MaterialTheme.colors.error
+                        )
+                    }
+                )
+            }
+            Spacer(Modifier.height(40.dp))
+            if (healthComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[0].first),
+                        contentDescription = stringResource(statIcon[0].second),
+                        modifier = Modifier.size(20.dp)
                     )
+                    Text(stringResource(R.string.healt) + healthStat.toString())
                 }
-                Spacer(Modifier.height(20.dp))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(onClick = {
-
-                    }) {
-                        Text(stringResource(R.string.save_health))
-                    }
-                    Button(onClick = {
-
-                    }) {
-                        Text(stringResource(R.string.random_health))
-                    }
+            }
+            if (speedComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[1].first),
+                        contentDescription = stringResource(statIcon[1].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.speed) + speedStat.toString())
                 }
-                Spacer(Modifier.height(40.dp))
-
+            }
+            if (tearsComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[2].first),
+                        contentDescription = stringResource(statIcon[2].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.tears) + tearsStat.toString())
+                }
+            }
+            if (damageComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[3].first),
+                        contentDescription = stringResource(statIcon[4].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.damage) + damageStat.toString())
+                }
+            }
+            if (rangeComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[4].first),
+                        contentDescription = stringResource(statIcon[4].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.range) + rangeStat.toString())
+                }
+            }
+            if (shotSpeedComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[5].first),
+                        contentDescription = stringResource(statIcon[5].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.shot_speed) + shotSpeedStat.toString())
+                }
+            }
+            if (luckComplete) {
+                Row() {
+                    Icon(
+                        painterResource(statIcon[6].first),
+                        contentDescription = stringResource(statIcon[6].second),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(stringResource(R.string.luck) + luckStat.toString())
+                }
             }
 
         }
     }
-}
 
 
-//if (listItemsNewCharacter.isEmpty() && trinketNewCharacter == null && cardRuneNewCharacter == null && pillNewCharacter == null) {
+    //if (listItemsNewCharacter.isEmpty() && trinketNewCharacter == null && cardRuneNewCharacter == null && pillNewCharacter == null) {
 //    // Handle empty state
 //} else {
 //    Text(
@@ -255,16 +446,17 @@ fun SelectStatsScreen(
 //    }
 //    newStats
 //}
-fun getRandomHealth(): Double {
-    val random = Random.nextDouble(0.0, 7.6).dec()
-    return String.format("%.1f", random).toDouble()
-}
+    fun getRandomHealth(): Double {
+        val random = Random.nextDouble(0.0, 7.6).dec()
+        return String.format("%.1f", random).toDouble()
+    }
 
-@Composable
-fun StatRow(statName: String, statValue: Double) {
-    Row {
-        Text(statName)
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(statValue.toString())
+    @Composable
+    fun StatRow(statName: String, statValue: Double) {
+        Row {
+            Text(statName)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(statValue.toString())
+        }
     }
 }

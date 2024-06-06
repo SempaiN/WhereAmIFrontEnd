@@ -3,12 +3,15 @@ package com.ignacioperez.whereami.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
 import com.ignacioperez.whereami.models.Stat
 import com.ignacioperez.whereami.models.Trinket
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NewCharacterViewModel : ViewModel() {
     private val _newCharacterName = MutableLiveData<String>()
@@ -51,9 +54,10 @@ class NewCharacterViewModel : ViewModel() {
     val speedStat: LiveData<Double> = _speedStat
 
 
-
     fun setHealthStat(value: Double) {
-        _healthStat.value = value
+        viewModelScope.launch(Dispatchers.IO) {
+            _healthStat.postValue(value)
+        }
     }
 
 
@@ -78,7 +82,9 @@ class NewCharacterViewModel : ViewModel() {
     }
 
     fun setSpeedStat(value: Double) {
-        _speedStat.value = value
+        viewModelScope.launch(Dispatchers.IO) {
+            _speedStat.postValue(value)
+        }
     }
 
     fun setNameNewCharacter(name: String) {

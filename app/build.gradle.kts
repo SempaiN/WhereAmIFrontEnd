@@ -55,18 +55,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.4.0")
-    val voyagerVersion = "1.0.0"
-    implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
-    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
     implementation ("androidx.compose.material:material:1.4.2")
-    implementation(libs.voyager.navigator)
-    implementation(libs.voyager.transitions)
-    implementation(libs.voyager.tabNavigator)
     implementation ("androidx.navigation:navigation-compose:2.7.0-rc01")
-    implementation(libs.voyager.navigator)
-    implementation(libs.voyager.transitions)
-    implementation(libs.voyager.tabNavigator)
-
     implementation(libs.androidx.runtime.livedata)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
