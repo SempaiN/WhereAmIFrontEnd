@@ -63,3 +63,10 @@ fun checkStatsChanges(
     }
     return true
 }
+val healthRegex = Regex("^(0|[1-9]|1[0-2])?(\\.\\d?)?\$")
+val damageRegex = Regex("^(1|[1-9])?(\\.0|\\.5)?\$")
+val speedRegex = Regex("^(1(\\.[0-5]?)?)?\$")
+val rangeRegex = Regex("^(7|8|9|10|11|12|13|14)?(\\.[0-9]?)?\$")
+val shotSpeedRegex = Regex("^(1(\\.[0-9]?)?|2\\.0)?\$")
+val luckRegex = Regex("^(-2\\.0|-1(\\.[0-9]?)?|0(\\.[0-9]?)?|1(\\.[0-4]?)?)?\$")
+val tearsRegex = Regex("^(1(\\.[0-9]?)?|2(\\.[0-9]?)?|3\\.0)?\$")

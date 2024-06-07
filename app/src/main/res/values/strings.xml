@@ -108,4 +108,5 @@
     <string name="speed">"Speed: "</string>
     <string name="shot_speed">"Shot Speed: "</string>
     <string name="luck">"Luck: "</string>
+    <string name="modify">Modify stat</string>
 </resources>

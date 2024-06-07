@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Mode
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,8 +39,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ignacioperez.whereami.R
+import com.ignacioperez.whereami.damageRegex
+import com.ignacioperez.whereami.healthRegex
+import com.ignacioperez.whereami.luckRegex
 import com.ignacioperez.whereami.models.Stat
+import com.ignacioperez.whereami.mycomposables.ModifyStatSelected
 import com.ignacioperez.whereami.mycomposables.StatTextField
+import com.ignacioperez.whereami.rangeRegex
+import com.ignacioperez.whereami.shotSpeedRegex
+import com.ignacioperez.whereami.speedRegex
+import com.ignacioperez.whereami.tearsRegex
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
@@ -105,7 +116,13 @@ fun SelectStatsScreen(
     )
     var indexIcon by rememberSaveable { mutableStateOf(0) }
     val pattern = remember { Regex("^\\d{0,2}(\\.\\d{0,2})?\$") }
-    var healthInput by rememberSaveable { mutableStateOf("") }
+
+
+    var healthInput by rememberSaveable {
+        mutableStateOf(
+            ""
+        )
+    }
     var speedInput by rememberSaveable { mutableStateOf("") }
     var tearsInput by rememberSaveable { mutableStateOf("") }
     var damageInput by rememberSaveable { mutableStateOf("") }
@@ -121,7 +138,7 @@ fun SelectStatsScreen(
         "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
         "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
     )
-    var showStat by rememberSaveable { mutableStateOf(false) }
+    var show by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -167,7 +184,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 healthInput = it
                             },
-                            pattern = pattern,
+                            pattern = healthRegex,
                             example = R.string.example
                         )
                     } else if (!speedComplete) {
@@ -176,7 +193,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 speedInput = it
                             },
-                            pattern = pattern,
+                            pattern = speedRegex,
                             example = R.string.example
                         )
                     } else if (!tearsComplete) {
@@ -185,7 +202,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 tearsInput = it
                             },
-                            pattern = pattern,
+                            pattern = tearsRegex,
                             example = R.string.example
                         )
                     } else if (!damageComplete) {
@@ -194,7 +211,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 damageInput = it
                             },
-                            pattern = pattern,
+                            pattern = damageRegex,
                             example = R.string.example
                         )
                     } else if (!rangeComplete) {
@@ -203,7 +220,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 rangeInput = it
                             },
-                            pattern = pattern,
+                            pattern = rangeRegex,
                             example = R.string.example
                         )
                     } else if (!shotSpeedComplete) {
@@ -212,7 +229,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 shotSpeedInput = it
                             },
-                            pattern = pattern,
+                            pattern = shotSpeedRegex,
                             example = R.string.example
                         )
                     } else if (!luckComplete) {
@@ -221,7 +238,7 @@ fun SelectStatsScreen(
                             onStatChange = {
                                 luckInput = it
                             },
-                            pattern = pattern,
+                            pattern = luckRegex,
                             example = R.string.example
                         )
                     }
@@ -238,34 +255,34 @@ fun SelectStatsScreen(
                 Button(onClick = {
                     if (!healthComplete) {
                         healthComplete = true
-                        newCharacterViewModel.setHealthStat(healthInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setHealthStat(healthInput.toDoubleOrNull() ?: 1.0)
                         indexIcon += 1
 
                     } else if (!speedComplete) {
                         speedComplete = true
-                        newCharacterViewModel.setSpeedStat(speedInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setSpeedStat(speedInput.toDoubleOrNull() ?: 1.0)
                         indexIcon += 1
                     } else if (!tearsComplete) {
                         tearsComplete = true
-                        newCharacterViewModel.setTearsStat(tearsInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setTearsStat(tearsInput.toDoubleOrNull() ?: 1.0)
                         indexIcon += 1
                     } else if (!damageComplete) {
                         damageComplete = true
-                        newCharacterViewModel.setDamageStat(damageInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setDamageStat(damageInput.toDoubleOrNull() ?: 1.0)
                         indexIcon += 1
                     } else if (!rangeComplete) {
                         rangeComplete = true
-                        newCharacterViewModel.setRangeStat(rangeInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setRangeStat(rangeInput.toDoubleOrNull() ?: 1.0)
                         indexIcon += 1
                     } else if (!shotSpeedComplete) {
                         shotSpeedComplete = true
                         newCharacterViewModel.setShotSpeedStat(
-                            shotSpeedInput.toDoubleOrNull() ?: 0.0
+                            shotSpeedInput.toDoubleOrNull() ?: 1.0
                         )
                         indexIcon += 1
                     } else if (!luckComplete) {
                         luckComplete = true
-                        newCharacterViewModel.setLuckStat(luckInput.toDoubleOrNull() ?: 0.0)
+                        newCharacterViewModel.setLuckStat(luckInput.toDoubleOrNull() ?: 1.0)
 
                     }
                     if (healthComplete && speedComplete && tearsComplete && damageComplete && rangeComplete && shotSpeedComplete && luckComplete) {
@@ -276,6 +293,14 @@ fun SelectStatsScreen(
                     Text(stringResource(R.string.save_stat))
                 }
                 Button(onClick = {
+                    generateRandomStats(newCharacterViewModel)
+                    healthComplete = true
+                    speedComplete = true
+                    tearsComplete = true
+                    damageComplete = true
+                    rangeComplete = true
+                    shotSpeedComplete = true
+                    luckComplete = true
 
                 }) {
                     Text(stringResource(R.string.random_stat))
@@ -354,7 +379,7 @@ fun SelectStatsScreen(
                         contentDescription = stringResource(statIcon[4].second),
                         modifier = Modifier.size(20.dp)
                     )
-                    Text(stringResource(R.string.range) + rangeStat.toString())
+
                 }
             }
             if (shotSpeedComplete) {
@@ -365,6 +390,22 @@ fun SelectStatsScreen(
                         modifier = Modifier.size(20.dp)
                     )
                     Text(stringResource(R.string.shot_speed) + shotSpeedStat.toString())
+                    IconButton(onClick = { show = !show }) {
+                        Icon(
+                            imageVector = Icons.Filled.Mode,
+                            contentDescription = stringResource(R.string.modify)
+                        )
+                    }
+                    if (show) {
+                        ModifyStatSelected(
+                            newCharacterViewModel = newCharacterViewModel,
+                            show = show,
+                            onDismissRequest = { show = false }, // Asigna la variable `show` aquí
+                            currentStat = newCharacterViewModel.shotSpeedStat.value ?: -1.0,
+                            pattern = healthRegex, // Utiliza el nombre de la variable, no solo el valor
+                            example = R.string.example, // Utiliza el nombre de la variable, no solo el valor
+                        )
+                    }
                 }
             }
             if (luckComplete) {
@@ -376,6 +417,16 @@ fun SelectStatsScreen(
                     )
                     Text(stringResource(R.string.luck) + luckStat.toString())
                 }
+            }
+            if (show) {
+                ModifyStatSelected(
+                    newCharacterViewModel = newCharacterViewModel,
+                    show = show,
+                    onDismissRequest = { show = false }, // Asigna la variable `show` aquí
+                    currentStat = newCharacterViewModel.shotSpeedStat.value ?: -1.0,
+                    pattern = healthRegex, // Utiliza el nombre de la variable, no solo el valor
+                    example = R.string.example, // Utiliza el nombre de la variable, no solo el valor
+                )
             }
 
         }
@@ -446,17 +497,100 @@ fun SelectStatsScreen(
 //    }
 //    newStats
 //}
-    fun getRandomHealth(): Double {
-        val random = Random.nextDouble(0.0, 7.6).dec()
-        return String.format("%.1f", random).toDouble()
+
+    // Main function to generate stats based on rules
+
+}
+
+fun getRandomHealth(): Double {
+    var health: Double
+    do {
+        health = Random.nextDouble(0.0, 12.0)
+    } while (!healthRegex.matches(String.format("%.1f", health)))
+    return String.format("%.1f", health).toDouble()
+}
+
+fun getRandomSpeed(): Double {
+    var speed: Double
+    do {
+        speed = Random.nextDouble(1.0, 1.5)
+    } while (!speedRegex.matches(String.format("%.1f", speed)))
+    return String.format("%.1f", speed).toDouble()
+}
+
+fun getRandomDamage(): Double {
+    var damage: Double
+    do {
+        damage = Random.nextDouble(1.0, 10.0)
+    } while (!damageRegex.matches(String.format("%.1f", damage)))
+    return String.format("%.1f", damage).toDouble()
+}
+
+fun getRandomTears(): Double {
+    var tears: Double
+    do {
+        tears = Random.nextDouble(1.0, 3.0)
+    } while (!tearsRegex.matches(String.format("%.1f", tears)))
+    return String.format("%.1f", tears).toDouble()
+}
+
+fun getRandomRange(): Double {
+    var range: Double
+    do {
+        range = Random.nextDouble(7.0, 14.0)
+    } while (!rangeRegex.matches(String.format("%.1f", range)))
+    return String.format("%.1f", range).toDouble()
+}
+
+fun getRandomShotSpeed(): Double {
+    var shotSpeed: Double
+    do {
+        shotSpeed = Random.nextDouble(1.0, 2.0)
+    } while (!shotSpeedRegex.matches(String.format("%.1f", shotSpeed)))
+    return String.format("%.1f", shotSpeed).toDouble()
+}
+
+fun getRandomLuck(): Double {
+    var luck: Double
+    do {
+        luck = Random.nextDouble(-2.0, 1.5)
+    } while (!luckRegex.matches(String.format("%.1f", luck)))
+    return String.format("%.1f", luck).toDouble()
+}
+
+fun generateRandomStats(newCharacterViewModel: NewCharacterViewModel) {
+    var health = getRandomHealth()
+    var speed = getRandomSpeed()
+    var damage = getRandomDamage()
+    var tears = getRandomTears()
+    var range = getRandomRange()
+    var shotSpeed = getRandomShotSpeed()
+    var luck = getRandomLuck()
+
+    if (health >= 6.0) {
+        speed = getRandomSpeed()
+    } else if (health <= 3.0) {
+        if (Random.nextBoolean()) {
+            damage = getRandomDamage()
+            tears = getRandomTears()
+        } else {
+            tears = getRandomTears()
+            damage = getRandomDamage()
+        }
+        speed = getRandomSpeed()
+    } else if (damage >= 5.0) {
+        health = getRandomHealth()
+        tears = getRandomTears()
+    } else if (tears >= 2.5) {
+        damage = getRandomDamage()
     }
 
-    @Composable
-    fun StatRow(statName: String, statValue: Double) {
-        Row {
-            Text(statName)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(statValue.toString())
-        }
-    }
+    newCharacterViewModel.setHealthStat(health)
+    newCharacterViewModel.setSpeedStat(speed)
+    newCharacterViewModel.setDamageStat(damage)
+    newCharacterViewModel.setTearsStat(tears)
+    newCharacterViewModel.setRangeStat(range)
+    newCharacterViewModel.setShotSpeedStat(shotSpeed)
+    newCharacterViewModel.setLuckStat(luck)
+
 }
