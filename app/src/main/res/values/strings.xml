@@ -19,10 +19,10 @@
     <string name="enter_name">Enter your name</string>
     <string name="home_screen">Home Screen</string>
     <string name="menu">Menu</string>
-    <string name="items">Items</string>
+    <string name="items" translatable="false">Items</string>
     <string name="characters">Characters</string>
-    <string name="trinkets">Trinkets</string>
-    <string name="pickups">Pickups</string>
+    <string name="trinkets" translatable="false">Trinkets</string>
+    <string name="pickups" translatable="false">Pickups</string>
     <string name="about">About the game</string>
     <string name="plot">When Isaac’s mother starts hearing the voice of God demanding a sacrifice be made to prove her faith, Isaac escapes into the basement facing droves of deranged enemies, lost brothers and sisters, his fears, and eventually his mother.</string>
     <string name="gameplay">Gameplay</string>
@@ -34,8 +34,7 @@
     <string name="more_information">More information</string>
     <string name="attributes">Attributes</string>
     <string name="health_stat">Health: The amount of damage the character can take before dying.</string>
-    <string name="healt">Health:</string>
-    <string name="health">Health\n</string>
+    <string name="health">Health:</string>
     <string name="speed_stat">Speed: How quickly the character moves.</string>
     <string name="tears_stat">Tears: The character\'s rate of fire. The higher the number, the faster tears are fired.</string>
     <string name="damage_stat">Damage: The amount of damage that each of the character\'s tears deals to enemies.</string>
@@ -58,7 +57,7 @@
     <string name="name">"Name: "</string>
     <string name="default_character">Starting character of the game</string>
     <string name="starting_items">Starting Items</string>
-    <string name="stats_base">Stats Base:\n</string>
+    <string name="stats_base" translatable="false">Stats Base:\n</string>
     <string name="stats_modified">Modified Stats</string>
     <string name="arrow">Arrow Forward</string>
     <string name="rune_lookLike">This is what an in-game rune looks like</string>
@@ -109,4 +108,14 @@
     <string name="shot_speed">"Shot Speed: "</string>
     <string name="luck">"Luck: "</string>
     <string name="modify">Modify stat</string>
+    <string name="info">Information</string>
+    <string name="stats_info">Information about stats values</string>
+    <string name="info_health_values">Health: 0-12 (Optional decimal)</string>
+    <string name="info_damage_values">Damage: 1-9 (Optional .0 or .5</string>
+    <string name="info_speed_values">Speed: 1.0-1.5 or just 1</string>
+    <string name="info_range_values">Range: 7-14 (Optional decimal)</string>
+    <string name="info_shot_speed_values">Shot Speed: 1.0, 1 with optional decimal, or 2.0</string>
+    <string name="info_luck_values">Luck: -2.0 to 1.4 (Optional decimal)</string>
+    <string name="info_tears_values">Tears: 1.0, 1 or 2 with optional decimal, or just 3.0</string>
+    <string name="delete_pill">Delete your Pill</string>
 </resources>

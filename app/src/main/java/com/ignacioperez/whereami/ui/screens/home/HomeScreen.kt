@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
@@ -103,6 +104,17 @@ fun HomeScreen(navController: NavController) {
                                     modifier = Modifier.size(30.dp)
                                 )
                             })
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.more_information)) },
+                            onClick = { navController.navigate(Routes.MoreInformationScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(id = R.string.more_information),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            },
+                        )
 
                     }
                 }
@@ -135,12 +147,7 @@ fun HomeScreen(navController: NavController) {
                 Information(R.string.information_item)
                 Information(R.string.information_trinket)
                 Spacer(modifier = Modifier.size(width = 0.dp, height = 10.dp))
-                Button(
-                    onClick = { navController.navigate(Routes.MoreInformationScreen.route) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = stringResource(R.string.more_information))
-                }
+
 
             }
         }

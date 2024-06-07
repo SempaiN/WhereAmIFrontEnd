@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -63,19 +65,22 @@ fun SelectTrinketScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.item_details)) }
+                title = { Text(text = stringResource(id = R.string.item_details)) },
+                navigationIcon = {
+                    androidx.compose.material3.IconButton(onClick = {
+                        navController.popBackStack()
+
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
+                    }
+                },
             )
         },
-        floatingActionButton = {
-            if (selectTrinket && trinketNewCharacter != null) {
-                FloatingActionButton(onClick = {
-                    navController.navigate(Routes.SelectStatsScreen.route)
-                }) {
-                    Icon(Icons.Filled.SkipNext, stringResource(R.string.select_trinket_Screen))
-                }
-            }
-        }
-    ) {
+
+        ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -136,9 +141,22 @@ fun SelectTrinketScreen(
                         Button(onClick = {
                             selectTrinket = !selectTrinket
                             newCharacterViewModel.setTrinketNull()
-                        }) {
-                            Text(stringResource(R.string.delete_selection))
+                        }, modifier = Modifier.size(width = 140.dp, height = 40.dp)) {
+                            Row(horizontalArrangement = Arrangement.Center) {
+                                Text(stringResource(R.string.delete_selection))
+                            }
                         }
+                        Spacer(Modifier.height(12.dp))
+                        Button(onClick = {
+                            navController.navigate(Routes.SelectStatsScreen.route)
+                        }, modifier = Modifier.size(width = 140.dp, height = 40.dp)) {
+                            Row(horizontalArrangement = Arrangement.Center) {
+                                Text(
+                                    stringResource(R.string.next)
+                                )
+                            }
+                        }
+
                     }
                 }
             }

@@ -108,7 +108,8 @@ fun Navigation(
                 itemViewModel,
                 cardRuneViewModel,
                 pillViewModel,
-                trinketViewModel
+                trinketViewModel,
+                navController
             )
         }
         composable(Routes.ListCardRunes.route) {

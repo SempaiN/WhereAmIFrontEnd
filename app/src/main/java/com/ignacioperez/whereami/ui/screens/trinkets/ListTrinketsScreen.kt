@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -71,6 +72,16 @@ fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavControlle
                                 )
                             })
                         DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.items)) },
+                            onClick = { navController.navigate(Routes.ItemsScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.godhead_icon),
+                                    contentDescription = stringResource(id = R.string.items),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
+                        DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.characters)) },
                             onClick = { navController.navigate(Routes.CharactersScreen.route) },
                             leadingIcon = {
@@ -89,7 +100,8 @@ fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavControlle
                                     contentDescription = stringResource(id = R.string.trinkets),
                                     modifier = Modifier.size(30.dp)
                                 )
-                            })
+                            }, enabled = false
+                        )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.pickups)) },
                             onClick = { navController.navigate(Routes.PickupScreen.route) },
@@ -97,6 +109,16 @@ fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavControlle
                                 Icon(
                                     painter = painterResource(id = R.drawable.rune_icon),
                                     contentDescription = stringResource(id = R.string.pickups),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.more_information)) },
+                            onClick = { navController.navigate(Routes.MoreInformationScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(id = R.string.more_information),
                                     modifier = Modifier.size(30.dp)
                                 )
                             })

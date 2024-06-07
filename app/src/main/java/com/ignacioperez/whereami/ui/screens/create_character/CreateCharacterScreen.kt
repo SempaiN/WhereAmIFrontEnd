@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedTextField
@@ -45,13 +48,26 @@ fun CreateCharacterScreen(
     }
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(
-                text = stringResource(
-                    id = R.string.item_details
+        TopAppBar(
+            title = {
+                Text(
+                    text = stringResource(
+                        id = R.string.item_details
+                    )
                 )
-            )
-        })
+            },
+            navigationIcon = {
+                androidx.compose.material3.IconButton(onClick = {
+                    navController.popBackStack()
+
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back)
+                    )
+                }
+            },
+        )
     }) {
         Column(
             verticalArrangement = Arrangement.Center,

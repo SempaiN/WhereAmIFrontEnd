@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -86,6 +87,17 @@ fun ListItems(
                                 )
                             })
                         DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.items)) },
+                            onClick = { navController.navigate(Routes.ItemsScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.godhead_icon),
+                                    contentDescription = stringResource(id = R.string.items),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }, enabled = false
+                        )
+                        DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.characters)) },
                             onClick = { navController.navigate(Routes.CharactersScreen.route) },
                             leadingIcon = {
@@ -116,6 +128,16 @@ fun ListItems(
                                 )
                             },
                         )
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = R.string.more_information)) },
+                            onClick = { navController.navigate(Routes.MoreInformationScreen.route) },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(id = R.string.more_information),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            })
 
                     }
                 }

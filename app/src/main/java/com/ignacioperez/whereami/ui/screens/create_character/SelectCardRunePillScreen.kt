@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -94,18 +95,7 @@ fun SelectCardRunePillScreen(
                 }
             )
         },
-        floatingActionButton = {
-            if ((selectCardRune || selectPill) && (pillNewCharacter != null || cardRuneNewCharacter != null)) {
-                FloatingActionButton(onClick = {
-                    navController.navigate(Routes.SelectTrinketScreen.route)
-                }) {
-                    Icon(
-                        Icons.Filled.SkipNext,
-                        stringResource(R.string.select_trinket_Screen)
-                    )
-                }
-            }
-        }
+
     ) {
         Column(
             modifier = Modifier
@@ -182,8 +172,23 @@ fun SelectCardRunePillScreen(
                             )
                         }
                     }
-                    Button(onClick = { newCharacterViewModel.setPillCharacterNull() }) {
-                        Text(stringResource(R.string.delete_cardRune))
+                    Button(
+                        onClick = { newCharacterViewModel.setPillCharacterNull() },
+                        modifier = Modifier.size(width = 146.dp, height = 35.dp)
+                    ) {
+                        Text(stringResource(R.string.delete_pill))
+                    }
+                    Spacer(Modifier.height(10.dp))
+                    if ((selectCardRune || selectPill) && (pillNewCharacter != null || cardRuneNewCharacter != null)) {
+                        Button(onClick = {
+                            navController.navigate(Routes.SelectStatsScreen.route)
+                        }, modifier = Modifier.size(width = 146.dp, height = 35.dp)) {
+                            Row(horizontalArrangement = Arrangement.Center) {
+                                Text(
+                                    stringResource(R.string.next)
+                                )
+                            }
+                        }
                     }
 
                 }
@@ -265,12 +270,12 @@ fun SelectCardRunePillScreen(
                         )
                 }
                 Column(
-                    Modifier.padding(top = 50.dp)
+                    Modifier.padding(top = 10.dp)
                 ) {
                     Button(onClick = {
                         selectPill = false
                         newCharacterViewModel.setPillCharacterNull()
-                    }) {
+                    }, modifier = Modifier.size(width = 146.dp, height = 35.dp)) {
                         Text(stringResource(R.string.back))
                     }
                 }
@@ -310,7 +315,19 @@ fun SelectCardRunePillScreen(
                     Button(onClick = { newCharacterViewModel.setCardRuneCharacterNull() }) {
                         Text(stringResource(R.string.delete_cardRune))
                     }
+                    Spacer(Modifier.height(10.dp))
 
+                    if ((selectCardRune || selectPill) && (pillNewCharacter != null || cardRuneNewCharacter != null)) {
+                        Button(onClick = {
+                            navController.navigate(Routes.SelectStatsScreen.route)
+                        }, modifier = Modifier.size(width = 146.dp, height = 35.dp)) {
+                            Row(horizontalArrangement = Arrangement.Center) {
+                                Text(
+                                    stringResource(R.string.next)
+                                )
+                            }
+                        }
+                    }
                 }
                 if (showDetails) {
                     CardRuneDetails(cardRuneViewModel, userViewModel = userViewModel)
@@ -390,14 +407,16 @@ fun SelectCardRunePillScreen(
                         )
                 }
                 Column(
-                    Modifier.padding(top = 50.dp)
+                    Modifier.padding(top = 10.dp)
                 ) {
                     Button(onClick = {
                         selectCardRune = false
                         newCharacterViewModel.setCardRuneCharacterNull()
-                    }) {
+                    }, modifier = Modifier.size(width = 146.dp, height = 35.dp)) {
                         Text(stringResource(R.string.back))
                     }
+
+
                 }
             }
         }
