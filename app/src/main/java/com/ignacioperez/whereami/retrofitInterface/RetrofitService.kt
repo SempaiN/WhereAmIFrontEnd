@@ -103,4 +103,24 @@ interface RetrofitService {
     @GET("users/getFavoritePill/{id}")
     suspend fun getFavoritePillsByUser(@Path("id") id: Int): ListPills
 
+    @GET("characters/get_tainted_characters/")
+    suspend fun getTaintedCharacters(): List<CharacterResponse>
+
+    @GET("items/unlockable_items/")
+    suspend fun getUnlockableItems(): List<Item>
+
+    @GET("items/active_items/")
+    suspend fun getActiveItems(): List<Item>
+
+    @GET("pills/neutral_pills/")
+    suspend fun getNeutralPills(): ListPills
+    @GET("pills/negative_pills/")
+    suspend fun getNegativePills(): ListPills
+    @GET("pills/positive_pills/")
+    suspend fun getPositivePills(): ListPills
+    @GET("pills/unlockable_pills/")
+    suspend fun getUnlockablePills(): ListPills
+
+    @GET("trinkets/unlockable_trinkets/")
+    suspend fun getUnlockableTrinkets(): ListTrinkets
 }

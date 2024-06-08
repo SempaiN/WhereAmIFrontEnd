@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -82,10 +83,6 @@ fun ItemDetailsScreen(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.back)
                 )
-            }
-        }, actions = {
-            if (item.unlockable) {
-                Switch(checked = showSpoiler, onCheckedChange = { showSpoiler = it })
             }
         })
 
@@ -173,8 +170,21 @@ fun ItemDetailsScreen(
                 }
 
             }
-
+            if (item.unlockable) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(onClick = {
+                        showSpoiler = !showSpoiler
+                    }) {
+                        Text(stringResource(R.string.show_spoiler))
+                    }
+                }
+            }
         }
+
     }
 
 

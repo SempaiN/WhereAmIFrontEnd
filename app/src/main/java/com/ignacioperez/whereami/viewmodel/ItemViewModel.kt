@@ -23,6 +23,13 @@ class ItemViewModel : ViewModel() {
     private val _allItems = MutableLiveData<List<Item>>()
     val allItems: LiveData<List<Item>> = _allItems
 
+    private val _itemsActives = MutableLiveData<List<Item>>()
+    val itemsActives: LiveData<List<Item>> = _itemsActives
+
+    private val _unlockableItems = MutableLiveData<List<Item>>()
+    val unlockalbeItems: LiveData<List<Item>> = _unlockableItems
+
+
     private val _isSelectedItemFavorite = MutableLiveData<Boolean>()
     val isSelectedItemFavorite: LiveData<Boolean> = _isSelectedItemFavorite
 
@@ -33,7 +40,6 @@ class ItemViewModel : ViewModel() {
                 val result = service.isItemFavorite(item.id, user.id)
                 _isSelectedItemFavorite.postValue(result)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _isSelectedItemFavorite.postValue(false)
             }
         }
@@ -54,9 +60,8 @@ class ItemViewModel : ViewModel() {
             try {
                 val result = service.getStatsChanges(id)
                 _statsChangedByItem.postValue(result)
-                Log.i("Stat", result.toString())
             } catch (e: Exception) {
-                Log.i("Error", e.message.toString())
+                _statsChangedByItem.postValue(ObjectChangeStatsList())
             }
         }
     }
@@ -68,10 +73,7 @@ class ItemViewModel : ViewModel() {
             _statsChangedByItem.postValue(result)
             result
         } catch (e: Exception) {
-            Log.i("Error", e.toString())
             ObjectChangeStatsList()
-        } finally {
-
         }
     }
 
@@ -86,6 +88,7 @@ class ItemViewModel : ViewModel() {
             }
         }
     }
+
     fun deleteItemFavorite(item: Item, user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
@@ -103,10 +106,35 @@ class ItemViewModel : ViewModel() {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getAllItems()
-                Log.i("--", result.toString())
                 _allItems.postValue(result)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
+                _allItems.postValue(emptyList())
+            }
+
+        }
+    }
+
+    fun getActiveItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getActiveItems()
+                _itemsActives.postValue(result)
+            } catch (e: Exception) {
+                _itemsActives.postValue(emptyList())
+            }
+
+        }
+    }
+
+    fun getUnlockableItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getUnlockableItems()
+                _unlockableItems.postValue(result)
+            } catch (e: Exception) {
+                _unlockableItems.postValue(emptyList())
             }
 
         }

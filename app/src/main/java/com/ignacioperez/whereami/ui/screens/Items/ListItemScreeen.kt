@@ -3,18 +3,25 @@ package com.ignacioperez.whereami.ui.screens.Items
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.BatteryFull
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -45,6 +52,7 @@ import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListItems(
@@ -56,14 +64,21 @@ fun ListItems(
         initial = User()
     )
     itemViewModel.getAllItems()
-
+    itemViewModel.getActiveItems()
+    itemViewModel.getUnlockableItems()
     userViewModel.getFavoriteItems(user)
     val itemList: List<Item> by itemViewModel.allItems.observeAsState(initial = emptyList())
+    val unlockableList: List<Item> by itemViewModel.unlockalbeItems.observeAsState(initial = emptyList())
+    val activeList: List<Item> by itemViewModel.itemsActives.observeAsState(initial = emptyList())
     val favoriteItems: List<Item> by userViewModel.favoriteItemsList.observeAsState(emptyList())
+
+    var showOnlyFavoriteItems: Boolean by rememberSaveable { mutableStateOf(false) }
+    var showOnlyActiveItems: Boolean by rememberSaveable { mutableStateOf(false) }
+    var showOnlyUnlockablesItems: Boolean by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.home_screen)) },
+                title = { Text(text = stringResource(id = R.string.list_items)) },
                 navigationIcon = {
                     var expanded by rememberSaveable {
                         mutableStateOf(false)
@@ -144,31 +159,56 @@ fun ListItems(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxWidth()
+        Column(modifier = Modifier.padding(it)) {
+            Row(Modifier.padding(8.dp)) {
+                FilterChip(
+                    selected = showOnlyActiveItems,
+                    onClick = {
+                        showOnlyActiveItems = !showOnlyActiveItems
+                        showOnlyUnlockablesItems = false
+                        showOnlyFavoriteItems = false
+                    },
+                    label = { Text(stringResource(R.string.active_items)) },
 
-        ) {
-            items(
-                itemList
-            ) { item ->
-                if (favoriteItems.contains(item)) {
+                )
+                FilterChip(
+                    selected = showOnlyUnlockablesItems,
+                    onClick = {
+                        showOnlyActiveItems = false
+                        showOnlyUnlockablesItems = !showOnlyUnlockablesItems
+                        showOnlyFavoriteItems = false
+                    },
+                    label = { Text(stringResource(R.string.unlockable_items)) }
+                )
+                FilterChip(
+                    selected = showOnlyFavoriteItems,
+                    onClick = {
+                        showOnlyActiveItems = false
+                        showOnlyUnlockablesItems = false
+                        showOnlyFavoriteItems = !showOnlyFavoriteItems
+                    },
+                    label = { Text(stringResource(R.string.favorite_items)) }
+                )
+            }
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(
+                    when {
+                        showOnlyActiveItems -> activeList
+                        showOnlyUnlockablesItems -> unlockableList
+                        showOnlyFavoriteItems -> favoriteItems
+                        else -> itemList
+                    }
+                ) { item ->
                     ItemCard(
                         item = item,
                         itemViewModel = itemViewModel,
-                        navController = navController, true
-                    )
-                } else {
-
-                    ItemCard(
-                        item = item,
-                        itemViewModel = itemViewModel,
-                        navController = navController, false
+                        navController = navController,
+                        favorite = favoriteItems.contains(item)
                     )
                 }
             }
-
         }
     }
 }

@@ -111,11 +111,15 @@
     <string name="info">Information</string>
     <string name="stats_info">Information about stats values</string>
     <string name="info_health_values">Health: 0-12 (Optional decimal)</string>
-    <string name="info_damage_values">Damage: 1-9 (Optional .0 or .5</string>
+    <string name="info_damage_values">Damage: 1-9 (Optional .0 or .5)</string>
     <string name="info_speed_values">Speed: 1.0-1.5 or just 1</string>
     <string name="info_range_values">Range: 7-14 (Optional decimal)</string>
     <string name="info_shot_speed_values">Shot Speed: 1.0, 1 with optional decimal, or 2.0</string>
     <string name="info_luck_values">Luck: -2.0 to 1.4 (Optional decimal)</string>
     <string name="info_tears_values">Tears: 1.0, 1 or 2 with optional decimal, or just 3.0</string>
     <string name="delete_pill">Delete your Pill</string>
+    <string name="active_items">Active Items</string>
+    <string name="favorite_items">Favorite items</string>
+    <string name="unlockable_items">Unlockable items</string>
+    <string name="list_items">All items screen</string>
 </resources>
