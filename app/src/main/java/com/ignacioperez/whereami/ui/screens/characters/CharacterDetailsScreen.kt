@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -90,7 +91,9 @@ fun CharacterDetails(
             }
         }, actions = {
             if (character.unlockable) {
-                Switch(checked = showSpoiler, onCheckedChange = { showSpoiler = it })
+                TextButton(onClick = { showSpoiler = !showSpoiler }) {
+                    Text(stringResource(R.string.show_spoiler))
+                }
             }
         })
     }) {
@@ -187,7 +190,9 @@ fun StatsDefaultCharacter(
     )
     val statsEquals = checkStatsChanges(statsBase, statsModified)
     if (statsEquals) {
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(text = stringResource(R.string.stats_base))
             for (stat in statsBase) {
                 val info = statInfo[stat.name]

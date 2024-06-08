@@ -13,6 +13,7 @@ import com.ignacioperez.whereami.ui.screens.Items.ItemDetailsScreen
 import com.ignacioperez.whereami.ui.screens.pickups.ListCardRunes
 import com.ignacioperez.whereami.ui.screens.characters.ListCharacters
 import com.ignacioperez.whereami.ui.screens.Items.ListItems
+import com.ignacioperez.whereami.ui.screens.create_character.FinalScreen
 import com.ignacioperez.whereami.ui.screens.pickups.ListPills
 import com.ignacioperez.whereami.ui.screens.trinkets.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.loginsignin.Login
@@ -104,12 +105,8 @@ fun Navigation(
         }
         composable(Routes.SelectStatsScreen.route) {
             SelectStatsScreen(
-                newCharacterViewModel,
-                itemViewModel,
-                cardRuneViewModel,
-                pillViewModel,
-                trinketViewModel,
-                navController
+                newCharacterViewModel, navController
+
             )
         }
         composable(Routes.ListCardRunes.route) {
@@ -117,6 +114,16 @@ fun Navigation(
         }
         composable(Routes.ListPills.route) {
             ListPills(pillViewModel, userViewModel, navController)
+        }
+        composable(Routes.FinalScreen.route) {
+            FinalScreen(
+                newCharacterViewModel,
+                userViewModel,
+                pillViewModel,
+                cardRuneViewModel,
+                trinketViewModel,
+                itemViewModel
+            )
         }
     }
 }

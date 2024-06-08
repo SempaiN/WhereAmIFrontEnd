@@ -43,6 +43,7 @@ import com.ignacioperez.whereami.healthRegex
 import com.ignacioperez.whereami.luckRegex
 import com.ignacioperez.whereami.models.Stat
 import com.ignacioperez.whereami.mycomposables.StatTextField
+import com.ignacioperez.whereami.navigation.Routes
 import com.ignacioperez.whereami.rangeRegex
 import com.ignacioperez.whereami.shotSpeedRegex
 import com.ignacioperez.whereami.speedRegex
@@ -58,24 +59,9 @@ import kotlin.random.Random
 @Composable
 fun SelectStatsScreen(
     newCharacterViewModel: NewCharacterViewModel,
-    itemViewModel: ItemViewModel,
-    cardRuneViewModel: CardRuneViewModel,
-    pillViewModel: PillViewModel,
-    trinketViewModel: TrinketViewModel,
     navController: NavController
 ) {
-    val pillNewCharacter by newCharacterViewModel.pillNewCharacter.observeAsState(null)
-    val cardRuneNewCharacter by newCharacterViewModel.cardRuneNewCharacter.observeAsState(null)
-    val trinketNewCharacter by newCharacterViewModel.trinketNewCharacter.observeAsState(null)
-    val listItemsNewCharacter by newCharacterViewModel.listItemsNewCharacter.observeAsState(
-        emptyList()
-    )
-    val statsChangedByPill by pillViewModel.statsChangedByPill.observeAsState(emptyList())
-    val statsChangedByCardRune by cardRuneViewModel.statsChangedByCardRune.observeAsState(emptyList())
-    val statsChangedByTrinket by trinketViewModel.statsChangedByTrinket.observeAsState(emptyList())
-    val listStatsList = remember {
-        mutableStateOf<List<Stat>>(emptyList())
-    }
+
 
     val healthStat by newCharacterViewModel.healthStat.observeAsState(initial = -1.0)
     val damageStat by newCharacterViewModel.damageStat.observeAsState(initial = -1.0)
@@ -93,15 +79,7 @@ fun SelectStatsScreen(
     var showRangeDialog by remember { mutableStateOf(false) }
     var showLuckDialog by remember { mutableStateOf(false) }
     var shotSpeedInput by rememberSaveable { mutableStateOf("") }
-    val initialStats = mutableListOf(
-        Stat("Health", -1.0),
-        Stat("Damage", 0.0),
-        Stat("Tears", 0.0),
-        Stat("Shot Speed", 0.0),
-        Stat("Range", 0.0),
-        Stat("Luck", 0.0),
-        Stat("Speed", 0.0)
-    )
+
 
     var healthComplete by rememberSaveable { mutableStateOf(false) }
     var damageComplete by rememberSaveable { mutableStateOf(false) }
@@ -132,15 +110,7 @@ fun SelectStatsScreen(
     var damageInput by rememberSaveable { mutableStateOf("") }
     var rangeInput by rememberSaveable { mutableStateOf("") }
     var luckInput by rememberSaveable { mutableStateOf("") }
-    val statInfo = listOf(
-        "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
-        "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
-        "Tears" to Pair(R.drawable.tears_stat_icon, R.string.tears_stat),
-        "Damage" to Pair(R.drawable.damage_stat_icon, R.string.damage_stat),
-        "Range" to Pair(R.drawable.range_stat_icon, R.string.range_stat),
-        "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
-        "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
-    )
+
 
 
     Scaffold(
@@ -715,6 +685,10 @@ fun SelectStatsScreen(
                         }
                     )
                 }
+                Button(onClick = { navController.navigate(Routes.FinalScreen.route) }) {
+                    Text(stringResource(R.string.next))
+                }
+
             }
             if (showInfo) {
                 AlertDialog(
@@ -754,73 +728,6 @@ fun SelectStatsScreen(
         }
     }
 
-
-    //if (listItemsNewCharacter.isEmpty() && trinketNewCharacter == null && cardRuneNewCharacter == null && pillNewCharacter == null) {
-//    // Handle empty state
-//} else {
-//    Text(
-//        stringResource(R.string.character_will_start),
-//        style = MaterialTheme.typography.body1
-//    )
-//
-//}
-//LaunchedEffect(listItemsNewCharacter) {
-//    val newListStats = mutableListOf<ObjectChangeStats>()
-//    for (item in listItemsNewCharacter) {
-//        newListStats.addAll(itemViewModel.loadStatsResponseObject(item.id))
-//    }
-//    listStatsList.value = newListStats
-//}
-//
-//LaunchedEffect(cardRuneNewCharacter?.id) {
-//    cardRuneNewCharacter?.id?.let { cardRuneViewModel.loadStats(it) }
-//}
-//LaunchedEffect(trinketNewCharacter?.id) {
-//    trinketNewCharacter?.let { trinketViewModel.loadStats(it.id) }
-//}
-//LaunchedEffect(pillNewCharacter?.id) {
-//    pillNewCharacter?.let { pillViewModel.loadStats(it.id) }
-//}
-//
-//val updatedStats = remember(
-//    statsChangedByCardRune,
-//    statsChangedByTrinket,
-//    statsChangedByPill,
-//    listStatsList.value
-//) {
-//    val newStats = initialStats.toMutableList()
-//
-//    for (statCard in statsChangedByCardRune) {
-//        val stat = newStats.find { it.name == statCard.name }
-//        if (stat != null) {
-//            stat.value += statCard.value
-//        }
-//    }
-//
-//    for (statTrinket in statsChangedByTrinket) {
-//        val stat = newStats.find { it.name == statTrinket.name }
-//        if (stat != null) {
-//            stat.value += statTrinket.value
-//        }
-//    }
-//
-//    for (statPill in statsChangedByPill) {
-//        val stat = newStats.find { it.name == statPill.name }
-//        if (stat != null) {
-//            stat.value += statPill.value
-//        }
-//    }
-//
-//    for (itemStat in listStatsList.value) {
-//        val stat = newStats.find { it.name == itemStat.name }
-//        if (stat != null) {
-//            stat.value += itemStat.value
-//        }
-//    }
-//    newStats
-//}
-
-    // Main function to generate stats based on rules
 
 }
 

@@ -1,8 +1,13 @@
 package com.ignacioperez.whereami.ui.screens.characters
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -13,6 +18,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,6 +57,8 @@ fun ListCharacters(
     val customCharacters: List<CharacterResponse> by userViewModel.charactersCustom.observeAsState(
         initial = emptyList()
     )
+    var showTainted by rememberSaveable { mutableStateOf(false) }
+    var showCustom by rememberSaveable { mutableStateOf(false) }
     characterViewModel.loadCharacters()
     userViewModel.getCharactersCustom(user)
     val characterList: List<CharacterResponse> by characterViewModel.defaultCharacters.observeAsState(
@@ -60,7 +68,7 @@ fun ListCharacters(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.home_screen)) },
+                title = { Text(text = stringResource(id = R.string.all_characters)) },
                 navigationIcon = {
                     var expanded by rememberSaveable {
                         mutableStateOf(false)
@@ -149,17 +157,46 @@ fun ListCharacters(
             }
         }
     ) {
-        LazyVerticalGrid(
-            modifier = Modifier.padding(it),
-            columns = GridCells.Adaptive(100.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalArrangement = Arrangement.Center
+        Column(modifier = Modifier.padding(it)) {
+            Row(
+                modifier = Modifier
 
-        ) {
-            items(
-                characterList + customCharacters
-            ) { character ->
-                CharacterCard(character, characterViewModel, navController)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                FilterChip(
+                    selected = showCustom,
+                    onClick = {
+                        showCustom = !showCustom
+                        showTainted = false
+
+                    },
+                    label = { Text(stringResource(R.string.showCustom)) },
+
+                    )
+                Spacer(Modifier.width(20.dp))
+                FilterChip(
+                    selected = showTainted,
+                    onClick = {
+                        showCustom = false
+                        showTainted = !showTainted
+
+                    },
+                    label = { Text(stringResource(R.string.tainted_characters)) }
+                )
+            }
+            LazyVerticalGrid(
+
+                columns = GridCells.Adaptive(100.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
+
+            ) {
+                items(
+                    characterList + customCharacters
+                ) { character ->
+                    CharacterCard(character, characterViewModel, navController)
+                }
             }
         }
     }

@@ -122,4 +122,8 @@
     <string name="favorite_items">Favorite items</string>
     <string name="unlockable_items">Unlockable items</string>
     <string name="list_items">All items screen</string>
+    <string name="all_characters">All characters</string>
+    <string name="showCustom">Cusom Characters</string>
+    <string name="tainted_characters">Tainted Characters</string>
+    <string name="final_stats">With the selected stats and items, the final stats of the character will be</string>
 </resources>
