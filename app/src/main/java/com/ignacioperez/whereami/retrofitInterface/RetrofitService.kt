@@ -1,17 +1,15 @@
 package com.ignacioperez.whereami.retrofitInterface
 
-import com.ignacioperez.whereami.models.APIResponseItem
 import com.ignacioperez.whereami.models.CardRune
 import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ListCardRunes
-import com.ignacioperez.whereami.models.ListPickups
 import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.ListTrinkets
+import com.ignacioperez.whereami.models.NewCharacter
 import com.ignacioperez.whereami.models.StatResponse
 import com.ignacioperez.whereami.models.StatsModifiedCharacter
-import com.ignacioperez.whereami.models.Trinket
 import com.ignacioperez.whereami.models.User
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -23,6 +21,9 @@ interface RetrofitService {
 
     @POST("users/create")
     suspend fun createUser(@Body user: User): User
+
+    @POST("characters/new")
+    suspend fun createCharacter(@Body character: NewCharacter)
 
     @GET("users/last")
     suspend fun getLastUser(): User
@@ -114,13 +115,20 @@ interface RetrofitService {
 
     @GET("pills/neutral_pills/")
     suspend fun getNeutralPills(): ListPills
+
     @GET("pills/negative_pills/")
     suspend fun getNegativePills(): ListPills
+
     @GET("pills/positive_pills/")
     suspend fun getPositivePills(): ListPills
+
     @GET("pills/unlockable_pills/")
     suspend fun getUnlockablePills(): ListPills
 
     @GET("trinkets/unlockable_trinkets/")
     suspend fun getUnlockableTrinkets(): ListTrinkets
+
+    @GET("characters/get_last_imageUrl/")
+    suspend fun getLastImage(): String
+
 }

@@ -1,6 +1,5 @@
 package com.ignacioperez.whereami.ui.screens.loginsignin
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,18 +29,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ignacioperez.whereami.R
-import com.ignacioperez.whereami.checkAccountExists
+import com.ignacioperez.whereami.checkAccountExistsFirebase
 import com.ignacioperez.whereami.checkEmail
 import com.ignacioperez.whereami.checkPassword
 import com.ignacioperez.whereami.auth
 import com.ignacioperez.whereami.models.User
 import com.ignacioperez.whereami.mycomposables.PasswordTextField
 import com.ignacioperez.whereami.viewmodel.RegisterViewModel
+import com.ignacioperez.whereami.viewmodel.UserViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun Register(navController: NavController, registerViewModel: RegisterViewModel) {
+fun Register(
+    navController: NavController,
+    registerViewModel: RegisterViewModel,
+    userViewModel: UserViewModel
+) {
 
     var email by rememberSaveable {
         mutableStateOf("")
@@ -60,13 +64,9 @@ fun Register(navController: NavController, registerViewModel: RegisterViewModel)
     var name by rememberSaveable {
         mutableStateOf("")
     }
-    var createdUser by rememberSaveable {
-        mutableStateOf("")
-    }
+
     var coroutineScope = rememberCoroutineScope()
-    var responseJSON by rememberSaveable {
-        mutableStateOf("")
-    }
+
     Scaffold(
         modifier = Modifier.padding(16.dp),
     ) {
@@ -99,7 +99,7 @@ fun Register(navController: NavController, registerViewModel: RegisterViewModel)
 
             Button(
                 onClick = {
-                    checkAccountExists(email, password, auth) { exists ->
+                    checkAccountExistsFirebase(email, password, auth) { exists ->
                         if (exists) {
                             Toast.makeText(
                                 context,
@@ -123,8 +123,6 @@ fun Register(navController: NavController, registerViewModel: RegisterViewModel)
                                                 name = name,
                                                 email = email
                                             )
-                                            Log.d("newUser", newUser.toString())
-                                            Log.i("last", last.toString())
                                             registerViewModel.createUser(newUser)
                                             Toast.makeText(
                                                 context,

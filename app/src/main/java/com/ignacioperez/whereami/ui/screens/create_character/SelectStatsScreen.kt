@@ -40,7 +40,9 @@ import androidx.navigation.NavController
 import com.ignacioperez.whereami.R
 import com.ignacioperez.whereami.damageRegex
 import com.ignacioperez.whereami.healthRegex
+import com.ignacioperez.whereami.listImagesAppearances
 import com.ignacioperez.whereami.luckRegex
+import com.ignacioperez.whereami.models.NewCharacter
 import com.ignacioperez.whereami.models.Stat
 import com.ignacioperez.whereami.mycomposables.StatTextField
 import com.ignacioperez.whereami.navigation.Routes
@@ -48,6 +50,7 @@ import com.ignacioperez.whereami.rangeRegex
 import com.ignacioperez.whereami.shotSpeedRegex
 import com.ignacioperez.whereami.speedRegex
 import com.ignacioperez.whereami.tearsRegex
+import com.ignacioperez.whereami.transitionImageIsaac
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.ItemViewModel
 import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
@@ -88,7 +91,7 @@ fun SelectStatsScreen(
     var rangeComplete by rememberSaveable { mutableStateOf(false) }
     var luckComplete by rememberSaveable { mutableStateOf(false) }
     var speedComplete by rememberSaveable { mutableStateOf(false) }
-
+    var showErrorLastTest by rememberSaveable{ mutableStateOf(false) }
     val statIcon = listOf(
         Pair(R.drawable.health_stat_icon, R.string.health_stat),
         Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
@@ -110,7 +113,18 @@ fun SelectStatsScreen(
     var damageInput by rememberSaveable { mutableStateOf("") }
     var rangeInput by rememberSaveable { mutableStateOf("") }
     var luckInput by rememberSaveable { mutableStateOf("") }
-
+    val lastImage by newCharacterViewModel.lastImage.observeAsState("")
+    val name by newCharacterViewModel.newCharacterName.observeAsState(""
+    )
+    newCharacterViewModel.getLastImageUrlAppearance()
+    val newcharacter = NewCharacter(
+        custom = true, imageUrl = getRandomImageExcludingLast(
+            lastImage
+        ), name = name,
+        tainted = false,
+        transitionImage = transitionImageIsaac,
+        unlockable = false, wayToUnlock = ""
+    )
 
 
     Scaffold(
@@ -685,10 +699,30 @@ fun SelectStatsScreen(
                         }
                     )
                 }
-                Button(onClick = { navController.navigate(Routes.FinalScreen.route) }) {
-                    Text(stringResource(R.string.next))
+
+
+                Button(onClick = { showErrorLastTest = !showErrorLastTest }) {
+                    Text(stringResource(R.string.create_character))
                 }
 
+            }
+            if (showErrorLastTest){
+                AlertDialog(
+                    onDismissRequest = {showErrorLastTest = !showErrorLastTest },
+                    title = {
+                        Text(text = stringResource(R.string.lastDayError))
+                    },
+                    text = {
+                        Text(text = stringResource(R.string.lastDayErrorText))
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { showErrorLastTest = !showErrorLastTest },
+                        ) {
+                            Text(stringResource(R.string.exit))
+                        }
+                    }
+                )
             }
             if (showInfo) {
                 AlertDialog(
@@ -822,4 +856,8 @@ fun generateRandomStats(newCharacterViewModel: NewCharacterViewModel) {
     newCharacterViewModel.setShotSpeedStat(shotSpeed)
     newCharacterViewModel.setLuckStat(luck)
 
+}
+fun getRandomImageExcludingLast(lastImage: String): String {
+    val availableUrls = listImagesAppearances.filter { it != lastImage }
+    return availableUrls.random()
 }

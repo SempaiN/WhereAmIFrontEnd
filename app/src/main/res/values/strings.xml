@@ -126,4 +126,9 @@
     <string name="showCustom">Cusom Characters</string>
     <string name="tainted_characters">Tainted Characters</string>
     <string name="final_stats">With the selected stats and items, the final stats of the character will be</string>
+    <string name="internet_failed">Please check your internet connection and try again.</string>
+    <string name="select_favorite">Add or delete from favorites</string>
+    <string name="create_character">Create your character</string>
+    <string name="lastDayError">Last Day Error</string>
+    <string name="lastDayErrorText">Error occurred on the last day of tests</string>
 </resources>

@@ -308,7 +308,11 @@ fun ItemOnAltarClickableNewCharacter(
                 },
                 onTap = {
                     itemViewModel.loadStats(item.id)
-                    showAlertDialogStatsChangedByItem = true
+                    for (stat in stats){
+                        if (stat.value != 0.0){
+                            showAlertDialogStatsChangedByItem = !showAlertDialogStatsChangedByItem
+                        }
+                    }
                 }
             )
         }) {

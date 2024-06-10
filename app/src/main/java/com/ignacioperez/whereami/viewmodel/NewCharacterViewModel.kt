@@ -1,15 +1,21 @@
 package com.ignacioperez.whereami.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.ignacioperez.whereami.listImagesAppearances
 import com.ignacioperez.whereami.models.CardRune
+import com.ignacioperez.whereami.models.CharacterResponse
 import com.ignacioperez.whereami.models.Item
+import com.ignacioperez.whereami.models.NewCharacter
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
-import com.ignacioperez.whereami.models.Stat
 import com.ignacioperez.whereami.models.Trinket
+import com.ignacioperez.whereami.retrofitInterface.RetrofitServiceFactory
+import com.ignacioperez.whereami.transitionImageIsaac
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -53,6 +59,8 @@ class NewCharacterViewModel : ViewModel() {
     private val _speedStat = MutableLiveData<Double>()
     val speedStat: LiveData<Double> = _speedStat
 
+    private val _lastImage = MutableLiveData<String>()
+    val lastImage: LiveData<String> = _lastImage
 
     fun setHealthStat(value: Double) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -138,6 +146,29 @@ class NewCharacterViewModel : ViewModel() {
 
     fun removeCardRuneFromList() {
         _cardRuneNewCharacter.value = null
+    }
+
+    fun createNewCharacterJson(newCharacter: NewCharacter): String {
+        return Gson().toJson(newCharacter)
+    }
+
+    fun createCharacterInDatabase(newCharacter: NewCharacter) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val service = RetrofitServiceFactory.getRetrofit()
+            service.createCharacter(newCharacter)
+
+
+        }
+    }
+
+    fun getLastImageUrlAppearance() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val service = RetrofitServiceFactory.getRetrofit()
+            val result = service.getLastImage()
+            _lastImage.postValue(result)
+        }
     }
 
 

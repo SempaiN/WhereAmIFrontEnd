@@ -106,5 +106,25 @@
     <string name="modify">Modificar estadística</string>
     <string name="health">"Vida: "</string>
     <string name="info">Information</string>
-    <string name="delete_pill">Delete your Pill</string>
+    <string name="info_health_values">Vida: 0-12 (Opcional decimal)</string>
+    <string name="info_damage_values">Daño: 1-9 (Opcional .0 or .5)</string>
+    <string name="info_speed_values">Velocidad: 1.0-1.5 or just 1</string>
+    <string name="info_range_values">Rango: 7-14 (Opcional decimal)</string>
+    <string name="info_shot_speed_values">Velocidad de Disparo: 1.0, 1 con decimal opcional, o 2.0</string>
+    <string name="info_luck_values">Suerte: -2.0 a 1.4 (Decimal opcional)</string>
+    <string name="info_tears_values">Lágrimas: 1.0, 1 o 2 con decimal opcional, o simplemente 3.0</string>
+    <string name="delete_pill">Eliminar tu Píldora</string>
+    <string name="active_items">Ítems Activos</string>
+    <string name="favorite_items">Ítems Favoritos</string>
+    <string name="unlockable_items">Ítems Desbloqueables</string>
+    <string name="list_items">Pantalla de Todos los Ítems</string>
+    <string name="all_characters">Todos los Personajes</string>
+    <string name="showCustom">Mostrar Personajes Personalizados</string>
+    <string name="tainted_characters">Personajes Corruptos</string>
+    <string name="final_stats">Con las estadísticas y los ítems seleccionados, las estadísticas finales del personaje serán</string>
+    <string name="internet_failed">Por favor, verifica tu conexión a internet e inténtalo de nuevo.</string>
+    <string name="select_favorite">Añadir o eliminar de Favoritos</string>
+    <string name="create_character">Crea tu Personaje</string>
+    <string name="lastDayError">Error del Último Día</string>
+    <string name="lastDayErrorText">Ocurrió un error en el último día de pruebas</string>
 </resources>

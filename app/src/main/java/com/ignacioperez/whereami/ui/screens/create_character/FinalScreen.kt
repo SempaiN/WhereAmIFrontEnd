@@ -1,5 +1,3 @@
-package com.ignacioperez.whereami.ui.screens.create_character
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ignacioperez.whereami.R
@@ -25,7 +24,6 @@ import com.ignacioperez.whereami.viewmodel.NewCharacterViewModel
 import com.ignacioperez.whereami.viewmodel.PillViewModel
 import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
-
 @Composable
 fun FinalScreen(
     newCharacterViewModel: NewCharacterViewModel,
@@ -38,9 +36,7 @@ fun FinalScreen(
     val pillNewCharacter by newCharacterViewModel.pillNewCharacter.observeAsState(null)
     val cardRuneNewCharacter by newCharacterViewModel.cardRuneNewCharacter.observeAsState(null)
     val trinketNewCharacter by newCharacterViewModel.trinketNewCharacter.observeAsState(null)
-    val listItemsNewCharacter by newCharacterViewModel.listItemsNewCharacter.observeAsState(
-        emptyList()
-    )
+    val listItemsNewCharacter by newCharacterViewModel.listItemsNewCharacter.observeAsState(emptyList())
     val statsChangedByPill by pillViewModel.statsChangedByPill.observeAsState(emptyList())
     val statsChangedByCardRune by cardRuneViewModel.statsChangedByCardRune.observeAsState(emptyList())
     val statsChangedByTrinket by trinketViewModel.statsChangedByTrinket.observeAsState(emptyList())
@@ -57,31 +53,23 @@ fun FinalScreen(
 
     val listStatsCharacter = mutableListOf(
         healthStat,
-        damageStat,
+        speedStat,
         tearsStat,
-        shotSpeedStat,
+        damageStat,
         rangeStat,
+        shotSpeedStat,
         luckStat,
-        speedStat
     )
     val initialStats = mutableListOf(
         Stat("Health", 0.0),
-        Stat("Damage", 0.0),
+        Stat("Speed", 0.0),
         Stat("Tears", 0.0),
-        Stat("Shot Speed", 0.0),
+        Stat("Damage", 0.0),
         Stat("Range", 0.0),
-        Stat("Luck", 0.0),
-        Stat("Speed", 0.0)
+        Stat("Shot Speed", 0.0),
+        Stat("Luck", 0.0)
     )
-    val statInfo = listOf(
-        "Health" to Pair(R.drawable.health_stat_icon, R.string.health_stat),
-        "Speed" to Pair(R.drawable.speed_stat_icon, R.string.speed_stat),
-        "Tears" to Pair(R.drawable.tears_stat_icon, R.string.tears_stat),
-        "Damage" to Pair(R.drawable.damage_stat_icon, R.string.damage_stat),
-        "Range" to Pair(R.drawable.range_stat_icon, R.string.range_stat),
-        "Shot Speed" to Pair(R.drawable.shot_speed_stat_icon, R.string.shot_speed_stat),
-        "Luck" to Pair(R.drawable.luck_stat_icon, R.string.luck_stat)
-    )
+
     if (listItemsNewCharacter.isEmpty() && trinketNewCharacter == null && cardRuneNewCharacter == null && pillNewCharacter == null) {
         // Handle empty state
     } else {
@@ -89,8 +77,8 @@ fun FinalScreen(
             stringResource(R.string.character_will_start),
             style = MaterialTheme.typography.body1
         )
-
     }
+
     LaunchedEffect(listItemsNewCharacter) {
         val newListStats = mutableListOf<Stat>()
         for (item in listItemsNewCharacter) {
@@ -147,21 +135,34 @@ fun FinalScreen(
         newStats
     }
 
+    val finalStats = listStatsCharacter.mapIndexed { index, baseStat ->
+        baseStat + updatedStats[index].value
+    }
+
+    // Use a mutable state to store the final stats to avoid infinite updates
+    var finalStatsState by rememberSaveable { mutableStateOf(finalStats) }
+
+    LaunchedEffect(finalStats) {
+        if (finalStatsState != finalStats) {
+            finalStatsState = finalStats
+            newCharacterViewModel.setHealthStat(finalStats[0])
+            newCharacterViewModel.setSpeedStat(finalStats[1])
+            newCharacterViewModel.setTearsStat(finalStats[2])
+            newCharacterViewModel.setDamageStat(finalStats[3])
+            newCharacterViewModel.setRangeStat(finalStats[4])
+            newCharacterViewModel.setShotSpeedStat(finalStats[5])
+            newCharacterViewModel.setLuckStat(finalStats[6])
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(stringResource(R.string.final_stats))
-        for (index in listStatsCharacter.indices) {
-            val finalStat = listStatsCharacter[index] + updatedStats[index].value
-            Text(finalStat.toString())
+        listStatsCharacter.forEach { stat ->
+            Text(stat.toString())
         }
         Spacer(Modifier.height(20.dp))
-        for (update in updatedStats) {
-            Text(update.value.toString())
-        }
     }
 }
-
-
-// Main function to generate stats based on rules

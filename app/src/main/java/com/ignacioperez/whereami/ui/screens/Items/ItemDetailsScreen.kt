@@ -66,7 +66,7 @@ fun ItemDetailsScreen(
     val stats: ObjectChangeStatsList by itemViewModel.statsChangedByItem.observeAsState(
         ObjectChangeStatsList()
     )
-    var showSpoiler by rememberSaveable() { mutableStateOf(false) }
+    var showSpoiler by rememberSaveable { mutableStateOf(false) }
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
@@ -116,7 +116,7 @@ fun ItemDetailsScreen(
                         }) {
                             Icon(
                                 imageVector = if (isFavoriteItem) Icons.Default.Favorite else Icons.Outlined.Favorite,
-                                contentDescription = "Seleccionar como favorito",
+                                contentDescription = stringResource(R.string.select_favorite),
                                 tint = if (isFavoriteItem) Color.Red else Color.Black
                             )
                         }
@@ -163,7 +163,7 @@ fun ItemDetailsScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 ObjectStatsChanged(stats)
                 if (item.unlockable) {
-                    Row() {
+                    Row {
                         Text(text = stringResource(R.string.way_to_unlock))
                         Text(if (showSpoiler) item.wayToUnlock else stringResource(R.string.secret))
                     }

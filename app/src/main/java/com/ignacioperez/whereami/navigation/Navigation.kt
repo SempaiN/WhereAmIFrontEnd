@@ -1,5 +1,6 @@
 package com.ignacioperez.whereami.navigation
 
+import FinalScreen
 import com.ignacioperez.whereami.ui.screens.create_character.SelectStatsScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -13,7 +14,7 @@ import com.ignacioperez.whereami.ui.screens.Items.ItemDetailsScreen
 import com.ignacioperez.whereami.ui.screens.pickups.ListCardRunes
 import com.ignacioperez.whereami.ui.screens.characters.ListCharacters
 import com.ignacioperez.whereami.ui.screens.Items.ListItems
-import com.ignacioperez.whereami.ui.screens.create_character.FinalScreen
+
 import com.ignacioperez.whereami.ui.screens.pickups.ListPills
 import com.ignacioperez.whereami.ui.screens.trinkets.ListTrinkets
 import com.ignacioperez.whereami.ui.screens.loginsignin.Login
@@ -34,12 +35,6 @@ import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 import com.ignacioperez.whereami.viewmodel.RegisterViewModel
 
 @Composable
-fun getNavController(): NavHostController {
-    var navController = rememberNavController()
-    return navController
-}
-
-@Composable
 fun Navigation(
     registerViewModel: RegisterViewModel,
     userViewModel: UserViewModel,
@@ -56,7 +51,7 @@ fun Navigation(
             Login(navController, userViewModel)
         }
         composable(Routes.RegisterScreen.route) {
-            Register(navController = navController, registerViewModel)
+            Register(navController = navController, registerViewModel, userViewModel)
         }
         composable(Routes.ItemsScreen.route) {
             ListItems(itemViewModel = itemViewModel, navController = navController, userViewModel)
