@@ -142,7 +142,6 @@ fun SelectItemScreen(
             }
             Button(onClick = {
                 navController.navigate(Routes.SelectCardRunePillScreen.route)
-                Log.i("PacoItems", listItemsNewCharacter.toString())
             }) {
                 Text(stringResource(R.string.next))
             }

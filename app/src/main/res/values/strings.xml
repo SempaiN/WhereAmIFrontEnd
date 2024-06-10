@@ -131,4 +131,9 @@
     <string name="create_character">Create your character</string>
     <string name="lastDayError">Last Day Error</string>
     <string name="lastDayErrorText">Error occurred on the last day of tests</string>
+    <string name="Unlocakble_trinkets">Unlockable trinkets</string>
+    <string name="negative_pills">Negative Pills</string>
+    <string name="neutral_pills">Neutral pills</string>
+    <string name="positive_pills">Positive pills\n</string>
+    <string name="unlockable_pills">Unlockable pills</string>
 </resources>

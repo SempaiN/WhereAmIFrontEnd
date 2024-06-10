@@ -28,8 +28,7 @@ class RegisterViewModel : ViewModel() {
         try {
             val user = service.getLastUser()
             _responseError.postValue(false)
-            Log.i("UserViewModel", "Server response: $user")
-            Log.i("UserViewModel", "User id: ${user.id}")
+
             return user.id ?: -1
         } catch (e: Exception) {
             _responseError.postValue(true)

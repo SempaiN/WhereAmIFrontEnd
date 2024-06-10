@@ -1,6 +1,5 @@
 package com.ignacioperez.whereami.navigation
 
-import FinalScreen
 import com.ignacioperez.whereami.ui.screens.create_character.SelectStatsScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -110,15 +109,6 @@ fun Navigation(
         composable(Routes.ListPills.route) {
             ListPills(pillViewModel, userViewModel, navController)
         }
-        composable(Routes.FinalScreen.route) {
-            FinalScreen(
-                newCharacterViewModel,
-                userViewModel,
-                pillViewModel,
-                cardRuneViewModel,
-                trinketViewModel,
-                itemViewModel
-            )
-        }
+
     }
 }

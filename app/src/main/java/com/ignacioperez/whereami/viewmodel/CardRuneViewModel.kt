@@ -33,6 +33,11 @@ class CardRuneViewModel : ViewModel() {
     private val _isCardRuneSelectedFavorite = MutableLiveData<Boolean>()
     val isCardRuneSelectedFavorite: LiveData<Boolean> = _isCardRuneSelectedFavorite
 
+    private val _cardsRunesUnlockable = MutableLiveData<ListCardRunes>()
+    val cardsRunesUnlockable: LiveData<ListCardRunes> = _cardsRunesUnlockable
+
+    private val _favoritesCardsRunes = MutableLiveData<ListCardRunes>()
+    val favoritesCardsRunes: LiveData<ListCardRunes> = _favoritesCardsRunes
     fun checkCardRuneFavorite(cardRune: CardRune, user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             val service = RetrofitServiceFactory.getRetrofit()
@@ -40,7 +45,6 @@ class CardRuneViewModel : ViewModel() {
                 val result = service.isPickupFavorite(cardRune.id, user.id)
                 _isCardRuneSelectedFavorite.postValue(result)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _isCardRuneSelectedFavorite.postValue(false)
             }
         }
@@ -69,11 +73,9 @@ class CardRuneViewModel : ViewModel() {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getStatsModifiedByPickup(id)
-                Log.i("stats", result.toString())
                 _statsChangedByCardRune.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _responseError.postValue(true)
             }
         }
@@ -87,7 +89,7 @@ class CardRuneViewModel : ViewModel() {
                 checkCardRuneFavorite(cardRune, user)
                 userViewModel.getFavoriteCardRunes(user)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
+                _responseError.postValue(true)
             }
         }
     }
@@ -101,7 +103,7 @@ class CardRuneViewModel : ViewModel() {
                 userViewModel.getFavoriteCardRunes(user)
 
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
+                _responseError.postValue(true)
             }
         }
     }
@@ -112,6 +114,18 @@ class CardRuneViewModel : ViewModel() {
             try {
                 val result = service.getAllCardRunes()
                 _allCardsRunes.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+        }
+    }
+    fun getUnlockableCardsRunes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getUnlockableCardsRunes()
+                _cardsRunesUnlockable.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)

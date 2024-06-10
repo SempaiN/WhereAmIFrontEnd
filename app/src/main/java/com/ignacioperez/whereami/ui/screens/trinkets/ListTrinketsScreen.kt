@@ -1,6 +1,8 @@
 package com.ignacioperez.whereami.ui.screens.trinkets
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -42,9 +45,16 @@ import com.ignacioperez.whereami.viewmodel.TrinketViewModel
 @Composable
 fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavController) {
     trinketViewModel.getAllTrinkets()
+    trinketViewModel.getTrinketsUnlockable()
     val trinketList: ListTrinkets by trinketViewModel.allTrinkets.observeAsState(
         ListTrinkets()
     )
+
+    val unlockableTrinkets: ListTrinkets by trinketViewModel.trinketsUnlockable.observeAsState(
+        ListTrinkets()
+    )
+
+    var showUnlockableTrinkets by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -128,18 +138,33 @@ fun ListTrinkets(trinketViewModel: TrinketViewModel, navController: NavControlle
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxWidth()
+        Column(Modifier.padding(it)) {
+            Row(Modifier.padding(8.dp)) {
+                FilterChip(
+                    selected = showUnlockableTrinkets,
+                    onClick = {
+                        showUnlockableTrinkets = !showUnlockableTrinkets
 
-        ) {
-            items(
-                trinketList
-            ) { trinket ->
-                TrinketCard(trinket, trinketViewModel, navController)
+                    },
+                    label = { Text(stringResource(R.string.Unlocakble_trinkets)) },
+
+                    )
             }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
 
+            ) {
+                items(
+                    when {
+                        showUnlockableTrinkets -> unlockableTrinkets
+                        else -> trinketList
+                    }
+                ) { trinket ->
+                    TrinketCard(trinket, trinketViewModel, navController)
+                }
+
+            }
         }
     }
 }

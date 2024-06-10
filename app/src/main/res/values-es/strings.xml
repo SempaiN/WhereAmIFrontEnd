@@ -127,4 +127,9 @@
     <string name="create_character">Crea tu Personaje</string>
     <string name="lastDayError">Error del Último Día</string>
     <string name="lastDayErrorText">Ocurrió un error en el último día de pruebas</string>
+    <string name="Unlocakble_trinkets">Trinkets Desbloqueables</string>
+    <string name="negative_pills">Píldoras Negativas</string>
+    <string name="neutral_pills">Píldoras Neutrales</string>
+    <string name="positive_pills">Píldoras Positivas\n</string>
+    <string name="unlockable_pills">Píldoras Desbloqueables</string>
 </resources>

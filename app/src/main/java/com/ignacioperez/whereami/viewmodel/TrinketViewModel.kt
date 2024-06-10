@@ -19,6 +19,9 @@ class TrinketViewModel : ViewModel() {
     private val _allTrinkets = MutableLiveData<ListTrinkets>()
     val allTrinkets: LiveData<ListTrinkets> = _allTrinkets
 
+    private val _trinketsUnlockable = MutableLiveData<ListTrinkets>()
+    val trinketsUnlockable: LiveData<ListTrinkets> = _trinketsUnlockable
+
     private var _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -27,6 +30,7 @@ class TrinketViewModel : ViewModel() {
 
     private val _statsChangedByTrinket = MutableLiveData<ObjectChangeStatsList>()
     val statsChangedByTrinket: LiveData<ObjectChangeStatsList> = _statsChangedByTrinket
+
     fun onTrinketClicked(trinket: Trinket) {
         _selectedTrinket.value = trinket
         loadStats(trinket.id)
@@ -54,6 +58,20 @@ class TrinketViewModel : ViewModel() {
             try {
                 val result = service.getAllTrinkets()
                 _allTrinkets.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+            _isLoading.postValue(false)
+        }
+    }
+    fun getTrinketsUnlockable() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getUnlockableTrinkets()
+                _trinketsUnlockable.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)

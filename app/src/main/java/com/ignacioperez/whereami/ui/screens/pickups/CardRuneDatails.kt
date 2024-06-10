@@ -42,7 +42,6 @@ import com.ignacioperez.whereami.mycomposables.ObjectStatsChanged
 import com.ignacioperez.whereami.viewmodel.CardRuneViewModel
 import com.ignacioperez.whereami.viewmodel.UserViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardRuneDetails(
     cardRuneViewModel: CardRuneViewModel, userViewModel: UserViewModel

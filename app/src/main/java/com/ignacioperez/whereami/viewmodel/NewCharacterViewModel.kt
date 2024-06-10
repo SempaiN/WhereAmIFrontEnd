@@ -123,7 +123,6 @@ class NewCharacterViewModel : ViewModel() {
         _pillNewCharacter.value = null
     }
 
-    //Referenced project code ListIgnacio
     fun addNewItemToList(item: Item) {
         val currentList = _listItemsNewCharacter.value ?: emptyList()
         _listItemsNewCharacter.value = currentList + item
@@ -140,9 +139,6 @@ class NewCharacterViewModel : ViewModel() {
         _listItemsNewCharacter.value = updatedList
     }
 
-    fun removeTrinketFromList() {
-        _trinketNewCharacter.value = null
-    }
 
     fun removeCardRuneFromList() {
         _cardRuneNewCharacter.value = null

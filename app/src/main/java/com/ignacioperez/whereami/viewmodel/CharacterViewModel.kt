@@ -35,6 +35,9 @@ class CharacterViewModel : ViewModel() {
     private val _statsModified = MutableLiveData<StatsModifiedCharacter>()
     val statsModified: LiveData<StatsModifiedCharacter> = _statsModified
 
+    private val _taintedCharacters = MutableLiveData<List<CharacterResponse>>()
+    val taintedCharacters: LiveData<List<CharacterResponse>> = _taintedCharacters
+
     fun loadCharacters() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
@@ -42,6 +45,20 @@ class CharacterViewModel : ViewModel() {
             try {
                 val result = service.getAllDefaultCharacters()
                 _defaultCharacters.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+            _isLoading.postValue(true)
+        }
+    }
+    fun loadTainted() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getTaintedCharacters()
+                _taintedCharacters.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)

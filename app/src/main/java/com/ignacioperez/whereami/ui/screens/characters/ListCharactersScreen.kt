@@ -57,8 +57,12 @@ fun ListCharacters(
     val customCharacters: List<CharacterResponse> by userViewModel.charactersCustom.observeAsState(
         initial = emptyList()
     )
+    val taintedCharacters: List<CharacterResponse> by characterViewModel.taintedCharacters.observeAsState(
+        initial = emptyList()
+    )
     var showTainted by rememberSaveable { mutableStateOf(false) }
     var showCustom by rememberSaveable { mutableStateOf(false) }
+    characterViewModel.loadTainted()
     characterViewModel.loadCharacters()
     userViewModel.getCharactersCustom(user)
     val characterList: List<CharacterResponse> by characterViewModel.defaultCharacters.observeAsState(
@@ -193,7 +197,11 @@ fun ListCharacters(
 
             ) {
                 items(
-                    characterList + customCharacters
+                    when{
+                        showTainted -> taintedCharacters
+                        showCustom -> customCharacters
+                        else -> characterList + customCharacters
+                    }
                 ) { character ->
                     CharacterCard(character, characterViewModel, navController)
                 }

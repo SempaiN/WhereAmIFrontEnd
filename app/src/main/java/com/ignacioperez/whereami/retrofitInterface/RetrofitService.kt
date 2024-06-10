@@ -124,8 +124,10 @@ interface RetrofitService {
 
     @GET("pills/unlockable_pills/")
     suspend fun getUnlockablePills(): ListPills
+    @GET("cards_runes/get_unlockable_cardsrunes/")
+    suspend fun getUnlockableCardsRunes(): ListCardRunes
 
-    @GET("trinkets/unlockable_trinkets/")
+    @GET("trinkets/get_trinkets_unlockables/")
     suspend fun getUnlockableTrinkets(): ListTrinkets
 
     @GET("characters/get_last_imageUrl/")

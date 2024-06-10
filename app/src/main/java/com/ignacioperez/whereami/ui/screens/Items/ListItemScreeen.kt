@@ -248,7 +248,7 @@ fun ItemCard(
                     BorderStroke(borderWidth, rainbowColorsBrush)
                 } else {
                     BorderStroke(1.5.dp, Color.Black)
-                }, shape = CardDefaults.outlinedShape //
+                }, shape = CardDefaults.outlinedShape
             )
 
     ) {

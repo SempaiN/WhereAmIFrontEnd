@@ -84,7 +84,6 @@ class ItemViewModel : ViewModel() {
                 service.insertItemFavorite(item.id, user.id)
                 checkFavoriteItem(item, user)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
             }
         }
     }
@@ -96,7 +95,6 @@ class ItemViewModel : ViewModel() {
                 service.deleteItemFavorite(user.id, item.id)
                 checkFavoriteItem(item, user)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
             }
         }
     }

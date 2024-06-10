@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ignacioperez.whereami.models.Item
 import com.ignacioperez.whereami.models.ListPills
 import com.ignacioperez.whereami.models.ObjectChangeStatsList
 import com.ignacioperez.whereami.models.Pill
@@ -25,6 +26,20 @@ class PillViewModel : ViewModel() {
 
     private var _responseError = MutableLiveData<Boolean>()
     val responseError: LiveData<Boolean> = _responseError
+
+
+
+    private val _pillsNeutral = MutableLiveData<ListPills>()
+    val pillsNeutral: LiveData<ListPills> = _pillsNeutral
+
+    private val _pillsNegative = MutableLiveData<ListPills>()
+    val pillsNegative: LiveData<ListPills> = _pillsNegative
+
+    private val _pillsPositive = MutableLiveData<ListPills>()
+    val pillsPositive: LiveData<ListPills> = _pillsPositive
+
+    private val _pillsUnlockable = MutableLiveData<ListPills>()
+    val pillsUnlockable: LiveData<ListPills> = _pillsUnlockable
 
     private val _showPillDetails = MutableLiveData<Boolean>()
     val showPillDetails: LiveData<Boolean> = _showPillDetails
@@ -51,7 +66,6 @@ class PillViewModel : ViewModel() {
                 val result = service.isPickupFavorite(pill.id, user.id)
                 _isSelectedPillFavorite.postValue(result)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _isSelectedPillFavorite.postValue(false)
             }
         }
@@ -65,7 +79,7 @@ class PillViewModel : ViewModel() {
                 checkPillFavorite(pill, user)
                 userViewModel.getFavoritePills(user)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
+
             }
         }
     }
@@ -78,7 +92,7 @@ class PillViewModel : ViewModel() {
                 checkPillFavorite(pill, user)
                 userViewModel.getFavoritePills(user)
             } catch (e: Exception) {
-                Log.i("--", e.message.toString())
+
             }
         }
     }
@@ -107,6 +121,58 @@ class PillViewModel : ViewModel() {
             try {
                 val result = service.getAllPills()
                 _allPills.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+        }
+    }
+
+    fun getPillsNeutral() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getNeutralPills()
+                _pillsNeutral.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+        }
+    }
+
+    fun getPillsNegative() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getNegativePills()
+                _pillsNegative.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+        }
+    }
+
+    fun getPillsPositive() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getPositivePills()
+                _pillsPositive.postValue(result)
+                _responseError.postValue(false)
+            } catch (e: Exception) {
+                _responseError.postValue(true)
+            }
+        }
+    }
+
+    fun getUnlockablePills() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val service = RetrofitServiceFactory.getRetrofit()
+            try {
+                val result = service.getUnlockablePills()
+                _pillsUnlockable.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)

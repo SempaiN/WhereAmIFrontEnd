@@ -127,7 +127,7 @@ fun ModifyStatSelected(
     pattern: Regex,
     example: Int,
 ) {
-    var input by rememberSaveable { mutableStateOf("") } // Estado mutable para el texto del campo
+    var input by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = { onDismissRequest(false) },
@@ -135,8 +135,8 @@ fun ModifyStatSelected(
         text = {
             Column {
                 StatTextField(
-                    statString = input, // Usar el estado mutable aquí
-                    onStatChange = { input = it }, // Actualizar el estado mutable con el texto nuevo
+                    statString = input,
+                    onStatChange = { input = it },
                     pattern = pattern,
                     example = example
                 )
@@ -145,7 +145,7 @@ fun ModifyStatSelected(
         confirmButton = {
             Button(
                 onClick = {
-                    // Aquí puedes hacer algo con el valor de 'input', como actualizar el ViewModel
+
                     onDismissRequest(false)
                 }
             ) {

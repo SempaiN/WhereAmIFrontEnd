@@ -1,5 +1,7 @@
 package com.ignacioperez.whereami.ui.screens.pickups
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +15,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -47,9 +50,30 @@ fun ListPills(
 ) {
 
     pillViewModel.getAllPills()
+    pillViewModel.getPillsNegative()
+    pillViewModel.getPillsPositive()
+    pillViewModel.getPillsNeutral()
+    pillViewModel.getUnlockablePills()
     val pillList: ListPills by pillViewModel.allPills.observeAsState(
         ListPills()
     )
+    val unlockablePills: ListPills by pillViewModel.pillsUnlockable.observeAsState(
+        ListPills()
+    )
+    val negativePills: ListPills by pillViewModel.pillsNegative.observeAsState(
+        ListPills()
+    )
+    val positivePills: ListPills by pillViewModel.pillsPositive.observeAsState(
+        ListPills()
+    )
+    val neutralPills: ListPills by pillViewModel.allPills.observeAsState(
+        ListPills()
+    )
+    var showOnlyFavorite by rememberSaveable { mutableStateOf(false) }
+    var showOnlyNegative by rememberSaveable { mutableStateOf(false) }
+    var showOnlyNeutral by rememberSaveable { mutableStateOf(false) }
+    var showOnlyPositive by rememberSaveable { mutableStateOf(false) }
+    var showOnlyUnlockable by rememberSaveable { mutableStateOf(false) }
     val favoritePillsList: ListPills by userViewModel.favoritePillsList.observeAsState(ListPills())
     val user: User by userViewModel.user.observeAsState(User())
     userViewModel.getFavoritePills(user)
@@ -167,24 +191,87 @@ fun ListPills(
             }
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(it)
-        ) {
-            items(
-                pillList
-            ) { pill ->
-                if (favoritePillsList.contains(pill)) {
-                    PillCard(pill, pillViewModel, true)
-                } else {
-                    PillCard(pill, pillViewModel, false)
+        Column(Modifier.padding(it)) {
+            Column(Modifier.padding(8.dp)) {
+                Row(){
+                    FilterChip(
+                        selected = showOnlyFavorite,
+                        onClick = {
+                            showOnlyFavorite = !showOnlyFavorite
+                            showOnlyNegative = false
+                            showOnlyNeutral = false
+                            showOnlyPositive = false
+                            showOnlyUnlockable = false
+                        },
+                        label = { Text(stringResource(R.string.favorite_items)) }
+                    )
+                    FilterChip(
+                        selected = showOnlyNegative,
+                        onClick = {
+                            showOnlyFavorite = false
+                            showOnlyNegative = !showOnlyNegative
+                            showOnlyNeutral = false
+                            showOnlyPositive = false
+                            showOnlyUnlockable = false
+                        },
+                        label = { Text(stringResource(R.string.negative_pills)) }
+                    )
+                }
+                Row(){
+                    FilterChip(
+                        selected = showOnlyNeutral,
+                        onClick = {
+                            showOnlyFavorite = false
+                            showOnlyNegative = false
+                            showOnlyNeutral = !showOnlyNeutral
+                            showOnlyPositive = false
+                            showOnlyUnlockable = false
+                        },
+                        label = { Text(stringResource(R.string.neutral_pills)) }
+                    )
+                    FilterChip(
+                        selected = showOnlyUnlockable,
+                        onClick = {
+                            showOnlyFavorite = false
+                            showOnlyNegative = false
+                            showOnlyNeutral = false
+                            showOnlyPositive = false
+                            showOnlyUnlockable = !showOnlyUnlockable
+                        },
+                        label = { Text(stringResource(R.string.unlockable_pills)) }
+                    )
+                }
+
+            }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            ) {
+                items(
+                    when {
+                        showOnlyFavorite -> favoritePillsList
+                        showOnlyNegative -> negativePills
+                        showOnlyNeutral -> neutralPills
+                        showOnlyPositive -> positivePills
+                        showOnlyFavorite -> favoritePillsList
+                        else -> pillList
+                    }
+                ) { pill ->
+                    if (favoritePillsList.contains(pill)) {
+                        PillCard(pill, pillViewModel, true)
+                    } else {
+                        PillCard(pill, pillViewModel, false)
+                    }
                 }
             }
         }
-        if (showDialog) {
-            PillDetails(pillViewModel, userViewModel)
+
+            if (showDialog) {
+                PillDetails(pillViewModel, userViewModel)
+            }
         }
+
     }
-}
+
 

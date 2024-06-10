@@ -45,7 +45,6 @@ class UserViewModel : ViewModel() {
                 var result = service.getFavoriteItemsByUser(user.id)
                 _favoriteItemsList.postValue(result)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _favoriteItemsList.postValue(emptyList())
             }
         }
@@ -57,9 +56,7 @@ class UserViewModel : ViewModel() {
             try {
                 var result = service.getFavoriteCardRunesByUser(user.id)
                 _favoriteCardRuneList.postValue(result)
-                Log.i("List", result.toString())
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _favoriteCardRuneList.postValue(ListCardRunes())
             }
         }
@@ -72,7 +69,6 @@ class UserViewModel : ViewModel() {
                 var result = service.getFavoritePillsByUser(user.id)
                 _favoritePillsList.postValue(result)
             } catch (e: Exception) {
-                Log.i("Error", e.toString())
                 _favoritePillsList.postValue(ListPills())
             }
         }
@@ -85,13 +81,10 @@ class UserViewModel : ViewModel() {
             val service = RetrofitServiceFactory.getRetrofit()
             try {
                 val result = service.getCharactersByUser(user.id)
-                Log.i("characters", result.toString())
                 _charactersCustom.postValue(result)
                 _responseError.postValue(false)
             } catch (e: Exception) {
                 _responseError.postValue(true)
-                Log.i("Error message", e.message.toString())
-
                 _charactersCustom.postValue(emptyList())
             }
             _isLoading.postValue(false)
@@ -106,14 +99,8 @@ class UserViewModel : ViewModel() {
             try {
                 val result = service.getUserByEmail(email)
                 _user.postValue(result)
-                Log.i(
-                    "User Result",
-                    result.toString()
-                )
                 _responseError.postValue(false)
             } catch (e: Exception) {
-                Log.i("Error message", e.message.toString())
-                Log.i("Error message", _user.value.toString())
                 _responseError.postValue(true)
             }
             _isLoading.postValue(false)
